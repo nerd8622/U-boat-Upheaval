@@ -14,7 +14,7 @@ io.on('connection', (sock) => {
   console.log('Connection recieved!');
 });
 
-server.on('error'), (error) => {
+server.on('error', (error) => {
   console.log('An error has occured: ' + error);
 });
 
