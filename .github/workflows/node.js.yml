@@ -33,6 +33,7 @@ jobs:
       with:
         path: "server/node_modules"
         key: node-modules-${{ hashFiles('server/package.json') }}
+    - run: npm install
     - run: npm ci 
     - run: npm run build --if-present
     - run: npm test
