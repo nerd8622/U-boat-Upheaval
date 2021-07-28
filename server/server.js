@@ -39,7 +39,7 @@ app.post('/auth', (req, res) => {
 });
 
 const server = http.createServer(app);
-const port = 8080;
+const port = 8123;
 const io = socketio(server);
 
 io.on('connection', (sock) => {
