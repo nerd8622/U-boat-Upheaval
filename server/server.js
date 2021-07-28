@@ -5,6 +5,7 @@ var session = require('express-session');
 const socketio = require('socket.io');
 const randomColor = require('randomcolor');
 const sanitizeHtml = require('sanitize-html');
+const { secretStr } = require('./secret.js');
 
 const sqlConnection = mysql.createConnection({
   host: 'localhost', user: 'root', password: '', database: 'nodelogin'});
@@ -13,7 +14,7 @@ const app = express();
 
 app.use(express.static(`${__dirname}/../client`));
 app.use(session({
-  secret: '',
+  secret: secretStr,
   resave: true,
   saveUninitialized: true
 }));
