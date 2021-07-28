@@ -9,6 +9,8 @@ const { secretStr, sqlStr } = require('./secret.js');
 
 const sqlConnection = mysql.createConnection({
   host: 'localhost', user: 'nodejs', password: sqlStr, database: 'nodelogin'});
+sqlConnection.connect((err) => {
+  if(!err){console.log("MySQL Connecion Established!");}});
 
 const app = express();
 
