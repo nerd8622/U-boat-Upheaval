@@ -19,7 +19,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
-app.post('/auth', (req, res) => {
+app.post('/auth', function(req, res) {
   let username = req.body.usr;
   let password = req.body.psw;
   if (username && password) {
