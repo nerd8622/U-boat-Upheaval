@@ -8,7 +8,7 @@ const sanitizeHtml = require('sanitize-html');
 const { secretStr, sqlStr } = require('./secret.js');
 
 const sqlConnection = mysql.createConnection({
-  host: 'localhost', user: 'root', password: sqlStr, database: 'nodelogin'});
+  host: 'localhost', user: 'nodejs', password: sqlStr, database: 'nodelogin'});
 
 const app = express();
 
