@@ -13,13 +13,14 @@ const sqlConnection = mysql.createConnection({
 const app = express();
 
 app.use(express.static(`${__dirname}/../client`));
+app.use(express.urlencoded({extended: true}));
 app.use(session({
   secret: secretStr,
   resave: true,
   saveUninitialized: true
 }));
 
-app.post('/auth', function(req, res) {
+app.post('/auth', (req, res) => {
   let username = req.body.usr;
   let password = req.body.psw;
   if (username && password) {
