@@ -5,10 +5,10 @@ var session = require('express-session');
 const socketio = require('socket.io');
 const randomColor = require('randomcolor');
 const sanitizeHtml = require('sanitize-html');
-const { secretStr } = require('./secret.js');
+const { secretStr, sqlStr } = require('./secret.js');
 
 const sqlConnection = mysql.createConnection({
-  host: 'localhost', user: 'root', password: '', database: 'nodelogin'});
+  host: 'localhost', user: 'root', password: sqlStr, database: 'nodelogin'});
 
 const app = express();
 
@@ -24,7 +24,7 @@ app.post('/auth', (req, res) => {
   let username = req.body.usr;
   let password = req.body.psw;
   if (username && password) {
-		sqlConnection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+		sqlConnection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], (error, results, fields) => {
 			if (results.length > 0) {
 				req.session.loggedin = true;
 				req.session.username = username;
