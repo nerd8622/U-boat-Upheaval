@@ -1,0 +1,36 @@
+.credentials{
+  border: 2px solid;
+  border-radius: 14px;
+  margin: auto;
+  width: 50%;
+  padding: 12px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #e0e0e0;
+  box-sizing: border-box;
+}
+
+input:focus {
+  background-color: #cdcdcd;
+  outline: none;
+}
+
+.loginbtn {
+  background-color: #05CF54;
+  color: #FFFFFF;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  width: 100%;
+  opacity: 0.8;
+}
+
+.loginbtn:hover {
+  opacity: 1;
+}

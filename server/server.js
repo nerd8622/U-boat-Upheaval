@@ -1,11 +1,42 @@
 const http = require('http');
+var mysql = require('mysql');
 const express = require('express');
+var session = require('express-session');
 const socketio = require('socket.io');
 const randomColor = require('randomcolor');
 const sanitizeHtml = require('sanitize-html');
+
+const sqlConnection = mysql.createConnection({
+  host: 'localhost', user: 'root', password: '', database: 'nodelogin'});
+
 const app = express();
 
 app.use(express.static(`${__dirname}/../client`));
+app.use(session({
+  secret: '',
+  resave: true,
+  saveUninitialized: true
+}));
+
+app.post('/auth', (req, res) => {
+  let username = req.body.usr;
+  let password = req.body.psw;
+  if (username && password) {
+		connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+			if (results.length > 0) {
+				request.session.loggedin = true;
+				request.session.username = username;
+				response.redirect('/');
+			} else {
+				response.send('Incorrect Username and/or Password!');
+			}
+			response.end();
+		});
+	} else {
+		response.send('Please enter Username and Password!');
+		response.end();
+	}
+});
 
 const server = http.createServer(app);
 const port = 8080;
