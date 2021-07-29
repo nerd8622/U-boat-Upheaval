@@ -24,9 +24,10 @@ const sendChat = (sock) => (e) => {
 const getClickCoordinates = (element, event) => {
   const { top, left } = element.getBoundingClientRect();
   const { clientX, clientY } = event;
+  let scl = element.width / element.getBoundingClientRect().width;
   return {
-    x: clientX - left,
-    y: clientY - top
+    x: (clientX - left) * scl,
+    y: (clientY - top) * scl
   };
 };
 
