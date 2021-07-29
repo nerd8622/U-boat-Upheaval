@@ -20,7 +20,6 @@ const sendChat = (sock) => (e) => {
   sock.emit('chat-message', text);
 };
 
-
 const getClickCoordinates = (element, event) => {
   const { top, left } = element.getBoundingClientRect();
   const { clientX, clientY } = event;
@@ -30,6 +29,17 @@ const getClickCoordinates = (element, event) => {
     y: (clientY - top) * scl
   };
 };
+
+/*class Submarine {
+  constructor(x, y){
+    this.x = x;
+    this.y = y;
+  }
+  move(x, y){
+    this.x = x;
+    this.y = y;
+  }
+}*/
 
 const makeGame = (canvas, xCells, yCells) => {
   const ctx = canvas.getContext('2d');
@@ -52,6 +62,15 @@ const makeGame = (canvas, xCells, yCells) => {
       ctx.moveTo(0, i*ySize);
       ctx.lineTo(xCells*xSize, i*ySize);
     }
+    ctx.stroke();
+  };
+
+  const createSub = (x, y) => {
+    let leng = ySize*.75;
+    let widt = xSize*.5;
+    ctx.fillStyle = '#232323';
+    ctx.beginPath();
+    ctx.ellipse(x*ySize + leng/2, y*xSize + widt/2, leng, widt, 0, 0, 2 * Math.PI);
     ctx.stroke();
   };
 
