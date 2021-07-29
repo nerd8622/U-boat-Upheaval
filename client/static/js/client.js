@@ -79,7 +79,7 @@ const makeGame = (canvas, xCells, yCells) => {
   const createSub = (x, y) => {
     let leng = ySize*.75/2;
     let widt = xSize*.5/2;
-    ctx.strokeStyle = '#232323';
+    ctx.fillStyle = '#232323';
     ctx.beginPath();
     ctx.ellipse(x*ySize + ySize/2, y*xSize + xSize/2, leng, widt, 0, 0, 2 * Math.PI);
     ctx.fill();
@@ -102,7 +102,7 @@ const makeGame = (canvas, xCells, yCells) => {
     let ax = Math.floor(x/ySize);
     let ay = Math.floor(y/xSize)
     reset();
-    highlightCell(ax, ay);
+    highlightCell(ax * ySize, ay * xSize);
     return {x: ax, y: ay};
   };
 
