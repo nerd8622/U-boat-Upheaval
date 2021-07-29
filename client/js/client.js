@@ -3,6 +3,7 @@ const displayChat = ([name, color, message]) => {
   const newEl = document.createElement('li');
   const nameSp = document.createElement('span');
   nameSp.style.color = color;
+  nameSp.style.fontWeight = "bold";
   nameSp.innerHTML = name + ": ";
   newEl.appendChild(nameSp);
   newEl.innerHTML += message;
