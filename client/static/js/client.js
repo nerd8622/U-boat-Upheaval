@@ -74,9 +74,17 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.stroke();
   };
 
+  const genSubs = () => {
+    subs = [[1,1], [8,6]];
+    for (sub of subs){
+      createSub(sub);
+    }
+  };
+
   const reset = () => {
     clear();
     createGrid();
+    genSubs();
   };
 
   const getCell = (x, y) => ({
