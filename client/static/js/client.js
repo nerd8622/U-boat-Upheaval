@@ -52,6 +52,17 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   };
 
+  const highlightCell = (x, y) => {
+    ctx.fillStyle = '#B5C039';
+    ctx.begomPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x+xSize, y);
+    ctx.lineTo(x+xSize, y+ySize;
+    ctx.lineTo(x, y+ySize);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  };
+
   const createGrid = () => {
     ctx.beginPath();
     for (let i = 0; i < xCells + 1; i++) {
@@ -87,10 +98,11 @@ const makeGame = (canvas, xCells, yCells) => {
     genSubs();
   };
 
-  const getCell = (x, y) => ({
-    x: Math.floor(x/ySize),
-    y: Math.floor(y/xSize)
-  });
+  const getCell = (x, y) => (
+    reset();
+    highlightCell(x, y);
+    return {x: Math.floor(x/ySize), y: Math.floor(y/xSize)};
+  );
 
   return { reset, getCell };
 };
