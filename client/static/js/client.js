@@ -54,6 +54,7 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const highlightCell = (x, y) => {
     ctx.strokeStyle = '#FACE3E';
+    ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.lineTo(x+xSize, y);
@@ -65,6 +66,7 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const createGrid = () => {
     ctx.strokeStyle = '#1F1F1F';
+    ctx.lineWidth = 1;
     ctx.beginPath();
     for (let i = 0; i < xCells + 1; i++) {
       ctx.moveTo(i*xSize, 0);
