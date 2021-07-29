@@ -56,7 +56,7 @@ app.get('/login', (req, res) => {
 
 app.get('/', (req, res) => {
   if (!req.session.loggedin){res.redirect('/login');}
-  res.sendFile(`${__dirname}/../client/index.html`));
+  res.sendFile(`${__dirname}/../client/index.html`);
 });
 
 io.on('connection', (sock) => {
