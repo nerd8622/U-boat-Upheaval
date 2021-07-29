@@ -72,6 +72,27 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/index.html'));
 });
 
+/*io.on('connection', (sock) => {
+  console.log('Connection recieved!');
+  const serverMsg = (msg) => {
+    return ['Server', '#111111', msg]
+  };
+  sock.emit('chat-message', serverMsg('Welcome to U-boat Upheaval!'));
+  sock.on('login', (message) => {
+    const color = randomColor();
+    const name = message;
+    sock.emit('chat-message', serverMsg('Hello ' + name + '! You can now use chat!'))
+    const addName = (msg) => {
+      let safe = sanitizeHtml(msg, {allowedTags: [ 'b', 'i' ], allowedAttributes: {}});
+      return [name, color, safe];
+    };
+
+    sock.on('chat-message', (message) => {
+      io.emit('chat-message', addName(message));
+    });
+  });
+});*/
+
 server.on('error', (error) => {
   console.log('An error has occured: ' + error);
 });
