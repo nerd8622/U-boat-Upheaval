@@ -69,15 +69,14 @@ const makeGame = (canvas, xCells, yCells) => {
     let leng = ySize*.75;
     let widt = xSize*.5;
     ctx.fillStyle = '#232323';
-    ctx.beginPath();
     ctx.ellipse(x*ySize + leng/2, y*xSize + widt/2, leng, widt, 0, 0, 2 * Math.PI);
-    ctx.stroke();
+    ctx.fill();
   };
 
   const genSubs = () => {
     subs = [[1,1], [8,6]];
     for (sub of subs){
-      createSub(sub);
+      createSub(sub[0], sub[1]);
     }
   };
 
