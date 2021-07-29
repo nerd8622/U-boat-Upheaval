@@ -7,6 +7,7 @@ const path = require('path');
 const randomColor = require('randomcolor');
 const sanitizeHtml = require('sanitize-html');
 const { secretStr, sqlStr } = require('./secret.js');
+const game = require('./game.js');
 
 const sqlConnection = mysql.createConnection({
   host: 'localhost', user: 'nodejs', password: sqlStr, database: 'nodelogin'});
@@ -30,6 +31,7 @@ const port = 8123;
 const server = http.createServer(app);
 const io = socketio(server);
 io.use((socket, next) => {sessionMiddleware(socket.request, {}, next);});
+const { makeMove, getBoard } = game(22, 12);
 
 app.post('/auth', (req, res) => {
   let username = req.body.usr;
@@ -88,6 +90,7 @@ io.on('connection', (sock) => {
   };
   const serverMsg = (msg) => {return ['Server', '#111111', msg]};
   sock.emit('chat-message', serverMsg('Hello '+ username + '! Welcome to U-boat Upheaval!'));
+  sock.emit('board', getBoard());
   sock.on('chat-message', (message) => {
     sock.broadcast.emit('chat-message', addName(message));
   });

@@ -43,13 +43,13 @@ const getClickCoordinates = (element, event) => {
 
 const makeGame = (canvas, xCells, yCells) => {
   const ctx = canvas.getContext('2d');
+  let board;
 
   const xSize = Math.floor(canvas.width/xCells);
   const ySize = Math.floor(canvas.height/yCells);
 
   const clear = () => {
-    ctx.fillStyle = '#4533CA';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
   const highlightCell = (x, y) => {
@@ -62,6 +62,16 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.lineTo(x, y+ySize);
     ctx.lineTo(x, y);
     ctx.stroke();
+  };
+
+  const createTiles = (board) => {
+    for (let i = 0; i < yCells; i++){
+      for (let j = 0; j < xCells; i++){
+        if (board[i][j] == 1){ctx.fillStyle = '#C2B280';}
+        else {ctx.fillStyle = '#006994';}
+        ctx.fillRect(j*xSize, i*ySize, xSize, ySize);
+      }
+    }
   };
 
   const createGrid = () => {
@@ -95,8 +105,11 @@ const makeGame = (canvas, xCells, yCells) => {
     }
   };
 
+  const setBoard = (bd) => {board = bd;};
+
   const reset = () => {
     clear();
+    createTiles(board);
     createGrid();
     genSubs();
   };
@@ -109,14 +122,13 @@ const makeGame = (canvas, xCells, yCells) => {
     return {x: ax, y: ay};
   };
 
-  return { reset, getCell };
+  return { reset, getCell, setBoard };
 };
 
 (() => {
   const sock = io();
   const canvas = document.querySelector('canvas');
-  const { reset, getCell } = makeGame(canvas, 22, 12);
-  reset();
+  const { reset, getCell, setBoard } = makeGame(canvas, 22, 12);
 
   const onClick = (event) => {
     const { x, y } = getClickCoordinates(canvas, event);
@@ -124,6 +136,10 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   sock.on('chat-message', displayChat);
+  sock.on('board', (board) => {
+    setBoard(board);
+    reset();
+  });
 
   document.querySelector('#chat-form').addEventListener('submit', sendChat(sock));
   canvas.addEventListener('click', onClick);
