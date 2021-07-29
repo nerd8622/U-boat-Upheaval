@@ -25,6 +25,7 @@ const game = (xNum, yNum) => {
 
   const getBoard = () => board;
 
+  clear();
   terrain();
   return { makeMove, getBoard };
 };
