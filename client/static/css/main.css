@@ -8,6 +8,8 @@
   padding: 12px;
 }
 
+#canvas {width: 100%}
+
 #messages{
   height: 22vh;
   overflow-y: scroll;

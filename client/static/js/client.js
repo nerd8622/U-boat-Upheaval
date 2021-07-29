@@ -20,17 +20,54 @@ const sendChat = (sock) => (e) => {
   sock.emit('chat-message', text);
 };
 
-const draw = (canvas) => {
+
+const getClickCoordinates = (element, event) => {
+  const { top, left } = element.getBoundingClientRect();
+  const { clientX, clientY } = event;
+  return {
+    x: clientX - left,
+    y: clientY - top
+  };
+};
+
+const makeGame = (canvas, xCells, yCells) => {
   const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#4533CA';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  const xSize = Math.floor(canvas.width/xCells);
+  const ySize = Math.floor(canvas.height/yCells);
+
+  const clear = () => {
+    ctx.fillStyle = '#4533CA';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  };
+
+  const createGrid = () => {
+    ctx.beginPath();
+    for (let i = 0; i < xCells + 1; i++) {
+      ctx.moveTo(i*ySize, 0);
+      ctx.lineTo(i*ySize, yCells*ySize);
+    }
+    for (let i = 0; i < yCells + 1; i++) {
+      ctx.moveTo(i*xSize, 0);
+      ctx.lineTo(i*xSize, xCells*xSize);
+    }
+    ctx.stroke();
+  };
+
+  const reset = () => {
+    clear();
+    createGrid();
+  };
+
+    return { reset };
 };
 
 (() => {
   const sock = io();
   const canvas = document.querySelector('canvas');
-  draw(canvas);
-  
+  const { reset } = makeGame(canvas, 22, 12);
+  reset();
+
   sock.on('chat-message', displayChat);
 
   document.querySelector('#chat-form').addEventListener('submit', sendChat(sock));
