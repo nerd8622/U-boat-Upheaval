@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const express = require('express');
 const session = require('express-session');
 const socketio = require('socket.io');
+const path = require('path');
 const randomColor = require('randomcolor');
 const sanitizeHtml = require('sanitize-html');
 const { secretStr, sqlStr } = require('./secret.js');
