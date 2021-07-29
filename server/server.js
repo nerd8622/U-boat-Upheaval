@@ -70,7 +70,7 @@ io.on('connection', (sock) => {
   const serverMsg = (msg) => {return ['Server', '#111111', msg]};
   sock.emit('chat-message', serverMsg('Hello '+ username + '! Welcome to U-boat Upheaval!'));
   sock.on('chat-message', (message) => {
-    io.emit('chat-message', addName(message));
+    sock.broadcast.emit('chat-message', addName(message));
   });
 });
 

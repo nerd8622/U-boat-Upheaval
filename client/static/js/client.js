@@ -16,6 +16,7 @@ const sendChat = (sock) => (e) => {
   const input = document.querySelector('#message-box');
   const text = input.value;
   input.value = "";
+  displayChat(['Me', '#010101', text]);
   sock.emit('chat-message', text);
 };
 
