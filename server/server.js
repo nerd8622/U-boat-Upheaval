@@ -52,8 +52,7 @@ app.post('/auth', (req, res) => {
 
 app.get('/', (req, res) => {
   if (!req.session.loggedin){res.redirect('/login');}
-  console.log(req.session.username);
-  res.sendFile(path.join(__dirname, '/../client/index.html'));
+  else {res.sendFile(path.join(__dirname, '/../client/index.html'));}
 });
 
 io.on('connection', (sock) => {
