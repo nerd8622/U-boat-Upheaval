@@ -2,7 +2,6 @@ const http = require('http');
 const mysql = require('mysql');
 const express = require('express');
 const session = require('express-session');
-const sharedsession = require("express-socket.io-session");
 const socketio = require('socket.io');
 const randomColor = require('randomcolor');
 const sanitizeHtml = require('sanitize-html');
@@ -13,21 +12,23 @@ const sqlConnection = mysql.createConnection({
 sqlConnection.connect((err) => {
   if(!err){console.log("MySQL Connecion Established!");}});
 
+const sessionMiddleware = session({
+  secret: secretStr,
+  resave: true,
+  saveUninitialized: true
+});
+
 const app = express();
 
 app.set('trust proxy', 1);
 app.use(express.static(`${__dirname}/../client`));
 app.use(express.urlencoded({extended: true}));
-app.use(session({
-  secret: secretStr,
-  resave: true,
-  saveUninitialized: true
-}));
+app.use(sessionMiddleware);
 
 const port = 8123;
 const server = http.createServer(app);
 const io = socketio(server);
-io.use(sharedsession(session, {autoSave:true}));
+io.use((socket, next) => {sessionMiddleware(socket.request, {}, next);});
 
 app.post('/auth', (req, res) => {
   let username = req.body.usr;
@@ -55,7 +56,7 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (sock) => {
-  const username = sock.handshake.session.username;
+  const username = sock.request.session.username;
   const color = randomColor();
   const addName = (msg) => {
     let safe = sanitizeHtml(msg, {allowedTags: [ 'b', 'i' ], allowedAttributes: {}});
