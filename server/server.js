@@ -1,7 +1,8 @@
 const http = require('http');
-var mysql = require('mysql');
+const mysql = require('mysql');
 const express = require('express');
-var session = require('express-session');
+const session = require('express-session');
+const sharedsession = require("express-socket.io-session");
 const socketio = require('socket.io');
 const randomColor = require('randomcolor');
 const sanitizeHtml = require('sanitize-html');
@@ -14,7 +15,7 @@ sqlConnection.connect((err) => {
 
 const app = express();
 
-app.set('trust proxy', 1)
+app.set('trust proxy', 1);
 app.use(express.static(`${__dirname}/../client`));
 app.use(express.urlencoded({extended: true}));
 app.use(session({
@@ -23,9 +24,11 @@ app.use(session({
   saveUninitialized: true
 }));
 
+const io = socketio(server);
+io.use(sharedsession(session, {autoSave:true}));
+
 const server = http.createServer(app);
 const port = 8123;
-const io = socketio(server);
 
 app.post('/auth', (req, res) => {
   let username = req.body.usr;
@@ -48,51 +51,23 @@ app.post('/auth', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  if (!req.session.loggedin){
-    res.redirect('/login');
-  }
-  const username = req.session.username;
-  const color = randomColor();
+  if (!req.session.loggedin){res.redirect('/login');}
+  res.sendFile(path.join(__dirname, '/../client/index.html'));
+});
 
+io.on('connection', (sock) => {
+  const username = sock.handshake.session.username;
+  const color = randomColor();
   const addName = (msg) => {
     let safe = sanitizeHtml(msg, {allowedTags: [ 'b', 'i' ], allowedAttributes: {}});
     return [username, color, safe];
   };
-
-  io.on('connection', (sock) => {
-    console.log('Connection recieved!');
-    const serverMsg = (msg) => {
-      return ['Server', '#111111', msg]
-    };
-    sock.emit('chat-message', serverMsg('Hello '+ username + 'Welcome to U-boat Upheaval!'));
-    sock.on('chat-message', (message) => {
-      io.emit('chat-message', addName(message));
-    });
+  const serverMsg = (msg) => {return ['Server', '#111111', msg]};
+  sock.emit('chat-message', serverMsg('Hello '+ username + '! Welcome to U-boat Upheaval!'));
+  sock.on('chat-message', (message) => {
+    io.emit('chat-message', addName(message));
   });
-
-  res.sendFile(path.join(__dirname, '/../client/index.html'));
 });
-
-/*io.on('connection', (sock) => {
-  console.log('Connection recieved!');
-  const serverMsg = (msg) => {
-    return ['Server', '#111111', msg]
-  };
-  sock.emit('chat-message', serverMsg('Welcome to U-boat Upheaval!'));
-  sock.on('login', (message) => {
-    const color = randomColor();
-    const name = message;
-    sock.emit('chat-message', serverMsg('Hello ' + name + '! You can now use chat!'))
-    const addName = (msg) => {
-      let safe = sanitizeHtml(msg, {allowedTags: [ 'b', 'i' ], allowedAttributes: {}});
-      return [name, color, safe];
-    };
-
-    sock.on('chat-message', (message) => {
-      io.emit('chat-message', addName(message));
-    });
-  });
-});*/
 
 server.on('error', (error) => {
   console.log('An error has occured: ' + error);
