@@ -44,12 +44,12 @@ const makeGame = (canvas, xCells, yCells) => {
   const createGrid = () => {
     ctx.beginPath();
     for (let i = 0; i < xCells + 1; i++) {
-      ctx.moveTo(i*ySize, 0);
-      ctx.lineTo(i*ySize, yCells*ySize);
+      ctx.moveTo(0, i*ySize);
+      ctx.lineTo(yCells*ySize, i*ySize);
     }
     for (let i = 0; i < yCells + 1; i++) {
-      ctx.moveTo(0, i*xSize);
-      ctx.lineTo(xCells*xSize, i*xSize);
+      ctx.moveTo(i*xSize, 0);
+      ctx.lineTo(i*xSize, xCells*xSize);
     }
     ctx.stroke();
   };
