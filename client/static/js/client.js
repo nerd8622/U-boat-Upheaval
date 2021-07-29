@@ -53,8 +53,8 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const highlightCell = (x, y) => {
-    ctx.fillStyle = '#B5C039';
-    ctx.begomPath();
+    ctx.strokeStyle = '#B5C039';
+    ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.lineTo(x+xSize, y);
     ctx.lineTo(x+xSize, y+ySize);
@@ -79,7 +79,7 @@ const makeGame = (canvas, xCells, yCells) => {
   const createSub = (x, y) => {
     let leng = ySize*.75/2;
     let widt = xSize*.5/2;
-    ctx.fillStyle = '#232323';
+    ctx.strokeStyle = '#232323';
     ctx.beginPath();
     ctx.ellipse(x*ySize + ySize/2, y*xSize + xSize/2, leng, widt, 0, 0, 2 * Math.PI);
     ctx.fill();
@@ -99,9 +99,11 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const getCell = (x, y) => {
+    let ax = Math.floor(x/ySize);
+    let ay = Math.floor(y/xSize)
     reset();
-    highlightCell(x, y);
-    return {x: Math.floor(x/ySize), y: Math.floor(y/xSize)};
+    highlightCell(ax, ay);
+    return {x: ax, y: ay};
   };
 
   return { reset, getCell };
