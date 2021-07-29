@@ -60,8 +60,8 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const getCell = (x, y) => ({
-    x: Math.floor(x/yCells),
-    y: Math.floor(y/xCells)
+    x: Math.floor(x/ySize),
+    y: Math.floor(y/xSize)
   });
 
   return { reset, getCell };
