@@ -98,11 +98,11 @@ const makeGame = (canvas, xCells, yCells) => {
     genSubs();
   };
 
-  const getCell = (x, y) => (
+  const getCell = (x, y) => {
     reset();
     highlightCell(x, y);
     return {x: Math.floor(x/ySize), y: Math.floor(y/xSize)};
-  );
+  };
 
   return { reset, getCell };
 };
