@@ -21,7 +21,7 @@ const sessionMiddleware = session({
 const app = express();
 
 app.set('trust proxy', 1);
-app.use(express.static(`${__dirname}/../client`));
+app.use(express.static(`${__dirname}/../client/static`));
 app.use(express.urlencoded({extended: true}));
 app.use(sessionMiddleware);
 
@@ -50,9 +50,13 @@ app.post('/auth', (req, res) => {
 	}
 });
 
+app.get('/login', (req, res) => {
+  res.sendFile(`${__dirname}/../client/login/index.html`);
+});
+
 app.get('/', (req, res) => {
   if (!req.session.loggedin){res.redirect('/login');}
-  else {res.sendFile(path.join(__dirname, '/../client/index.html'));}
+  res.sendFile(`${__dirname}/../client/index.html`));
 });
 
 io.on('connection', (sock) => {
