@@ -24,11 +24,10 @@ app.use(session({
   saveUninitialized: true
 }));
 
+const port = 8123;
+const server = http.createServer(app);
 const io = socketio(server);
 io.use(sharedsession(session, {autoSave:true}));
-
-const server = http.createServer(app);
-const port = 8123;
 
 app.post('/auth', (req, res) => {
   let username = req.body.usr;
