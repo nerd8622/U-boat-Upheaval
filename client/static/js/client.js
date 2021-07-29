@@ -57,7 +57,7 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.begomPath();
     ctx.moveTo(x, y);
     ctx.lineTo(x+xSize, y);
-    ctx.lineTo(x+xSize, y+ySize;
+    ctx.lineTo(x+xSize, y+ySize);
     ctx.lineTo(x, y+ySize);
     ctx.lineTo(x, y);
     ctx.stroke();
