@@ -51,12 +51,12 @@ app.post('/auth', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-  res.sendFile(`${__dirname}/../client/login/index.html`);
+  res.sendFile(path.join(__dirname, '/../client/login/index.html'));
 });
 
 app.get('/', (req, res) => {
   if (!req.session.loggedin){res.redirect('/login');}
-  res.sendFile(`${__dirname}/../client/index.html`);
+  res.sendFile(path.join(__dirname, '/../client/index.html'));
 });
 
 io.on('connection', (sock) => {
