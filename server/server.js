@@ -14,6 +14,7 @@ sqlConnection.connect((err) => {
 
 const app = express();
 
+app.set('trust proxy', 1)
 app.use(express.static(`${__dirname}/../client`));
 app.use(express.urlencoded({extended: true}));
 app.use(session({
