@@ -51,6 +51,25 @@ app.post('/auth', (req, res) => {
 	}
 });
 
+app.post('/register', (req, res) => {
+  let username = req.body.usr;
+  let password = req.body.psw;
+  let email = req.body.email;
+  if (username && password && email) {
+    sqlConnection.query('SELECT * FROM accounts WHERE username = ? and email = ?', [username, email], (error, results, fields) => {
+      if (results.length > 0){
+        res.send('The email or username you used is already taken!');
+      } else {
+        sqlConnection.query('INSERT INTO accounts (username, password, email) VALUES (?, ?, ?)', [username, password, email], (error, results, fields) => {
+          res.redirect('/login');
+        });
+      }
+    });
+  } else {
+    res.send("Missing Values!");
+  }
+});
+
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/login/index.html'));
 });
