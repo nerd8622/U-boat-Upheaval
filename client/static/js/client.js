@@ -48,8 +48,8 @@ const makeGame = (canvas, xCells, yCells) => {
       ctx.lineTo(i*ySize, yCells*ySize);
     }
     for (let i = 0; i < yCells + 1; i++) {
-      ctx.moveTo(i*xSize, 0);
-      ctx.lineTo(i*xSize, xCells*xSize);
+      ctx.moveTo(0, i*xSize);
+      ctx.lineTo(xCells*xSize, i*xSize);
     }
     ctx.stroke();
   };
