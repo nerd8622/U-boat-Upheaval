@@ -20,8 +20,17 @@ const sendChat = (sock) => (e) => {
   sock.emit('chat-message', text);
 };
 
+const draw = (canvas) => {
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#4533CA';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+};
+
 (() => {
   const sock = io();
+  const canvas = document.querySelector('canvas');
+  draw(canvas);
+  
   sock.on('chat-message', displayChat);
 
   document.querySelector('#chat-form').addEventListener('submit', sendChat(sock));

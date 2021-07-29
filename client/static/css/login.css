@@ -6,6 +6,7 @@
   margin: auto;
   width: 50%;
   overflow: hidden;
+  margin-top: 8vh;
 }
 
 .userinfo {padding: 14px;}

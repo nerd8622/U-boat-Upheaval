@@ -4,14 +4,18 @@
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-  <canvas id="canvas" width="800" height="500"></canvas>
-  <div class="chat">
-    <ul id="messages"></ul>
-    <div class="chat-control">
-      <form id="chat-form">
-        <input id="message-box" autocomplete="off" title="chat"/>
-        <button id="send">Send</button>
-      </form>
+  <div class="container">
+    <div class="game">
+      <canvas id="canvas" width="800" height="500"></canvas>
+    </div>
+    <div class="chat">
+      <ul id="messages"></ul>
+      <div class="chat-control">
+        <form id="chat-form">
+          <input id="message-box" autocomplete="off" title="chat"/>
+          <button id="send">Send</button>
+        </form>
+      </div>
     </div>
   </div>
   <script src="/socket.io/socket.io.js"></script>
