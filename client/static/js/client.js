@@ -70,7 +70,7 @@ const makeGame = (canvas, xCells, yCells) => {
     let widt = xSize*.5/2;
     ctx.fillStyle = '#232323';
     ctx.beginPath();
-    ctx.ellipse(x*ySize + leng/2, y*xSize + widt/2, leng, widt, 0, 0, 2 * Math.PI);
+    ctx.ellipse(x*ySize + ySize/2, y*xSize + xSize/2, leng, widt, 0, 0, 2 * Math.PI);
     ctx.fill();
   };
 
