@@ -59,16 +59,27 @@ const makeGame = (canvas, xCells, yCells) => {
     createGrid();
   };
 
-    return { reset };
+  const getCell = (x, y) => ({
+    x: Math.floor(x/xSize);
+    y: Math.floor(y/ySize);
+  });
+
+  return { reset, getCell };
 };
 
 (() => {
   const sock = io();
   const canvas = document.querySelector('canvas');
-  const { reset } = makeGame(canvas, 22, 12);
+  const { reset, getCell } = makeGame(canvas, 22, 12);
   reset();
+
+  const onClick = (event) => {
+    const { x, y } = getClickCoordinates(canvas, event);
+    console.log(getCell(x, y));
+  };
 
   sock.on('chat-message', displayChat);
 
   document.querySelector('#chat-form').addEventListener('submit', sendChat(sock));
+  canvas.addEventListener('click', onClick);
 })();
