@@ -66,9 +66,10 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const createSub = (x, y) => {
-    let leng = ySize*.75;
-    let widt = xSize*.5;
+    let leng = ySize*.75/2;
+    let widt = xSize*.5/2;
     ctx.fillStyle = '#232323';
+    ctx.beginPath();
     ctx.ellipse(x*ySize + leng/2, y*xSize + widt/2, leng, widt, 0, 0, 2 * Math.PI);
     ctx.fill();
   };
