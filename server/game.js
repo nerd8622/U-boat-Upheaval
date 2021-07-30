@@ -22,7 +22,7 @@ const game = (xNum, yNum) => {
   }
 
   const addPlayer = (id) => {
-    let pos; = players.get(id);
+    let pos = players.get(id);
     if (!pos) {
       let valid = 0;
       while (!valid){
