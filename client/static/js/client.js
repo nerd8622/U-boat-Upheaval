@@ -43,7 +43,6 @@ const getClickCoordinates = (element, event) => {
 
 const makeGame = (canvas, xCells, yCells) => {
   const ctx = canvas.getContext('2d');
-  let board;
 
   const xSize = Math.floor(canvas.width/xCells);
   const ySize = Math.floor(canvas.height/yCells);
@@ -66,7 +65,7 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const createTiles = (board) => {
     for (let i = 0; i < yCells; i++){
-      for (let j = 0; j < xCells; i++){
+      for (let j = 0; j < xCells; j++){
         if (board[i][j] == 1){ctx.fillStyle = '#C2B280';}
         else {ctx.fillStyle = '#006994';}
         ctx.fillRect(j*xSize, i*ySize, xSize, ySize);
@@ -107,9 +106,9 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const setBoard = (bd) => {board = bd;};
 
-  const reset = () => {
+  const reset = (board = false) => {
     clear();
-    createTiles(board);
+    if (board){createTiles(board);}
     createGrid();
     genSubs();
   };

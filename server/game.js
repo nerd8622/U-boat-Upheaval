@@ -6,7 +6,6 @@ const game = (xNum, yNum) => {
 
   const clear = () => {
     board = Array(yNum).fill(null).map(() => Array(xNum).fill(null));
-
   };
 
   const terrain = () => {
@@ -14,7 +13,7 @@ const game = (xNum, yNum) => {
       for (let j = 0; j < xNum; j++){
         let value, noise = simplex.noise2D(j, i);
         if (noise > 0.65) {value = 1;}
-        else {value = 2;}
+        else {value = 0;}
         board[i][j] = value;
       }
     }
