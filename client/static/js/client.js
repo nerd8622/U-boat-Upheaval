@@ -158,7 +158,7 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const onClick = (event) => {
     const { x, y } = getClickCoordinates(canvas, event);
-    const pos = getCell(x, y));
+    const pos = getCell(x, y);
     if (pos) {sock.emit('player-move', pos);}
   };
 
