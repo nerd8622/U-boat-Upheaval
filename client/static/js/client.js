@@ -43,6 +43,7 @@ const getClickCoordinates = (element, event) => {
 
 const makeGame = (canvas, xCells, yCells) => {
   const ctx = canvas.getContext('2d');
+  let board;
 
   const xSize = Math.floor(canvas.width/xCells);
   const ySize = Math.floor(canvas.height/yCells);
@@ -104,9 +105,11 @@ const makeGame = (canvas, xCells, yCells) => {
     }
   };
 
-  const reset = (board = false) => {
+  const setBoard = (bd) => {board = bd;};
+
+  const reset = () => {
     clear();
-    if (board){createTiles(board);}
+    createTiles(board);
     createGrid();
     genSubs();
   };
@@ -119,7 +122,7 @@ const makeGame = (canvas, xCells, yCells) => {
     return {x: ax, y: ay};
   };
 
-  return { reset, getCell };
+  return { reset, getCell, setBoard };
 };
 
 (() => {
@@ -134,7 +137,8 @@ const makeGame = (canvas, xCells, yCells) => {
 
   sock.on('chat-message', displayChat);
   sock.on('board', (board) => {
-    reset(board);
+    setBoard(board);
+    reset();
   });
 
   document.querySelector('#chat-form').addEventListener('submit', sendChat(sock));
