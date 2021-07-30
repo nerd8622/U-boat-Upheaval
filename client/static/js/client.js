@@ -45,24 +45,50 @@ const makeGame = (canvas, xCells, yCells) => {
   const ctx = canvas.getContext('2d');
   let board;
   let curPos = [0, 0];
+  let subSelected = false;
 
   const xSize = Math.floor(canvas.width/xCells);
   const ySize = Math.floor(canvas.height/yCells);
+  let sleng = ySize*.75/2;
+  let swidt = xSize*.5/2;
 
   const clear = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
-  const highlightCell = (x, y) => {
+  const posAvailable = (x, y) => {
+    return board[y][x] == 0 && curPos != [x, y];
+  };
+
+  const highlightCell = (x, y, type='full') => {
     ctx.strokeStyle = '#FACE3E';
     ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(x+xSize, y);
-    ctx.lineTo(x+xSize, y+ySize);
-    ctx.lineTo(x, y+ySize);
-    ctx.lineTo(x, y);
+    if (type == 'full'){
+      ctx.moveTo(x, y);
+      ctx.lineTo(x+xSize, y);
+      ctx.lineTo(x+xSize, y+ySize);
+      ctx.lineTo(x, y+ySize);
+      ctx.lineTo(x, y);
+    } else if (type == 'ship'){
+      ctx.ellipse(x + ySize/2, y + xSize/2, sleng, swidt, 0, 0, 2 * Math.PI);
+    }
     ctx.stroke();
+  };
+
+  const selectCell = (x, y) => {
+    if (subSelected){
+      subSelected = false;
+      if (posAvailable(x, y)){
+        return [x, y];
+      }
+    } else {
+      if (curPos == [x, y]) {
+        highlightCell(ax * ySize, ay * xSize, 'ship');
+        subSelected = true;
+      } else {highlightCell(ax * ySize, ay * xSize);}
+    }
+    return false;
   };
 
   const createTiles = (board) => {
@@ -91,11 +117,9 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const createSub = (x, y) => {
-    let leng = ySize*.75/2;
-    let widt = xSize*.5/2;
     ctx.fillStyle = '#232323';
     ctx.beginPath();
-    ctx.ellipse(x*ySize + ySize/2, y*xSize + xSize/2, leng, widt, 0, 0, 2 * Math.PI);
+    ctx.ellipse(x*ySize + ySize/2, y*xSize + xSize/2, sleng, swidt, 0, 0, 2 * Math.PI);
     ctx.fill();
   };
 
@@ -121,8 +145,7 @@ const makeGame = (canvas, xCells, yCells) => {
     let ax = Math.floor(x/ySize);
     let ay = Math.floor(y/xSize)
     reset();
-    highlightCell(ax * ySize, ay * xSize);
-    return {x: ax, y: ay};
+    return selectCell(ax, ay);
   };
 
   return { reset, getCell, setBoard, setPos };
@@ -135,8 +158,8 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const onClick = (event) => {
     const { x, y } = getClickCoordinates(canvas, event);
-    console.log(getCell(x, y));
-    // need to create click manager for keeping track of patterns of clicks
+    const pos = getCell(x, y));
+    if (pos) {sock.emit('player-move', pos);}
   };
 
   sock.on('chat-message', displayChat);
