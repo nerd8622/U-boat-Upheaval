@@ -57,7 +57,7 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const posAvailable = (x, y) => {
-    return board[y][x] == 0 && curPos != [x, y];
+    return board[y][x] == 0 && !(curPos[0] == x && curPos[1] == y);
   };
 
   const highlightCell = (x, y, type='full') => {
@@ -83,10 +83,10 @@ const makeGame = (canvas, xCells, yCells) => {
         return [x, y];
       }
     } else {
-      if (curPos == [x, y]) {
-        highlightCell(ax * ySize, ay * xSize, 'ship');
+      if (curPos[0] == x && curPos[1] == y) {
+        highlightCell(x * ySize, y * xSize, 'ship');
         subSelected = true;
-      } else {highlightCell(ax * ySize, ay * xSize);}
+      } else {highlightCell(x * ySize, y * xSize);}
     }
     return false;
   };

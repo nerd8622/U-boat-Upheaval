@@ -97,7 +97,9 @@ io.on('connection', (sock) => {
     sock.broadcast.emit('chat-message', addName(message));
   });
   sock.on('player-move', (message) => {
-    makeMove(message);
+    if (makeMove(message)){
+      sock.emit('player-sub', message);
+    }
   });
 });
 
