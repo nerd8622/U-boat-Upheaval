@@ -33,7 +33,7 @@ const game = (xNum, yNum) => {
       players.set(id, pos);
     }
     const makeMove = (x, y) => {
-      if playersPos.get([x,y]){return false;}
+      if (playersPos.get([x,y])){return false;}
       players.set(id, [x,y]);
       playersPos.delete(pos);
       playersPos.set([x,y], id)
