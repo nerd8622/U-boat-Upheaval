@@ -7,7 +7,7 @@ const game = (xNum, yNum) => {
   let players = new Map();
 
   const clear = () => {
-    board = Array(yNum).fill(null).map(() => Array(xNum).fill(null));
+    board = new Array(yNum).fill(null).map(() => new Array(xNum).fill(null));
   };
 
   const terrain = () => {
@@ -47,6 +47,7 @@ const game = (xNum, yNum) => {
       pos = [x, y]
       return true;
     };
+    
     const makeAttack = ([x, y]) => {
       if (!validateMove(x, y, 2)) {return false;}
       if (playersPos.get([x, y])) {
