@@ -57,7 +57,7 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const posAvailable = (x, y, range) => {
-    return board[y][x] == 0 && !(curPos[0] == x && curPos[1] == y) && Math.abs(curPos[0] - y) <= range && Math.abs(curPos[1] - x) <= range;
+    return board[y][x] == 0 && !(curPos[0] == x && curPos[1] == y) && Math.abs(curPos[0] - x) <= range && Math.abs(curPos[1] - y) <= range;
   };
 
   const highlightCell = (x, y, type='full', mode='move') => {

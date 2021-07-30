@@ -22,7 +22,7 @@ const game = (xNum, yNum) => {
   }
 
   const validateMove = (pos, x, y, range) => {
-    return !playersPos.get([x,y]) && board[y][x] == 0 && Math.abs(pos[0] - y) <= range && Math.abs(pos[1] - x) <= range;
+    return !playersPos.get([x,y]) && board[y][x] == 0 && Math.abs(pos[0] - x) <= range && Math.abs(pos[1] - y) <= range;
   }
 
   const addPlayer = (id) => {
