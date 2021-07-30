@@ -91,14 +91,20 @@ io.on('connection', (sock) => {
   const serverMsg = (msg) => {return ['Server', '#111111', msg]};
   sock.emit('chat-message', serverMsg('Hello '+ username + '! Welcome to U-boat Upheaval!'));
   sock.emit('board', getBoard());
-  const [makeMove, initPos] = addPlayer(username);
-  sock.emit('player-sub', initPos);
+  const { makeMove, makeAttack, pos } = addPlayer(username);
+  sock.emit('player-sub', pos);
   sock.on('chat-message', (message) => {
     sock.broadcast.emit('chat-message', addName(message));
   });
   sock.on('player-move', (message) => {
     if (makeMove(message)){
       sock.emit('player-sub', message);
+    }
+  });
+  sock.on('player-attack', (message) => {
+    if (makeAttack(message)){
+      console.log("kaboom!");
+      // implement attacking other players
     }
   });
 });

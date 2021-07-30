@@ -56,11 +56,11 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
-  const posAvailable = (x, y) => {
-    return board[y][x] == 0 && !(curPos[0] == x && curPos[1] == y);
+  const posAvailable = (x, y, range) => {
+    return board[y][x] == 0 && !(curPos[0] == x && curPos[1] == y) && Math.abs(curPos[0] - y) <= range && Math.abs(curPos[1] - x) <= range;
   };
 
-  const highlightCell = (x, y, type='full') => {
+  const highlightCell = (x, y, type='full', mode='move') => {
     ctx.strokeStyle = '#FACE3E';
     ctx.lineWidth = 3;
     ctx.beginPath();
@@ -71,21 +71,27 @@ const makeGame = (canvas, xCells, yCells) => {
       ctx.lineTo(x, y+ySize);
       ctx.lineTo(x, y);
     } else if (type == 'ship'){
+      if (mode == 'attack'){ ctx.strokeStyle = '#FF2424'; }
       ctx.ellipse(x + ySize/2, y + xSize/2, sleng, swidt, 0, 0, 2 * Math.PI);
     }
     ctx.stroke();
   };
 
   const selectCell = (x, y) => {
-    if (subSelected){
+    if (subSelected == 1){
       subSelected = false;
-      if (posAvailable(x, y)){
-        return [x, y];
+      if (posAvailable(x, y, 1)){return [[x, y], 'move'];}
+      if (curPos[0] == x && curPos[1] == y) {
+        highlightCell(x * ySize, y * xSize, 'ship', 'attack');
+        subSelected = 2;
       }
+    } else if (subSelected == 2){
+      subSelected = false;
+      if (posAvailable(x, y, 2)){return [[x, y], 'attack'];}
     } else {
       if (curPos[0] == x && curPos[1] == y) {
         highlightCell(x * ySize, y * xSize, 'ship');
-        subSelected = true;
+        subSelected = 1;
       } else {highlightCell(x * ySize, y * xSize);}
     }
     return false;
@@ -158,8 +164,15 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const onClick = (event) => {
     const { x, y } = getClickCoordinates(canvas, event);
-    const pos = getCell(x, y);
-    if (pos) {sock.emit('player-move', pos);}
+    const action = getCell(x, y);
+    if (action) {
+      const [pos, mode] = action;
+      if (mode == 'move'){
+        sock.emit('player-move', pos);
+      } else if (mode == 'attack'){
+        sock.emit('player-attack', pos);
+      }
+    }
   };
 
   sock.on('chat-message', displayChat);
