@@ -5,7 +5,8 @@ const game = (xNum, yNum) => {
   let board;
 
   const clear = () => {
-    board = Array(yNum).fill(Array(xNum).fill(null));
+    board = Array(yNum).fill(null).map(() => Array(xNum).fill(null));
+
   };
 
   const terrain = () => {
