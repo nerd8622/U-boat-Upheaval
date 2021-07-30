@@ -38,6 +38,7 @@ const game = (xNum, yNum) => {
     };
 
     const makeMove = (x, y) => {
+      console.log(x, y);
       if (!validateMove(x, y, 1)) {return false;}
       players.set(id, [x,y]);
       playersPos.delete(pos);
