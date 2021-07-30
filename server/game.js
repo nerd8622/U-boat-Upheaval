@@ -3,8 +3,8 @@ simplex = new SimplexNoise(Math.random);
 
 const game = (xNum, yNum) => {
   let board;
-  let playersPos = Map();
-  let players = Map();
+  let playersPos = new Map();
+  let players = new Map();
 
   const clear = () => {
     board = Array(yNum).fill(null).map(() => Array(xNum).fill(null));
