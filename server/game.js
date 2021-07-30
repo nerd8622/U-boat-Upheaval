@@ -25,7 +25,7 @@ const game = (xNum, yNum) => {
     let valid = 0;
     let pos;
     while (!valid){
-      pos = [Math.round(Math.random() * xNum), Math.round(Math.random * yNum)];
+      pos = [Math.round(Math.random() * xNum), Math.round(Math.random() * yNum)];
       if (board[pos[1]][pos[0]] == 0 && !playersPos.get(pos)) {
         valid = 1;
       }
