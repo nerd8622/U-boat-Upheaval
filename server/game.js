@@ -21,10 +21,6 @@ const game = (xNum, yNum) => {
     }
   }
 
-  const validateMove = (pos, x, y, range) => {
-    return !playersPos.get([x,y]) && board[y][x] == 0 && Math.abs(pos[0] - x) <= range && Math.abs(pos[1] - y) <= range;
-  }
-
   const addPlayer = (id) => {
     let valid = 0;
     let pos;
@@ -36,8 +32,13 @@ const game = (xNum, yNum) => {
       playersPos.set(pos, id);
       players.set(id, pos);
     }
+
+    const validateMove = (x, y, range) => {
+      return !playersPos.get([x,y]) && board[y][x] == 0 && Math.abs(pos[0] - x) <= range && Math.abs(pos[1] - y) <= range;
+    };
+
     const makeMove = (x, y) => {
-      if (!validateMove(pos, x, y, 1)) {return false;}
+      if (!validateMove(x, y, 1)) {return false;}
       players.set(id, [x,y]);
       playersPos.delete(pos);
       playersPos.set([x,y], id)
@@ -45,7 +46,7 @@ const game = (xNum, yNum) => {
       return true;
     };
     const makeAttack = (x, y) => {
-      if (!validateMove(pos, x, y, 2)) {return false;}
+      if (!validateMove(x, y, 2)) {return false;}
       if (playersPos.get([x, y])) {
         return true;
         // implement hitting other players
