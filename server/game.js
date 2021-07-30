@@ -37,8 +37,7 @@ const game = (xNum, yNum) => {
       return !playersPos.get([x,y]) && board[y][x] == 0 && Math.abs(pos[0] - x) <= range && Math.abs(pos[1] - y) <= range;
     };
 
-    const makeMove = (x, y) => {
-      console.log(x, y);
+    const makeMove = ([x, y]) => {
       if (!validateMove(x, y, 1)) {return false;}
       players.set(id, [x,y]);
       playersPos.delete(pos);
@@ -46,7 +45,7 @@ const game = (xNum, yNum) => {
       pos = [x, y]
       return true;
     };
-    const makeAttack = (x, y) => {
+    const makeAttack = ([x, y]) => {
       if (!validateMove(x, y, 2)) {return false;}
       if (playersPos.get([x, y])) {
         return true;
