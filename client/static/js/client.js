@@ -45,6 +45,7 @@ const makeGame = (canvas, xCells, yCells) => {
   const ctx = canvas.getContext('2d');
   let board;
   let curPos = [0, 0];
+  let enemies = [];
   let subSelected = false;
 
   const xSize = Math.floor(canvas.width/xCells);
@@ -130,7 +131,7 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const genSubs = () => {
-    subs = [curPos];
+    subs = enemies.concat(curPos);
     for (sub of subs){
       createSub(sub[0], sub[1]);
     }
@@ -138,7 +139,11 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const setBoard = (bd) => {board = bd; reset();};
 
-  const setPos = (pos) => {curPos = pos; reset();};
+  const setPos = (pos) => {curPos = pos; enimies = []; reset();};
+
+  const revealEnemy = (pos) => {enemies.push(pos); reset();}
+
+  };
 
   const reset = () => {
     clear();
@@ -154,13 +159,13 @@ const makeGame = (canvas, xCells, yCells) => {
     return selectCell(ax, ay);
   };
 
-  return { reset, getCell, setBoard, setPos };
+  return { reset, getCell, setBoard, setPos, revealEnemy };
 };
 
 (() => {
   const sock = io();
   const canvas = document.querySelector('canvas');
-  const { reset, getCell, setBoard, setPos } = makeGame(canvas, 22, 12);
+  const { reset, getCell, setBoard, setPos, revealEnemy } = makeGame(canvas, 22, 12);
 
   const onClick = (event) => {
     const { x, y } = getClickCoordinates(canvas, event);
@@ -178,6 +183,7 @@ const makeGame = (canvas, xCells, yCells) => {
   sock.on('chat-message', displayChat);
   sock.on('board', setBoard);
   sock.on('player-sub', setPos);
+  sock.on('enemy-sub', revealEnemy);
 
   document.querySelector('#chat-form').addEventListener('submit', sendChat(sock));
   canvas.addEventListener('click', onClick);

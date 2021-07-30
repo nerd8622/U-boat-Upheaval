@@ -6,6 +6,8 @@ const game = (xNum, yNum) => {
   let playersPos = new Map();
   let players = new Map();
 
+  const arrString = (arr) => arr.join(',');
+
   const clear = () => {
     board = new Array(yNum).fill(null).map(() => new Array(xNum).fill(null));
   };
@@ -27,30 +29,30 @@ const game = (xNum, yNum) => {
       let valid = 0;
       while (!valid){
         pos = [Math.round(Math.random() * xNum), Math.round(Math.random() * yNum)];
-        if (board[pos[1]][pos[0]] == 0 && !playersPos.get(pos)) {
+        if (board[pos[1]][pos[0]] == 0 && !playersPos.get(arrString(pos))) {
           valid = 1;
         }
-        playersPos.set(pos, id);
+        playersPos.set(arrString(pos), id);
         players.set(id, pos);
       }
     }
 
     const validateMove = (x, y, range) => {
-      return !playersPos.get([x,y]) && board[y][x] == 0 && Math.abs(pos[0] - x) <= range && Math.abs(pos[1] - y) <= range;
+      return  board[y][x] == 0 && Math.abs(pos[0] - x) <= range && Math.abs(pos[1] - y) <= range;
     };
 
     const makeMove = ([x, y]) => {
-      if (!validateMove(x, y, 1)) {return false;}
+      if (!validateMove(x, y, 1) && !playersPos.get(arrString([x,y]))) {return false;}
       players.set(id, [x,y]);
-      playersPos.delete(pos);
-      playersPos.set([x,y], id)
+      playersPos.delete(arrString(pos));
+      playersPos.set(arrString([x,y]), id)
       pos = [x, y]
       return true;
     };
-    
+
     const makeAttack = ([x, y]) => {
       if (!validateMove(x, y, 2)) {return false;}
-      if (playersPos.get([x, y])) {
+      if (playersPos.get(arrString([x, y]))) {
         return true;
         // implement hitting other players
       }
