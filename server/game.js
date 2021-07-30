@@ -22,15 +22,17 @@ const game = (xNum, yNum) => {
   }
 
   const addPlayer = (id) => {
-    let valid = 0;
-    let pos;
-    while (!valid){
-      pos = [Math.round(Math.random() * xNum), Math.round(Math.random() * yNum)];
-      if (board[pos[1]][pos[0]] == 0 && !playersPos.get(pos)) {
-        valid = 1;
+    let pos; = players.get(id);
+    if (!pos) {
+      let valid = 0;
+      while (!valid){
+        pos = [Math.round(Math.random() * xNum), Math.round(Math.random() * yNum)];
+        if (board[pos[1]][pos[0]] == 0 && !playersPos.get(pos)) {
+          valid = 1;
+        }
+        playersPos.set(pos, id);
+        players.set(id, pos);
       }
-      playersPos.set(pos, id);
-      players.set(id, pos);
     }
 
     const validateMove = (x, y, range) => {
