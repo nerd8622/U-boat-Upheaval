@@ -31,7 +31,7 @@ const port = 8123;
 const server = http.createServer(app);
 const io = socketio(server);
 io.use((socket, next) => {sessionMiddleware(socket.request, {}, next);});
-const { makeMove, getBoard } = game(22, 12);
+const { getBoard, addPlayer } = game(22, 12);
 
 app.post('/auth', (req, res) => {
   let username = req.body.usr;
@@ -91,8 +91,13 @@ io.on('connection', (sock) => {
   const serverMsg = (msg) => {return ['Server', '#111111', msg]};
   sock.emit('chat-message', serverMsg('Hello '+ username + '! Welcome to U-boat Upheaval!'));
   sock.emit('board', getBoard());
+  const [makeMove, initPos] = addPlayer(username);
+  sock.emit('player-sub', initPos);
   sock.on('chat-message', (message) => {
     sock.broadcast.emit('chat-message', addName(message));
+  });
+  sock.on('player-move', (message) => {
+    makeMove(message);
   });
 });
 

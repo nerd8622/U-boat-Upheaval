@@ -44,6 +44,7 @@ const getClickCoordinates = (element, event) => {
 const makeGame = (canvas, xCells, yCells) => {
   const ctx = canvas.getContext('2d');
   let board;
+  let curPos = [0, 0];
 
   const xSize = Math.floor(canvas.width/xCells);
   const ySize = Math.floor(canvas.height/yCells);
@@ -99,13 +100,15 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const genSubs = () => {
-    subs = [[1,1], [8,6]];
+    subs = [curPos];
     for (sub of subs){
       createSub(sub[0], sub[1]);
     }
   };
 
-  const setBoard = (bd) => {board = bd;};
+  const setBoard = (bd) => {board = bd; reset();};
+
+  const setPos = (pos) => {curPos = pos; reset();};
 
   const reset = () => {
     clear();
@@ -122,24 +125,23 @@ const makeGame = (canvas, xCells, yCells) => {
     return {x: ax, y: ay};
   };
 
-  return { reset, getCell, setBoard };
+  return { reset, getCell, setBoard, setPos };
 };
 
 (() => {
   const sock = io();
   const canvas = document.querySelector('canvas');
-  const { reset, getCell, setBoard } = makeGame(canvas, 22, 12);
+  const { reset, getCell, setBoard, setPos } = makeGame(canvas, 22, 12);
 
   const onClick = (event) => {
     const { x, y } = getClickCoordinates(canvas, event);
     console.log(getCell(x, y));
+    // need to create click manager for keeping track of patterns of clicks
   };
 
   sock.on('chat-message', displayChat);
-  sock.on('board', (board) => {
-    setBoard(board);
-    reset();
-  });
+  sock.on('board', setBoard);
+  sock.on('player-sub', setPos);
 
   document.querySelector('#chat-form').addEventListener('submit', sendChat(sock));
   canvas.addEventListener('click', onClick);
