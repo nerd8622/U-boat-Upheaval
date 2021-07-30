@@ -104,8 +104,6 @@ const makeGame = (canvas, xCells, yCells) => {
     }
   };
 
-  const setBoard = (bd) => {board = bd;};
-
   const reset = (board = false) => {
     clear();
     if (board){createTiles(board);}
@@ -121,7 +119,7 @@ const makeGame = (canvas, xCells, yCells) => {
     return {x: ax, y: ay};
   };
 
-  return { reset, getCell, setBoard };
+  return { reset, getCell };
 };
 
 (() => {
@@ -136,8 +134,7 @@ const makeGame = (canvas, xCells, yCells) => {
 
   sock.on('chat-message', displayChat);
   sock.on('board', (board) => {
-    setBoard(board);
-    reset();
+    reset(board);
   });
 
   document.querySelector('#chat-form').addEventListener('submit', sendChat(sock));
