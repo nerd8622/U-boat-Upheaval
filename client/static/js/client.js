@@ -141,9 +141,7 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const setPos = (pos) => {curPos = pos; enimies = []; reset();};
 
-  const revealEnemy = (pos) => {enemies.push(pos); reset();}
-
-  };
+  const revealEnemy = (pos) => {enemies.push(pos); reset();};
 
   const reset = () => {
     clear();
