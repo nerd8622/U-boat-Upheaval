@@ -41,13 +41,25 @@ const game = (xNum, yNum) => {
       return  board[y][x] == 0 && Math.abs(pos[0] - x) <= range && Math.abs(pos[1] - y) <= range;
     };
 
+    const scan = (x, y, range) => {
+      let found = [];
+      for (let i = -range; i <= range; i++){
+        for (let j = -range; j <= range; j++){
+          if ((i || j) && playersPos.get(arrString([x+i, y+j]))){
+            found.push([x+i, y+j]);
+          }
+        }
+      }
+      return found;
+    };
+
     const makeMove = ([x, y]) => {
-      if (!validateMove(x, y, 1) && !playersPos.get(arrString([x,y]))) {return false;}
+      if (!validateMove(x, y, 1) || playersPos.get(arrString([x,y]))) {return false;}
       players.set(id, [x,y]);
       playersPos.delete(arrString(pos));
-      playersPos.set(arrString([x,y]), id)
+      playersPos.set(arrString([x,y]), id);
       pos = [x, y]
-      return true;
+      return scan(x, y, 1);
     };
 
     const makeAttack = ([x, y]) => {

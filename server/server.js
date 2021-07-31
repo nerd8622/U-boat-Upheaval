@@ -97,8 +97,12 @@ io.on('connection', (sock) => {
     sock.broadcast.emit('chat-message', addName(message));
   });
   sock.on('player-move', (message) => {
-    if (makeMove(message)){
+    let move = makeMove(message)
+    if (move){
       sock.emit('player-sub', message);
+      for (foundSub of move){
+        sock.emit('enemy-sub', foundSub);
+      }
     }
   });
   sock.on('player-attack', (message) => {
