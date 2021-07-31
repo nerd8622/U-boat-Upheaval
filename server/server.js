@@ -84,13 +84,13 @@ app.get('/', (req, res) => {
 
 io.on('connection', (sock) => {
   const username = sock.request.session.username;
-  let savedPlr = players.set(username);
+  let savedPlr = players.get(username);
   if (savedPlr){
     const color = savedPlr.color;
   } else {
     const color = randomColor();
     savedPlr = { color: color, sock: sock };
-    players.put(username, savedPlr);
+    players.set(username, savedPlr);
   }
   const addName = (msg) => {
     let safe = sanitizeHtml(msg, {allowedTags: [ 'b', 'i' ], allowedAttributes: {}});
@@ -105,7 +105,6 @@ io.on('connection', (sock) => {
     sock.broadcast.emit('chat-message', addName(message));
   });
   sock.on('player-move', (message) => {
-    console.log(players);
     let move = makeMove(message)
     if (move){
       sock.emit('player-sub', message);
