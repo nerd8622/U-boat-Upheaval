@@ -131,7 +131,7 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const genSubs = () => {
-    subs = enemies.concat(curPos);
+    subs = enemies.concat([curPos]);
     for (sub of subs){
       createSub(sub[0], sub[1]);
     }
