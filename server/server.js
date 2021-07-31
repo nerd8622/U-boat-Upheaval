@@ -109,7 +109,7 @@ io.on('connection', (sock) => {
     if (move){
       sock.emit('player-sub', message);
       for (foundSub of move){
-        sock.emit('enemy-sub', foundSub[0]);
+        sock.emit('enemy-sub', [foundSub[0], username]);
         players.get(foundSub[1]).sock.emit('enemy-sub', [message, foundSub[1]]);
       }
     }
