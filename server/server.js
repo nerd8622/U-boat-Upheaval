@@ -110,7 +110,7 @@ io.on('connection', (sock) => {
       sock.emit('player-sub', message);
       for (foundSub of move){
         sock.emit('enemy-sub', foundSub[0]);
-        player.get(foundSub[1]).sock.emit('enemy-sub', message);
+        players.get(foundSub[1]).sock.emit('enemy-sub', message);
       }
     }
   });
