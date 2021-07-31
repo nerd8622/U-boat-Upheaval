@@ -32,6 +32,7 @@ const server = http.createServer(app);
 const io = socketio(server);
 io.use((socket, next) => {sessionMiddleware(socket.request, {}, next);});
 const { getBoard, addPlayer } = game(22, 12);
+let players = new Map();
 
 app.post('/auth', (req, res) => {
   let username = req.body.usr;
@@ -83,7 +84,14 @@ app.get('/', (req, res) => {
 
 io.on('connection', (sock) => {
   const username = sock.request.session.username;
-  const color = randomColor();
+  let savedPlr = players.get(username);
+  if (savedPlr){
+    const color = savedPlr.color;
+  } else {
+    const color = randomColor();
+    savedPlr = { color: color, sock: sock };
+    players.put(username, savedPlr);
+  }
   const addName = (msg) => {
     let safe = sanitizeHtml(msg, {allowedTags: [ 'b', 'i' ], allowedAttributes: {}});
     return [username, color, safe];
@@ -101,7 +109,8 @@ io.on('connection', (sock) => {
     if (move){
       sock.emit('player-sub', message);
       for (foundSub of move){
-        sock.emit('enemy-sub', foundSub);
+        sock.emit('enemy-sub', foundSub[0]);
+        player.get(foundSub[1]).sock.emit('enemy-sub', message);
       }
     }
   });

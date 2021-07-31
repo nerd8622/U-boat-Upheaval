@@ -45,8 +45,9 @@ const game = (xNum, yNum) => {
       let found = [];
       for (let i = -range; i <= range; i++){
         for (let j = -range; j <= range; j++){
-          if ((i || j) && playersPos.get(arrString([x+i, y+j]))){
-            found.push([x+i, y+j]);
+          let plr = playersPos.get(arrString([x+i, y+j]));
+          if ((i || j) && plr){
+            found.push([[x+i, y+j], plr]);
           }
         }
       }
