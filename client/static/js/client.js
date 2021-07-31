@@ -45,7 +45,7 @@ const makeGame = (canvas, xCells, yCells) => {
   const ctx = canvas.getContext('2d');
   let board;
   let curPos = [0, 0];
-  let enemies = [];
+  let enemies = new Map();
   let subSelected = false;
 
   const xSize = Math.floor(canvas.width/xCells);
@@ -131,7 +131,7 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const genSubs = () => {
-    subs = enemies.concat([curPos]);
+    subs = enemies.values().concat([curPos]);
     for (sub of subs){
       createSub(sub[0], sub[1]);
     }
@@ -141,7 +141,10 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const setPos = (pos) => {curPos = pos; enimies = []; reset();};
 
-  const revealEnemy = (pos) => {enemies.push(pos); reset();};
+  const revealEnemy = (enemy) => {
+    enemies.set(enemy[1], enemy[0]);
+    reset();
+  };
 
   const reset = () => {
     clear();
