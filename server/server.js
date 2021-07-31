@@ -105,6 +105,7 @@ io.on('connection', (sock) => {
     sock.broadcast.emit('chat-message', addName(message));
   });
   sock.on('player-move', (message) => {
+    console.log(players);
     let move = makeMove(message)
     if (move){
       sock.emit('player-sub', message);
