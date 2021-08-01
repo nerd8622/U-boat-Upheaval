@@ -1,4 +1,4 @@
-const displayChat = ([name, color, message], private="false") => {
+const displayChat = ([name, color, message], private=false) => {
   const listEl = document.querySelector('#messages');
   const newEl = document.createElement('li');
   const nameSp = document.createElement('span');
