@@ -1,4 +1,5 @@
 const http = require('http');
+const crypto = require("crypto");
 const mysql = require('mysql');
 const express = require('express');
 const session = require('express-session');
@@ -36,7 +37,7 @@ let players = new Map();
 
 app.post('/auth', (req, res) => {
   let username = req.body.usr;
-  let password = req.body.psw;
+  let password = crypto.createHash("sha256").update(req.body.psw).digest("base64");
   if (username && password) {
 		sqlConnection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], (error, results, fields) => {
 			if (results.length > 0) {
@@ -56,7 +57,7 @@ app.post('/auth', (req, res) => {
 
 app.post('/register', (req, res) => {
   let username = req.body.usr;
-  let password = req.body.psw;
+  let password = crypto.createHash("sha256").update(req.body.psw).digest("base64");
   let email = req.body.email;
   if (username && password && email) {
     sqlConnection.query('SELECT * FROM accounts WHERE username = ? and email = ?', [username, email], (error, results, fields) => {
