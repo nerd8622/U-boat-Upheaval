@@ -1,23 +1,39 @@
-const displayChat = ([name, color, message]) => {
+const displayChat = ([name, color, message], private="false") => {
   const listEl = document.querySelector('#messages');
   const newEl = document.createElement('li');
   const nameSp = document.createElement('span');
+  let privately = "";
+  if (private) {privately = " (privately)";}
   nameSp.style.color = color;
   nameSp.style.fontWeight = "bold";
-  nameSp.innerHTML = name + ": ";
+  nameSp.innerHTML = name + privately + ": ";
   newEl.appendChild(nameSp);
   newEl.innerHTML += message;
   listEl.appendChild(newEl);
   listEl.scrollTop = listEl.scrollHeight;
 };
 
+const addPlayer = ([name, color]) => {
+  const dropdown = document.querySelector('#recipient');
+  const option = document.createElement('option');
+  option.value = option.text = name;
+  option.style.color = color;
+  dropdown.add(option);
+};
+
 const sendChat = (sock) => (e) => {
   e.preventDefault();
   const input = document.querySelector('#message-box');
+  const recipient = document.querySelector('#recipient').value;
   const text = input.value;
   input.value = "";
-  displayChat(['Me', '#010101', text]);
-  sock.emit('chat-message', text);
+  if (recipient == ""){
+    displayChat(['Me', '#010101', text]);
+    sock.emit('chat-message', text);
+  } else{
+    displayChat([`Me (to ${recipient})`, '#010101', text]);
+    sock.emit('chat-message-private', [recipient, text]);
+  }
 };
 
 const getClickCoordinates = (element, event) => {
@@ -181,7 +197,9 @@ const makeGame = (canvas, xCells, yCells) => {
     }
   };
 
+  sock.on('player-join', addPlayer);
   sock.on('chat-message', displayChat);
+  sock.on('chat-message-private', (message) => {displayChat(message, true)});
   sock.on('board', setBoard);
   sock.on('player-sub', setPos);
   sock.on('enemy-sub', revealEnemy);

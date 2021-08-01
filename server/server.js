@@ -100,8 +100,12 @@ io.on('connection', (sock) => {
   sock.emit('board', getBoard());
   const { makeMove, makeAttack, pos } = addPlayer(username);
   sock.emit('player-sub', pos);
+  io.emit('player-join', [username, color]);
   sock.on('chat-message', (message) => {
     sock.broadcast.emit('chat-message', addName(message));
+  });
+  sock.on('chat-message-private', ([recipient, message]) => {
+    players.get(recipient).sock.emit('chat-message-private', addName(message));
   });
   sock.on('player-move', (message) => {
     let move = makeMove(message)
