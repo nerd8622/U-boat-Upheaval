@@ -84,10 +84,11 @@ app.get('/', (req, res) => {
 io.on('connection', (sock) => {
   const username = sock.request.session.username;
   let savedPlr = players.get(username);
+  let color;
   if (savedPlr){
-    const color = savedPlr.color;
+    color = savedPlr.color;
   } else {
-    const color = randomColor();
+    color = randomColor();
     savedPlr = { color: color, sock: sock };
     players.set(username, savedPlr);
   }
