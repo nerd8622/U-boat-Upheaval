@@ -88,7 +88,7 @@ io.on('connection', (sock) => {
   if (savedPlr){
     color = savedPlr.color;
   } else {
-    color = randomColor();
+    color = randomColor({luminosity: 'dark'});
     savedPlr = { color: color, sock: sock };
     players.set(username, savedPlr);
   }
@@ -101,7 +101,7 @@ io.on('connection', (sock) => {
   sock.emit('board', getBoard());
   const { makeMove, makeAttack, pos } = addPlayer(username);
   sock.emit('player-sub', pos);
-  io.emit('player-join', [username, color]);
+  sock.broadcast.emit('player-join', [username, color]);
   sock.on('chat-message', (message) => {
     sock.broadcast.emit('chat-message', addName(message));
   });
