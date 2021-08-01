@@ -47,11 +47,9 @@ app.post('/auth', (req, res) => {
 			} else {
 				res.send('Incorrect Username and/or Password!');
 			}
-			res.end();
 		});
 	} else {
 		res.send('Please enter Username and Password!');
-		res.end();
 	}
 });
 
