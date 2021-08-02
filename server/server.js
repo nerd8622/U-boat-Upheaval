@@ -34,7 +34,10 @@ const io = socketio(server);
 io.use((socket, next) => {sessionMiddleware(socket.request, {}, next);});
 const gameMgr = game(22, 12);
 let players = new Map();
-const doUpdate = (id) => {players.get(id).sock.emit('game-update', gameMgr.getUpdate(id));};
+const doUpdate = (id) => {
+  console.log(`updating: ${id}`, gameMgr.getUpdate(id));
+  players.get(id).sock.emit('game-update', gameMgr.getUpdate(id));
+};
 
 app.post('/auth', (req, res) => {
   let username = req.body.usr;
@@ -90,8 +93,7 @@ io.on('connection', (sock) => {
     color = savedPlr.color;
   } else {
     color = randomColor({luminosity: 'dark'});
-    savedPlr = { color: color, sock: sock };
-    players.set(username, savedPlr);
+    players.set(username, { color: color, sock: sock });
   }
   const addName = (msg) => {
     let safe = sanitizeHtml(msg, {allowedTags: [ 'b', 'i' ], allowedAttributes: {}});
