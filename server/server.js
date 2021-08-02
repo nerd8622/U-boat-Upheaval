@@ -93,8 +93,8 @@ io.on('connection', (sock) => {
     color = savedPlr.color;
   } else {
     color = randomColor({luminosity: 'dark'});
-    players.set(username, { color: color, sock: sock });
   }
+  players.set(username, { color: color, sock: sock });
   const addName = (msg) => {
     let safe = sanitizeHtml(msg, {allowedTags: [ 'b', 'i' ], allowedAttributes: {}});
     return [username, color, safe];
