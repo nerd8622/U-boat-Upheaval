@@ -2,17 +2,11 @@ const SimplexNoise = require('simplex-noise'),
 simplex = new SimplexNoise(Math.random);
 
 const game = (xNum, yNum) => {
-  let board;
-  let playersPos = new Map();
+  let board = new Array(yNum).fill(null).map(() => new Array(xNum).fill(null));
+  let playersPos = new Array(xNum).fill(null).map(() => new Array(yNum).fill(null));
   let players = new Map();
 
-  const arrString = (arr) => arr.join(',');
-
-  const getUpdate = (id) => {playersPos.get(players.get(id));};
-
-  const clear = () => {
-    board = new Array(yNum).fill(null).map(() => new Array(xNum).fill(null));
-  };
+  const getUpdate = (id) => {let p = players.get(id); playersPos[p[0]][p[1]]};
 
   const terrain = () => {
     for (let i = 0; i < yNum; i++){
@@ -27,15 +21,16 @@ const game = (xNum, yNum) => {
 
   const addPlayer = (id) => {
     let pos = players.get(id);
-    let data = {id: id, pos: pos, stats:{health: 3, energy: 5, oxygen: 5}, neighbors:[], visible:[]}
+    let data = {id: id, pos: pos, stats:{health: 3, energy: 5, oxygen: 5}, neighbors: [], visible: []};
+
     if (!pos) {
       let valid = 0;
       while (!valid){
         pos = [Math.round(Math.random() * xNum), Math.round(Math.random() * yNum)];
-        if (board[pos[1]][pos[0]] == 0 && !playersPos.get(arrString(pos))) {
+        if (board[pos[1]][pos[0]] == 0 && !playersPos[pos[0]][pos[1]]) {
           valid = 1;
           data.pos = pos;
-          playersPos.set(arrString(pos), data);
+          playersPos[pos[0]][pos[1]] = data;
           players.set(id, pos);
         }
       }
@@ -51,7 +46,7 @@ const game = (xNum, yNum) => {
         for (let j = -range; j <= range; j++){
           let ax = x+i, ay = y+j;
           if (ax < xNum && ay < yNum && ax >= 0 && ay >= 0){
-            let plr = playersPos.get(arrString([ax, ay]).id);
+            let plr = playersPos[ax][ay].id;
             if ((i || j) && plr){
               found.push([[ax, ay], plr]);
             }
@@ -62,10 +57,10 @@ const game = (xNum, yNum) => {
     };
 
     const makeMove = ([x, y]) => {
-      if (!validateMove(x, y, 1) || playersPos.get(arrString([x,y]))) {return false;}
+      if (!validateMove(x, y, 1) || playersPos[x][y]) {return false;}
       players.set(id, [x,y]);
-      playersPos.delete(arrString(pos));
-      playersPos.set(arrString([x,y]), data);
+      playersPos[pos[0]][pos[1]] = null;
+      playersPos[x][y] = data;
       pos = data.pos = [x, y];
       data.neighbors = scan(x, y, 1);
       return data;
@@ -73,7 +68,7 @@ const game = (xNum, yNum) => {
 
     const makeAttack = ([x, y]) => {
       if (!validateMove(x, y, 2)) {return false;}
-      if (playersPos.get(arrString([x, y]))) {
+      if (playersPos[x][y]) {
         return true;
         // implement hitting other players
       }
@@ -83,7 +78,6 @@ const game = (xNum, yNum) => {
 
   const getBoard = () => board;
 
-  clear();
   terrain();
   return { getBoard, addPlayer, getUpdate };
 };

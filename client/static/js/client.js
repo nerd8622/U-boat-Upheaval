@@ -48,8 +48,7 @@ const getClickCoordinates = (element, event) => {
 
 const makeGame = (canvas, xCells, yCells) => {
   const ctx = canvas.getContext('2d');
-  let board;
-  let gameState;
+  let board, gameState;
   let subSelected = false;
 
   const xSize = Math.floor(canvas.width/xCells);
@@ -141,8 +140,8 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const setBoard = (bd) => {board = bd;};
-  
-  const gameUpdate = (game) => {gameState = game; reset();};
+
+  const gameUpdate = (g) => {gameState = g; reset();};
 
   const reset = () => {
     clear();
