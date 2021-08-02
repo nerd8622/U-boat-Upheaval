@@ -27,18 +27,19 @@ const game = (xNum, yNum) => {
 
   const addPlayer = (id) => {
     let pos = players.get(id);
+    let data = {id: id, pos: pos, stats:{health: 3, energy: 5, oxygen: 5}, neighbors:[], visible:[]}
     if (!pos) {
       let valid = 0;
       while (!valid){
         pos = [Math.round(Math.random() * xNum), Math.round(Math.random() * yNum)];
         if (board[pos[1]][pos[0]] == 0 && !playersPos.get(arrString(pos))) {
           valid = 1;
+          data.pos = pos;
+          playersPos.set(arrString(pos), data);
+          players.set(id, pos);
         }
-        playersPos.set(arrString(pos), data);
-        players.set(id, pos);
       }
     }
-    let data = {id: id, pos: pos, stats:{health: 3, energy: 5, oxygen: 5}, neighbors:[], visible:[]};
 
     const validateMove = (x, y, range) => {
       return  board[y][x] == 0 && Math.abs(pos[0] - x) <= range && Math.abs(pos[1] - y) <= range;
