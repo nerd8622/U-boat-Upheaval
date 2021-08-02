@@ -61,7 +61,7 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const posAvailable = (x, y, range) => {
-    return board[y][x] == 0 && !(curPos[0] == x && curPos[1] == y) && Math.abs(curPos[0] - x) <= range && Math.abs(curPos[1] - y) <= range;
+    return board[y][x] == 0 && !(gameState.pos[0] == x && gameState.pos[1] == y) && Math.abs(gameState.pos[0] - x) <= range && Math.abs(gameState.pos[1] - y) <= range;
   };
 
   const highlightCell = (x, y, type='full', mode='move') => {
@@ -85,7 +85,7 @@ const makeGame = (canvas, xCells, yCells) => {
     if (subSelected == 1){
       subSelected = false;
       if (posAvailable(x, y, 1)){return [[x, y], 'move'];}
-      if (curPos[0] == x && curPos[1] == y) {
+      if (gameState.pos[0] == x && gameState.pos[1] == y) {
         highlightCell(x * ySize, y * xSize, 'ship', 'attack');
         subSelected = 2;
       }
@@ -93,7 +93,7 @@ const makeGame = (canvas, xCells, yCells) => {
       subSelected = false;
       if (posAvailable(x, y, 2)){return [[x, y], 'attack'];}
     } else {
-      if (curPos[0] == x && curPos[1] == y) {
+      if (gameState.pos[0] == x && gameState.pos[1] == y) {
         highlightCell(x * ySize, y * xSize, 'ship');
         subSelected = 1;
       } else {highlightCell(x * ySize, y * xSize);}
