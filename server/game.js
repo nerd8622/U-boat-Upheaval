@@ -6,7 +6,10 @@ const game = (xNum, yNum) => {
   let playersPos = new Array(xNum).fill(null).map(() => new Array(yNum).fill(null));
   let players = new Map();
 
-  const getUpdate = (id) => {let p = players.get(id); playersPos[p[0]][p[1]]};
+  const getUpdate = (id) => {
+    let p = players.get(id);
+    return playersPos[p[0]][p[1]];
+  };
 
   const terrain = () => {
     for (let i = 0; i < yNum; i++){
