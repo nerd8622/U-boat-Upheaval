@@ -126,6 +126,15 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.stroke();
   };
 
+  const createUI = () => {
+    ctx.fillStyle = '#EBEBEB60';
+    ctx.fillRect(canvas.width/4, canvas.height*0.01, canvas.width/2, canvas.height*0.05);
+    ctx.fillRect(canvas.width/4, canvas.height*0.07, canvas.width/2, canvas.height*0.05);
+    ctx.fillStyle = '#A8FF3660';
+    ctx.fillRect(canvas.width/4*0.95, canvas.height*0.01*0.95, canvas.width/2*0.9, canvas.height*0.05*0.95);
+    ctx.fillRect(canvas.width/4*0.95, canvas.height*0.07*0.95, canvas.width/2*0.9, canvas.height*0.05*0.95);
+  };
+
   const createSub = ([x, y], isMe=false) => {
     ctx.fillStyle = '#232323';
     if (isMe) {ctx.fillStyle = '#5c5c5c'};
@@ -147,6 +156,7 @@ const makeGame = (canvas, xCells, yCells) => {
     clear();
     createTiles();
     createGrid();
+    createUI();
     genSubs();
   };
 

@@ -49,9 +49,9 @@ const game = (xNum, yNum) => {
         for (let j = -range; j <= range; j++){
           let ax = x+i, ay = y+j;
           if (ax < xNum && ay < yNum && ax >= 0 && ay >= 0){
-            let plr = playersPos[ax][ay].id;
+            let plr = playersPos[ax][ay];
             if ((i || j) && plr){
-              found.push([[ax, ay], plr]);
+              found.push([[ax, ay], plr.id]);
             }
           }
         }
