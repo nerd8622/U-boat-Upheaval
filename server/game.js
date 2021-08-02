@@ -8,6 +8,8 @@ const game = (xNum, yNum) => {
 
   const arrString = (arr) => arr.join(',');
 
+  const getUpdate = (id) => {playersPos.get(players.get(id));};
+
   const clear = () => {
     board = new Array(yNum).fill(null).map(() => new Array(xNum).fill(null));
   };
@@ -32,10 +34,11 @@ const game = (xNum, yNum) => {
         if (board[pos[1]][pos[0]] == 0 && !playersPos.get(arrString(pos))) {
           valid = 1;
         }
-        playersPos.set(arrString(pos), id);
+        playersPos.set(arrString(pos), data);
         players.set(id, pos);
       }
     }
+    let data = {id: id, pos: pos, stats:{health: 3, energy: 5, oxygen: 5}, neighbors:[], visible:[]};
 
     const validateMove = (x, y, range) => {
       return  board[y][x] == 0 && Math.abs(pos[0] - x) <= range && Math.abs(pos[1] - y) <= range;
@@ -47,7 +50,7 @@ const game = (xNum, yNum) => {
         for (let j = -range; j <= range; j++){
           let ax = x+i, ay = y+j;
           if (ax < xNum && ay < yNum && ax >= 0 && ay >= 0){
-            let plr = playersPos.get(arrString([ax, ay]));
+            let plr = playersPos.get(arrString([ax, ay]).id);
             if ((i || j) && plr){
               found.push([[ax, ay], plr]);
             }
@@ -61,9 +64,10 @@ const game = (xNum, yNum) => {
       if (!validateMove(x, y, 1) || playersPos.get(arrString([x,y]))) {return false;}
       players.set(id, [x,y]);
       playersPos.delete(arrString(pos));
-      playersPos.set(arrString([x,y]), id);
-      pos = [x, y]
-      return scan(x, y, 1);
+      playersPos.set(arrString([x,y]), data);
+      pos = data.pos = [x, y];
+      data.neighbors = scan(x, y, 1);
+      return data;
     };
 
     const makeAttack = ([x, y]) => {
@@ -73,14 +77,14 @@ const game = (xNum, yNum) => {
         // implement hitting other players
       }
     };
-    return { makeMove, makeAttack, pos };
+    return { makeMove, makeAttack };
   }
 
   const getBoard = () => board;
 
   clear();
   terrain();
-  return { getBoard, addPlayer };
+  return { getBoard, addPlayer, getUpdate };
 };
 
 module.exports = game;

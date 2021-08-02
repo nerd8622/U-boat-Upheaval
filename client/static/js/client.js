@@ -46,22 +46,10 @@ const getClickCoordinates = (element, event) => {
   };
 };
 
-/*class Submarine {
-  constructor(x, y){
-    this.x = x;
-    this.y = y;
-  }
-  move(x, y){
-    this.x = x;
-    this.y = y;
-  }
-}*/
-
 const makeGame = (canvas, xCells, yCells) => {
   const ctx = canvas.getContext('2d');
   let board;
-  let curPos = [0, 0];
-  let enemies = new Map();
+  let gameState;
   let subSelected = false;
 
   const xSize = Math.floor(canvas.width/xCells);
@@ -114,7 +102,7 @@ const makeGame = (canvas, xCells, yCells) => {
     return false;
   };
 
-  const createTiles = (board) => {
+  const createTiles = () => {
     for (let i = 0; i < yCells; i++){
       for (let j = 0; j < xCells; j++){
         if (board[i][j] == 1){ctx.fillStyle = '#C2B280';}
@@ -139,32 +127,26 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.stroke();
   };
 
-  const createSub = (x, y) => {
+  const createSub = ([x, y], isMe=false) => {
     ctx.fillStyle = '#232323';
+    if (isMe) {ctx.fillStyle = '#5c5c5c'};
     ctx.beginPath();
     ctx.ellipse(x*ySize + ySize/2, y*xSize + xSize/2, sleng, swidt, 0, 0, 2 * Math.PI);
     ctx.fill();
   };
 
   const genSubs = () => {
-    subs = [...enemies.values()].concat([curPos]);
-    for (sub of subs){
-      createSub(sub[0], sub[1]);
-    }
+    for (sub of gameState.neighbors){createSub(sub[0]);}
+    createSub(gameState.pos, true);
   };
 
-  const setBoard = (bd) => {board = bd; reset();};
-
-  const setPos = (pos) => {curPos = pos; enimies = []; reset();};
-
-  const revealEnemy = (enemy) => {
-    enemies.set(enemy[1], enemy[0]);
-    reset();
-  };
+  const setBoard = (bd) => {board = bd;};
+  
+  const gameUpdate = (game) => {gameState = game; reset();};
 
   const reset = () => {
     clear();
-    createTiles(board);
+    createTiles();
     createGrid();
     genSubs();
   };
@@ -176,13 +158,13 @@ const makeGame = (canvas, xCells, yCells) => {
     return selectCell(ax, ay);
   };
 
-  return { reset, getCell, setBoard, setPos, revealEnemy };
+  return { reset, getCell, setBoard, gameUpdate };
 };
 
 (() => {
   const sock = io();
   const canvas = document.querySelector('canvas');
-  const { reset, getCell, setBoard, setPos, revealEnemy } = makeGame(canvas, 22, 12);
+  const { reset, getCell, setBoard, gameUpdate } = makeGame(canvas, 22, 12);
 
   const onClick = (event) => {
     const { x, y } = getClickCoordinates(canvas, event);
@@ -201,8 +183,7 @@ const makeGame = (canvas, xCells, yCells) => {
   sock.on('chat-message', displayChat);
   sock.on('chat-message-private', (message) => {displayChat(message, true)});
   sock.on('board', setBoard);
-  sock.on('player-sub', setPos);
-  sock.on('enemy-sub', revealEnemy);
+  sock.on('game-update', gameUpdate);
 
   document.querySelector('#chat-form').addEventListener('submit', sendChat(sock));
   canvas.addEventListener('click', onClick);

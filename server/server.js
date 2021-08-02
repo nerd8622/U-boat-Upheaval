@@ -32,8 +32,9 @@ const port = 8123;
 const server = http.createServer(app);
 const io = socketio(server);
 io.use((socket, next) => {sessionMiddleware(socket.request, {}, next);});
-const { getBoard, addPlayer } = game(22, 12);
+const gameMgr = game(22, 12);
 let players = new Map();
+const doUpdate = (id) => {players.get(id).sock.emit('game-update', game.getUpdate(id));};
 
 app.post('/auth', (req, res) => {
   let username = req.body.usr;
@@ -98,9 +99,9 @@ io.on('connection', (sock) => {
   };
   const serverMsg = (msg) => {return ['Server', '#111111', msg]};
   sock.emit('chat-message', serverMsg('Hello '+ username + '! Welcome to U-boat Upheaval!'));
-  sock.emit('board', getBoard());
-  const { makeMove, makeAttack, pos } = addPlayer(username);
-  sock.emit('player-sub', pos);
+  sock.emit('board', gameMgr.getBoard());
+  const { makeMove, makeAttack } = gameMgr.addPlayer(username);
+  doUpdate(username);
   sock.broadcast.emit('player-join', [username, color]);
   sock.on('chat-message', (message) => {
     sock.broadcast.emit('chat-message', addName(message));
@@ -109,12 +110,11 @@ io.on('connection', (sock) => {
     players.get(recipient).sock.emit('chat-message-private', addName(message));
   });
   sock.on('player-move', (message) => {
-    let move = makeMove(message)
+    let move = makeMove(message);
     if (move){
-      sock.emit('player-sub', message);
-      for (foundSub of move){
-        sock.emit('enemy-sub', [foundSub[0], foundSub[1]]);
-        players.get(foundSub[1]).sock.emit('enemy-sub', [message, username]);
+      sock.emit('game-update', move);
+      for (foundSub of move.neighbors){
+        doUpdate(foundSub[1]);
       }
     }
   });
