@@ -130,9 +130,10 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.fillStyle = '#EBEBEB60';
     ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2, canvas.height*0.05);
     ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2, canvas.height*0.05);
-    ctx.fillStyle = '#A8FF3660';
-    ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2, canvas.height*0.05);
-    ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2, canvas.height*0.05);
+    ctx.fillStyle = '#F3FF4D60';
+    ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2*(gameState.stats.energy/5), canvas.height*0.05);
+    ctx.fillStyle = '#5EFFEF60';
+    ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2*(gameState.stats.oxygen/5), canvas.height*0.05);
   };
 
   const createSub = ([x, y], isMe=false) => {
@@ -164,7 +165,8 @@ const makeGame = (canvas, xCells, yCells) => {
   const zoom = (e) => {
     let factor = -0.03;
     if (e.deltaY < 0) {factor = 0.03}
-    scale = Math.min(1, Math.max(scale + factor, 0.28));
+    scale = Math.min(5, Math.max(scale + factor, 1));
+    reset();
   };
 
   const getCell = (x, y) => {

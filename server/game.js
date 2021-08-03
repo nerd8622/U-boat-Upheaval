@@ -60,18 +60,20 @@ const game = (xNum, yNum) => {
     };
 
     const makeMove = ([x, y]) => {
-      if (!validateMove(x, y, 1) || playersPos[x][y]) {return false;}
+      if (!validateMove(x, y, 1) || playersPos[x][y] || data.stats.energy < 1) {return false;}
       players.set(id, [x,y]);
       playersPos[pos[0]][pos[1]] = null;
       playersPos[x][y] = data;
       pos = data.pos = [x, y];
       data.neighbors = scan(x, y, 1);
+      data.stats.energy -= 1;
       return data;
     };
 
     const makeAttack = ([x, y]) => {
-      if (!validateMove(x, y, 2)) {return false;}
+      if (!validateMove(x, y, 2) || data.stats.energy < 2) {return false;}
       if (playersPos[x][y]) {
+        data.stats.energy -= 2;
         return true;
         // implement hitting other players
       }
