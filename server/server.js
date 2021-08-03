@@ -114,16 +114,16 @@ io.on('connection', (sock) => {
   sock.on('player-move', (message) => {
     let move = makeMove(message);
     if (move){
-      sock.emit('game-update', move[0]);
       for (foundSub of move[1]]){
         doUpdate(foundSub[1]);
       }
     }
   });
   sock.on('player-attack', (message) => {
-    if (makeAttack(message)){
-      console.log("kaboom!");
-      // implement attacking other players
+    let attack = makeAttack(message);
+    if (attack){
+      sock.emit('game-update', attack);
+      doUpdate(attack.hit);
     }
   });
 });

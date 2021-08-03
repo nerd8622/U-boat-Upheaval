@@ -32,7 +32,7 @@ const game = (xNum, yNum) => {
         pos = [Math.round(Math.random() * xNum), Math.round(Math.random() * yNum)];
         if (board[pos[1]][pos[0]] == 0 && !playersPos[pos[0]][pos[1]]) {
           valid = 1;
-          data = {id: id, pos: pos, stats:{health: 3, energy: 5, oxygen: 5}, neighbors: [], visible: []};
+          data = {id: id, pos: pos, stats:{health: 3, energy: 5, oxygen: 5}, neighbors: [], visible: [], hit: false};
           playersPos[pos[0]][pos[1]] = data;
           players.set(id, pos);
         }
@@ -73,15 +73,18 @@ const game = (xNum, yNum) => {
         playerPos[nx][ny].neighbors = scan(nx, ny, 1);
       }
       data.stats.energy -= 1;
-      return [data, nlist];
+      return nlist.concat([[pos, data.id]]);
     };
 
     const makeAttack = ([x, y]) => {
       if (!validateMove(x, y, 2) || data.stats.energy < 2) {return false;}
-      if (playersPos[x][y]) {
+      let target = playersPos[x][y];
+      if (target) {
+        target.stats.health -= 1;
         data.stats.energy -= 2;
-        return true;
-        // implement hitting other players
+        let hitData = data;
+        hitData.hit = target.id;
+        return hitData;
       }
     };
     return { makeMove, makeAttack };
