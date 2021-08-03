@@ -163,8 +163,8 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const zoom = (e) => {
-    let factor = -0.03;
-    if (e.deltaY < 0) {factor = 0.03}
+    let factor = 0.03;
+    if (e.deltaY < 0) {factor = -0.03}
     scale = Math.min(5, Math.max(scale + factor, 1));
     reset();
   };

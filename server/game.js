@@ -24,7 +24,7 @@ const game = (xNum, yNum) => {
 
   const addPlayer = (id) => {
     let pos = players.get(id);
-    let data = {id: id, pos: pos, stats:{health: 3, energy: 5, oxygen: 5}, neighbors: [], visible: []};
+    let data = playersPos[pos[0]][pos[1]];
 
     if (!pos) {
       let valid = 0;
@@ -32,7 +32,7 @@ const game = (xNum, yNum) => {
         pos = [Math.round(Math.random() * xNum), Math.round(Math.random() * yNum)];
         if (board[pos[1]][pos[0]] == 0 && !playersPos[pos[0]][pos[1]]) {
           valid = 1;
-          data.pos = pos;
+          data = {id: id, pos: pos, stats:{health: 3, energy: 5, oxygen: 5}, neighbors: [], visible: []};
           playersPos[pos[0]][pos[1]] = data;
           players.set(id, pos);
         }
@@ -65,9 +65,15 @@ const game = (xNum, yNum) => {
       playersPos[pos[0]][pos[1]] = null;
       playersPos[x][y] = data;
       pos = data.pos = [x, y];
+      let nlist = data.neighbors;
       data.neighbors = scan(x, y, 1);
+      let nlist = [...new Set(nlist.concat(data.neighbors))];
+      for (n of nlist) {
+        let nx = n[0][0], ny = n[0][1];
+        playerPos[nx][ny].neighbors = scan(nx, ny, 1);
+      }
       data.stats.energy -= 1;
-      return data;
+      return [data, nlist];
     };
 
     const makeAttack = ([x, y]) => {

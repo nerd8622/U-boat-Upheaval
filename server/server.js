@@ -114,8 +114,8 @@ io.on('connection', (sock) => {
   sock.on('player-move', (message) => {
     let move = makeMove(message);
     if (move){
-      sock.emit('game-update', move);
-      for (foundSub of move.neighbors){
+      sock.emit('game-update', move[0]);
+      for (foundSub of move[1]]){
         doUpdate(foundSub[1]);
       }
     }
