@@ -11,6 +11,12 @@ const game = (xNum, yNum) => {
     return playersPos[p[0]][p[1]];
   };
 
+  const giveEnergy = () -> {
+    for (player of players.values()) {
+      playersPos[player[0]][player[1]].stats.energy += 1;
+    }
+  };
+
   const terrain = () => {
     for (let i = 0; i < yNum; i++){
       for (let j = 0; j < xNum; j++){
@@ -94,6 +100,7 @@ const game = (xNum, yNum) => {
   const getBoard = () => board;
 
   terrain();
+  setInterval(giveEnergy, 1000*60*15);
   return { getBoard, addPlayer, getUpdate };
 };
 
