@@ -11,7 +11,7 @@ const game = (xNum, yNum) => {
     return playersPos[p[0]][p[1]];
   };
 
-  const giveEnergy = () -> {
+  const giveEnergy = () => {
     for (player of players.values()) {
       playersPos[player[0]][player[1]].stats.energy += 1;
     }
