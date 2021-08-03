@@ -205,5 +205,5 @@ const makeGame = (canvas, xCells, yCells) => {
 
   document.querySelector('#chat-form').addEventListener('submit', sendChat(sock));
   canvas.addEventListener('click', onClick);
-  canvas.addEventListener('wheel', zoom);
+  //canvas.addEventListener('wheel', zoom);
 })();
