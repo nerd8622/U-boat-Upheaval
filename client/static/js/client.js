@@ -47,14 +47,14 @@ const getClickCoordinates = (element, event) => {
 };
 
 const makeGame = (canvas, xCells, yCells) => {
-  const ctx = canvas.getContext('2d');
+  let ctx = canvas.getContext('2d');
+  let scale = 1;
   let board, gameState;
   let subSelected = false;
 
   const xSize = Math.floor(canvas.width/xCells);
   const ySize = Math.floor(canvas.height/yCells);
-  let sleng = ySize*.75/2;
-  let swidt = xSize*.5/2;
+  let sleng = ySize*.75/2, swidt = xSize*.5/2;
 
   const clear = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -153,11 +153,18 @@ const makeGame = (canvas, xCells, yCells) => {
   const gameUpdate = (g) => {gameState = g; reset();};
 
   const reset = () => {
+    ctx.scale(scale, scale);
     clear();
     createTiles();
     createGrid();
     createUI();
     genSubs();
+  };
+
+  const zoom = (e) => {
+    let factor = -0.03;
+    if (e.deltaY < 0) {factor = 0.03}
+    scale = Math.min(1, Math.max(scale + factor, 0.28));
   };
 
   const getCell = (x, y) => {
@@ -167,16 +174,16 @@ const makeGame = (canvas, xCells, yCells) => {
     return selectCell(ax, ay);
   };
 
-  return { reset, getCell, setBoard, gameUpdate };
+  return { getCell, setBoard, gameUpdate, zoom };
 };
 
 (() => {
   const sock = io();
   const canvas = document.querySelector('canvas');
-  const { reset, getCell, setBoard, gameUpdate } = makeGame(canvas, 22, 12);
+  const { getCell, setBoard, gameUpdate, zoom } = makeGame(canvas, 22, 12);
 
-  const onClick = (event) => {
-    const { x, y } = getClickCoordinates(canvas, event);
+  const onClick = (e) => {
+    const { x, y } = getClickCoordinates(canvas, e);
     const action = getCell(x, y);
     if (action) {
       const [pos, mode] = action;
@@ -196,4 +203,5 @@ const makeGame = (canvas, xCells, yCells) => {
 
   document.querySelector('#chat-form').addEventListener('submit', sendChat(sock));
   canvas.addEventListener('click', onClick);
+  canvas.addEventListener('wheel', zoom);
 })();
