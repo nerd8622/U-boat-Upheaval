@@ -38,6 +38,15 @@ const doUpdate = (id) => {
   console.log(`updating: ${id}`, gameMgr.getUpdate(id));
   players.get(id).sock.emit('game-update', gameMgr.getUpdate(id));
 };
+const updateAll = () => {
+  for (player of players.keys()){
+    doUpdate(player);
+  }
+};
+setInterval(() => {
+  gameMgr.giveEnergy();
+  updateAll();
+}, 1000*60*5);
 
 app.post('/auth', (req, res) => {
   let username = req.body.usr;

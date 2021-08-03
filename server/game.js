@@ -100,8 +100,7 @@ const game = (xNum, yNum) => {
   const getBoard = () => board;
 
   terrain();
-  setInterval(giveEnergy, 1000*60*15);
-  return { getBoard, addPlayer, getUpdate };
+  return { getBoard, addPlayer, getUpdate, giveEnergy };
 };
 
 module.exports = game;
