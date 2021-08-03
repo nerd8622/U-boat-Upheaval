@@ -23,8 +23,7 @@ const game = (xNum, yNum) => {
   }
 
   const addPlayer = (id) => {
-    let pos = players.get(id);
-    let data = playersPos[pos[0]][pos[1]];
+    let pos = players.get(id), data;
 
     if (!pos) {
       let valid = 0;
@@ -37,6 +36,8 @@ const game = (xNum, yNum) => {
           players.set(id, pos);
         }
       }
+    } else {
+      data = playersPos[pos[0]][pos[1]];
     }
 
     const validateMove = (x, y, range) => {
