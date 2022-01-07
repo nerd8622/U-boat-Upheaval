@@ -13,7 +13,9 @@ const game = (xNum, yNum) => {
 
   const giveEnergy = () => {
     for (player of players.values()) {
-      playersPos[player[0]][player[1]].stats.energy += 1;
+      if (playersPos[player[0]][player[1]].stats.energy <= 5){
+        playersPos[player[0]][player[1]].stats.energy += 1;
+      }
     }
   };
 
