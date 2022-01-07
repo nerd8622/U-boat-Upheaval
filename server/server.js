@@ -127,6 +127,8 @@ io.on('connection', (sock) => {
         doUpdate(foundSub[1]);
       }
     }
+    gameMgr.giveEnergy();
+    updateAll();
   });
   sock.on('player-attack', (message) => {
     let attack = makeAttack(message);
