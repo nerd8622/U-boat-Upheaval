@@ -149,7 +149,7 @@ const makeGame = (canvas, xCells, yCells) => {
       ctx.lineTo(i*xSize, yCells*ySize);
     }
     for (let i = 0; i < yCells + 1; i++) {
-      console.log(`test: {i}`);
+      console.log('test: ' + i);
       ctx.fillText(String.fromCharCode(65+i), xSize, ySize*(i));
       ctx.moveTo(0, i*ySize);
       ctx.lineTo(xCells*xSize, i*ySize);
