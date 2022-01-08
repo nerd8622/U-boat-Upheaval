@@ -71,9 +71,10 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const xSize = Math.floor(canvas.width/xCells);
   const ySize = Math.floor(canvas.height/yCells);
+
   let boardmarkings = [];
-  for (let i=0, i<yCells; i++){boardmarkings.push(String.fromCharCode(65+i));}
-  for (let i=0, i<xCells; i++){boardmarkings.push(i.toString());}
+  for (i=0, i<yCells; i++){boardmarkings.push(String.fromCharCode(65+i));}
+  for (i=0, i<xCells; i++){boardmarkings.push(i.toString());}
 
   const submarine_img = new Sprite(50, 50, '/img/submarine.png');
   const submerged_img = new Sprite(50, 50, '/img/submarine_submerged.png');
