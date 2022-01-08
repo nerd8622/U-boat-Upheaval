@@ -132,7 +132,7 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const createTiles = () => {
     for (let i = 0; i < yCells; i++){
-      fillText(boardmarkings[i], xSize*0.7, ySize*(i-0.7);
+      fillText(boardmarkings[i], xSize*0.7, ySize*(i-0.7));
       for (let j = 0; j < xCells; j++){
         if (i == 0) {fillText(boardmarkings[yCells+j], xSize*(j-0.7), ySize*0.7);}
         if (board[i][j] == 1){island_1.draw(j*xSize, i*ySize);}
