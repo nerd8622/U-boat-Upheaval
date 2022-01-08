@@ -58,7 +58,7 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const imageDraw = (pos_x, pos_y) => {
     this.src = '/img/submarine.png';
-    this.onload = () = {
+    this.onload = () => {
       ctx.drawImage(this, pos_x + this.width/2, pos_y + this.height/2, this.width, this.height);
     };
   };
