@@ -57,13 +57,12 @@ const makeGame = (canvas, xCells, yCells) => {
   let sleng = ySize*.75/2, swidt = xSize*.5/2;
 
   const imageDraw = (pos_x, pos_y) => {
-    ctx.drawImage(this, pos_x + this.width/2, pos_y + this.height/2, this.width, this.height);
+    const submarine_img = new Image(50,50);
+    submarine_img.src = '/img/submarine.png';
+    submarine_img.onload = () ={
+      ctx.drawImage(this, pos_x + this.width/2, pos_y + this.height/2, this.width, this.height);
+    }
   };
-
-  const submarine_img = new Image(50,50);
-  submarine_img.src = '/img/submarine.png';
-  submarine_img.draw = imageDraw;
-
 
   const clear = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -149,7 +148,7 @@ const makeGame = (canvas, xCells, yCells) => {
     //ctx.fillStyle = '#232323';
     //if (isMe) {ctx.fillStyle = '#5c5c5c'};
     //ctx.beginPath();
-    submarine_img.draw(x, y);
+    imageDraw(x, y);
     //ctx.ellipse(x*ySize + ySize/2, y*xSize + xSize/2, sleng, swidt, 0, 0, 2 * Math.PI);
     //ctx.fill();
   };
