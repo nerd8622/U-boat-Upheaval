@@ -71,14 +71,17 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const xSize = Math.floor(canvas.width/xCells);
   const ySize = Math.floor(canvas.height/yCells);
+  let boardmarkings = [];
+  for (let i=0, i<yCells; i++){boardmarkings.push(String.fromCharCode(65+i));}
+  for (let i=0, i<xCells; i++){boardmarkings.push(i.toString());}
 
-  submarine_img = new Sprite(50, 50, '/img/submarine.png');
-  submerged_img = new Sprite(50, 50, '/img/submarine_submerged.png');
-  move_out_img = new Sprite(50, 50, '/img/move_outline.png');
-  attk_out_img = new Sprite(50, 50, '/img/attack_outline.png');
+  const submarine_img = new Sprite(50, 50, '/img/submarine.png');
+  const submerged_img = new Sprite(50, 50, '/img/submarine_submerged.png');
+  const move_out_img = new Sprite(50, 50, '/img/move_outline.png');
+  const attk_out_img = new Sprite(50, 50, '/img/attack_outline.png');
 
-  water = new Sprite(50,50, 'img/water.png');
-  island_1 = new Sprite(50, 50, '/img/island_1.png');
+  const water = new Sprite(50,50, 'img/water.png');
+  const island_1 = new Sprite(50, 50, '/img/island_1.png');
 
   const clear = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -128,16 +131,12 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const createTiles = () => {
     for (let i = 0; i < yCells; i++){
+      fillText(boardmarkings[i], xSize*0.7, ySize*(i-0.7);
       for (let j = 0; j < xCells; j++){
-        if (board[i][j] == 1){
-          //ctx.fillStyle = '#C2B280';
-          island_1.draw(j*xSize, i*ySize);
-        }
-        else {
-          water.draw(j*xSize, i*ySize);
-          //ctx.fillStyle = '#006994';
-          //ctx.fillRect(j*xSize, i*ySize, xSize, ySize);
-        }
+        if (i == 0) {fillText(boardmarkings[yCells+j], xSize*(j-0.7), ySize*0.7);}
+        if (board[i][j] == 1){island_1.draw(j*xSize, i*ySize);}
+        else {water.draw(j*xSize, i*ySize);}
+
       }
     }
   };
