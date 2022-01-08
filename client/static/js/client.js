@@ -74,6 +74,8 @@ const makeGame = (canvas, xCells, yCells) => {
   let sleng = ySize*.75/2, swidt = xSize*.5/2;
 
   submarine_img = new Sprite(50, 50, '/img/submarine.png');
+  move_out_img = new Sprite(50, 50, '/img/move_outline.png');
+  attk_out_img = new Sprite(50, 50, 'img/attack_outline.png');
 
   const clear = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -94,8 +96,12 @@ const makeGame = (canvas, xCells, yCells) => {
       ctx.lineTo(x, y+ySize);
       ctx.lineTo(x, y);
     } else if (type == 'ship'){
-      if (mode == 'attack'){ ctx.strokeStyle = '#FF2424'; }
-      ctx.ellipse(x + ySize/2, y + xSize/2, sleng, swidt, 0, 0, 2 * Math.PI);
+      if (mode == 'attack'){
+        //ctx.strokeStyle = '#FF2424';
+        attk_out_img.draw(x, y);
+      }
+      move_out_img.draw(x, y);
+      //ctx.ellipse(x + ySize/2, y + xSize/2, sleng, swidt, 0, 0, 2 * Math.PI);
     }
     ctx.stroke();
   };
