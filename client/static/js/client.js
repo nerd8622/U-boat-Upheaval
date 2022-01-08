@@ -80,8 +80,8 @@ const makeGame = (canvas, xCells, yCells) => {
   const move_out_img = new Sprite(50, 50, '/img/move_outline.png');
   const attk_out_img = new Sprite(50, 50, '/img/attack_outline.png');
 
-  //const water = new Sprite(50,50, '/img/water.png');
-  const water = new Sprite(50, 50, '/img/anbot.png');
+  const water = new Sprite(50,50, '/img/water.png');
+  //const water = new Sprite(50, 50, '/img/anbot.png');
   const island_1 = new Sprite(50, 50, '/img/island_1.png');
 
   const clear = () => {
