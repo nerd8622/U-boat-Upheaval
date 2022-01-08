@@ -59,11 +59,11 @@ const makeGame = (canvas, xCells, yCells) => {
     }
     draw(pos_x, pos_y){
       if (this.complete){
-        ctx.drawImage(this, pos_x + this.width/2, pos_y + this.height/2, this.width, this.height);
+        ctx.drawImage(this, pos_x, pos_y, this.width, this.height);
       }
       else {
         this.onload = () => {
-          ctx.drawImage(this, pos_x + this.width/2, pos_y + this.height/2, this.width, this.height);
+          ctx.drawImage(this, pos_x, pos_y, this.width, this.height);
         };
       }
     }
