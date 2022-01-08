@@ -77,6 +77,7 @@ const makeGame = (canvas, xCells, yCells) => {
   move_out_img = new Sprite(50, 50, '/img/move_outline.png');
   attk_out_img = new Sprite(50, 50, '/img/attack_outline.png');
 
+  water = new Sprite(50,50, 'img/water.png');
   island_1 = new Sprite(50, 50, '/img/island_1.png');
 
   const clear = () => {
@@ -133,8 +134,9 @@ const makeGame = (canvas, xCells, yCells) => {
           island_1.draw(j*xSize, i*ySize);
         }
         else {
-          ctx.fillStyle = '#006994';
-          ctx.fillRect(j*xSize, i*ySize, xSize, ySize);
+          water.draw(j*xSize, i*ySize);
+          //ctx.fillStyle = '#006994';
+          //ctx.fillRect(j*xSize, i*ySize, xSize, ySize);
         }
       }
     }
