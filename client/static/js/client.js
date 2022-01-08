@@ -77,6 +77,8 @@ const makeGame = (canvas, xCells, yCells) => {
   move_out_img = new Sprite(50, 50, '/img/move_outline.png');
   attk_out_img = new Sprite(50, 50, '/img/attack_outline.png');
 
+  island_1 = new Sprite(50, 50, '/img/island_1');
+
   const clear = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
@@ -97,10 +99,8 @@ const makeGame = (canvas, xCells, yCells) => {
       ctx.lineTo(x, y);
       ctx.stroke();
     } else if (type == 'ship'){
-      if (mode == 'attack'){
-        attk_out_img.draw(x, y);
-      }
-      move_out_img.draw(x, y);
+      if (mode == 'attack'){attk_out_img.draw(x, y);}
+      else {move_out_img.draw(x, y);}
     }
 
   };
@@ -128,9 +128,14 @@ const makeGame = (canvas, xCells, yCells) => {
   const createTiles = () => {
     for (let i = 0; i < yCells; i++){
       for (let j = 0; j < xCells; j++){
-        if (board[i][j] == 1){ctx.fillStyle = '#C2B280';}
-        else {ctx.fillStyle = '#006994';}
-        ctx.fillRect(j*xSize, i*ySize, xSize, ySize);
+        if (board[i][j] == 1){
+          //ctx.fillStyle = '#C2B280';
+          island_1.draw(j*xSize, i*ySize);
+        }
+        else {
+          ctx.fillStyle = '#006994';
+          ctx.fillRect(j*xSize, i*ySize, xSize, ySize);
+        }
       }
     }
   };
