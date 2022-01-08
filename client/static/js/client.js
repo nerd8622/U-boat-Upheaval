@@ -56,14 +56,15 @@ const makeGame = (canvas, xCells, yCells) => {
   const ySize = Math.floor(canvas.height/yCells);
   let sleng = ySize*.75/2, swidt = xSize*.5/2;
 
-  const imageDraw = (pos_x, pos_y) => {
-    this.src = '/img/submarine.png';
-    this.onload = () => {
-      ctx.drawImage(this, pos_x + this.width/2, pos_y + this.height/2, this.width, this.height);
-    };
+  const loadImage = (url, x=50, y=50) => {
+    return new Promise(r => { let i = new Image(x, y); i.onload = (() => r(i)); i.src = url; });
   };
 
-  const submarine_img = new Image(50,50);
+  const imageDraw = (pos_x, pos_y) => {
+    ctx.drawImage(this, pos_x + this.width/2, pos_y + this.height/2, this.width, this.height);
+  };
+
+  const submarine_img = await loadImage('/img/submarine.png');
   submarine_img.draw = imageDraw;
 
   const clear = () => {
