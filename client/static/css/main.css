@@ -4,13 +4,13 @@
   border: 2px solid;
   border-radius: 8px;
   margin: 10px auto;
-  width: 50%;
+  width: calc(1*1100px);
   padding: 12px;
 }
 
 #canvas {
-  width: calc(1.5*1100);
-  height: calc(1.5*600);
+  width: calc(1*1100px);
+  height: calc(1*600px);
   image-rendering: pixelated;
 }
 
