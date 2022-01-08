@@ -46,42 +46,47 @@ const getClickCoordinates = (element, event) => {
   };
 };
 
-const makeGame = (canvas, xCells, yCells) => {
+class Sprite extends Image{
+  constructor(xSize, ySize, src) {
+    super(xSize, ySize);
+    this.src = src;
+  }
+  draw(pos_x, pos_y){
+    if (this.complete){
+      ctx.drawImage(this, pos_x, pos_y, this.width, this.height);
+    }
+    else {
+      this.onload = () => {
+        ctx.drawImage(this, pos_x, pos_y, this.width, this.height);
+      };
+    }
+  }
+}
+
+const makeSprites = () => {
+  let sprites = {};
+
+  sprites.submarine_img = new Sprite(50, 50, '/img/submarine.png');
+  sprites.submerged_img = new Sprite(50, 50, '/img/submarine_submerged.png');
+  sprites.move_out_img = new Sprite(50, 50, '/img/move_outline.png');
+  sprites.attk_out_img = new Sprite(50, 50, '/img/attack_outline.png');
+
+  sprites.water = new Sprite(50,50, 'img/water.png');
+  sprites.island_1 = new Sprite(50, 50, '/img/island_1.png');
+
+  return sprites;
+}
+
+const makeGame = (canvas, xCells, yCells, sprites) => {
   let ctx = canvas.getContext('2d');
   let scale = 1;
   let board, gameState;
   let subSelected = false;
 
-  class Sprite extends Image{
-    constructor(xSize, ySize, src) {
-      super(xSize, ySize);
-      this.src = src;
-    }
-    draw(pos_x, pos_y){
-      if (this.complete){
-        ctx.drawImage(this, pos_x, pos_y, this.width, this.height);
-      }
-      else {
-        this.onload = () => {
-          ctx.drawImage(this, pos_x, pos_y, this.width, this.height);
-        };
-      }
-    }
-  }
-
   const xSize = Math.floor(canvas.width/xCells);
   const ySize = Math.floor(canvas.height/yCells);
 
   let boardmarkings = [];
-
-
-  const submarine_img = new Sprite(50, 50, '/img/submarine.png');
-  const submerged_img = new Sprite(50, 50, '/img/submarine_submerged.png');
-  const move_out_img = new Sprite(50, 50, '/img/move_outline.png');
-  const attk_out_img = new Sprite(50, 50, '/img/attack_outline.png');
-
-  const water = new Sprite(50,50, 'img/water.png');
-  const island_1 = new Sprite(50, 50, '/img/island_1.png');
 
   const clear = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -103,8 +108,8 @@ const makeGame = (canvas, xCells, yCells) => {
       ctx.lineTo(x, y);
       ctx.stroke();
     } else if (type == 'ship'){
-      if (mode == 'attack'){attk_out_img.draw(x, y);}
-      else {move_out_img.draw(x, y);}
+      if (mode == 'attack'){sprites.attk_out_img.draw(x, y);}
+      else {sprites.move_out_img.draw(x, y);}
     }
 
   };
@@ -132,25 +137,25 @@ const makeGame = (canvas, xCells, yCells) => {
   const createTiles = () => {
     for (let i = 0; i < yCells; i++){
       for (let j = 0; j < xCells; j++){
-        if (board[i][j] == 1){island_1.draw(j*xSize, i*ySize);}
-        else {water.draw(j*xSize, i*ySize);}
+        if (board[i][j] == 1){sprites.island_1.draw(j*xSize, i*ySize);}
+        else {sprites.water.draw(j*xSize, i*ySize);}
       }
     }
   };
 
   const createGrid = () => {
-    ctx.strokeStyle = '#1F1F1FF1';
+    ctx.strokeStyle = '#1F1F1FCC';
     ctx.font = '20px serif';
     ctx.lineWidth = 1;
     ctx.beginPath();
     for (let i = 0; i < xCells + 1; i++) {
-      ctx.fillText((i+1).toString(), xSize*(i+0.5), ySize*0.7);
+      ctx.fillText((i+1).toString(), xSize*(i+0.6), ySize*0.8);
       ctx.moveTo(i*xSize, 0);
       ctx.lineTo(i*xSize, yCells*ySize);
     }
     for (let i = 0; i < yCells + 1; i++) {
       console.log('test: ' + i);
-      ctx.fillText(String.fromCharCode(65+i), xSize*0.5, ySize*(i+0.7));
+      ctx.fillText(String.fromCharCode(65+i), xSize*0.6, ySize*(i+0.8));
       ctx.moveTo(0, i*ySize);
       ctx.lineTo(xCells*xSize, i*ySize);
     }
@@ -168,7 +173,7 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const createSub = ([x, y], isMe=false) => {
-    submarine_img.draw((x*ySize)|0, (y*xSize)|0);
+    sprites.submarine_img.draw((x*ySize)|0, (y*xSize)|0);
     if (!isMe) {/* Draw Mask */};
   };
 
@@ -210,7 +215,7 @@ const makeGame = (canvas, xCells, yCells) => {
 (() => {
   const sock = io();
   const canvas = document.querySelector('canvas');
-  const { getCell, setBoard, gameUpdate, zoom } = makeGame(canvas, 22, 12);
+  const { getCell, setBoard, gameUpdate, zoom } = makeGame(canvas, 22, 12, makeSprites());
 
   const onClick = (e) => {
     const { x, y } = getClickCoordinates(canvas, e);
