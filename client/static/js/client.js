@@ -60,6 +60,7 @@ const makeGame = (canvas, xCells, yCells) => {
     const submarine_img = new Image(50,50);
     submarine_img.src = '/img/submarine.png';
     submarine_img.onload = () => {
+      console.log(this);
       ctx.drawImage(this, pos_x + this.width/2, pos_y + this.height/2, this.width, this.height);
     }
   };
