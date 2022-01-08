@@ -71,9 +71,9 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const xSize = Math.floor(canvas.width/xCells);
   const ySize = Math.floor(canvas.height/yCells);
-  let sleng = ySize*.75/2, swidt = xSize*.5/2;
 
   submarine_img = new Sprite(50, 50, '/img/submarine.png');
+  submerged_img = new Sprite(50, 50, '/img/submarine_submerged.png');
   move_out_img = new Sprite(50, 50, '/img/move_outline.png');
   attk_out_img = new Sprite(50, 50, '/img/attack_outline.png');
 
@@ -86,24 +86,23 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const highlightCell = (x, y, type='full', mode='move') => {
-    ctx.strokeStyle = '#FACE3E';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
     if (type == 'full'){
+      ctx.strokeStyle = '#FACE3E';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
       ctx.moveTo(x, y);
       ctx.lineTo(x+xSize, y);
       ctx.lineTo(x+xSize, y+ySize);
       ctx.lineTo(x, y+ySize);
       ctx.lineTo(x, y);
+      ctx.stroke();
     } else if (type == 'ship'){
       if (mode == 'attack'){
-        //ctx.strokeStyle = '#FF2424';
         attk_out_img.draw(x, y);
       }
       move_out_img.draw(x, y);
-      //ctx.ellipse(x + ySize/2, y + xSize/2, sleng, swidt, 0, 0, 2 * Math.PI);
     }
-    ctx.stroke();
+
   };
 
   const selectCell = (x, y) => {
@@ -162,12 +161,8 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const createSub = ([x, y], isMe=false) => {
-    //ctx.fillStyle = '#232323';
-    //if (isMe) {ctx.fillStyle = '#5c5c5c'};
-    //ctx.beginPath();
     submarine_img.draw((x*ySize)|0, (y*xSize)|0);
-    //ctx.ellipse(x*ySize + ySize/2, y*xSize + xSize/2, sleng, swidt, 0, 0, 2 * Math.PI);
-    //ctx.fill();
+    if (!isMe) {/* Draw Mask */};
   };
 
   const genSubs = () => {
