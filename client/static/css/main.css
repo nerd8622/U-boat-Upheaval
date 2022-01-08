@@ -42,3 +42,11 @@
 #message-box{
   width: 100%;
 }
+
+@media (min-width:calc(1.1*2*1100px) and min-height:calc(1.5*2*600px)) {
+  .chat, .game{ width: calc(2*1100px);}
+  #canvas {
+    width: calc(2*1100px);
+    height: calc(2*600px);
+  }
+}
