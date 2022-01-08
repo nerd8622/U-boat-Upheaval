@@ -77,7 +77,7 @@ const makeGame = (canvas, xCells, yCells) => {
   move_out_img = new Sprite(50, 50, '/img/move_outline.png');
   attk_out_img = new Sprite(50, 50, '/img/attack_outline.png');
 
-  island_1 = new Sprite(50, 50, '/img/island_1');
+  island_1 = new Sprite(50, 50, '/img/island_1.png');
 
   const clear = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
