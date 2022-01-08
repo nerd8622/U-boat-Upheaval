@@ -8,7 +8,10 @@
   padding: 12px;
 }
 
-#canvas {width: 100%}
+#canvas {
+  width: 100%;
+  image-rendering: pixelated;
+}
 
 #messages{
   height: 22vh;

@@ -75,7 +75,7 @@ const makeGame = (canvas, xCells, yCells) => {
 
   submarine_img = new Sprite(50, 50, '/img/submarine.png');
   move_out_img = new Sprite(50, 50, '/img/move_outline.png');
-  attk_out_img = new Sprite(50, 50, 'img/attack_outline.png');
+  attk_out_img = new Sprite(50, 50, '/img/attack_outline.png');
 
   const clear = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
