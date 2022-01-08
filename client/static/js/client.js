@@ -158,7 +158,7 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.stroke();
   };
 
-  const createUI = ([x,y]]) => {
+  const createUI = ([x,y]) => {
     if (true){
     ctx.fillStyle = '#EBEBEB60';
     ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2, canvas.height*0.05);
