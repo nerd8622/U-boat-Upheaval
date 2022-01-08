@@ -52,18 +52,28 @@ const makeGame = (canvas, xCells, yCells) => {
   let board, gameState;
   let subSelected = false;
 
+  class Sprite extends Image{
+    constructor(xSize, ySize, src) {
+      super(xSize, ySize);
+      this.src = src;
+    }
+    draw(pos_x, pos_y){
+      if (this.complete){
+        ctx.drawImage(this, pos_x + this.width/2, pos_y + this.height/2, this.width, this.height);
+      }
+      else {
+        this.onload = () => {
+          ctx.drawImage(this, pos_x + this.width/2, pos_y + this.height/2, this.width, this.height);
+        };
+      }
+    }
+  }
+
   const xSize = Math.floor(canvas.width/xCells);
   const ySize = Math.floor(canvas.height/yCells);
   let sleng = ySize*.75/2, swidt = xSize*.5/2;
 
-  const imageDraw = (pos_x, pos_y) => {
-    const submarine_img = new Image(50,50);
-    submarine_img.src = '/img/submarine.png';
-    submarine_img.onload = () => {
-      console.log(this);
-      ctx.drawImage(this, pos_x + this.width/2, pos_y + this.height/2, this.width, this.height);
-    }
-  };
+  submarine_img = new Sprite(50, 50, '/img/submarine.png');
 
   const clear = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -149,7 +159,7 @@ const makeGame = (canvas, xCells, yCells) => {
     //ctx.fillStyle = '#232323';
     //if (isMe) {ctx.fillStyle = '#5c5c5c'};
     //ctx.beginPath();
-    imageDraw(x, y);
+    submarine_img.draw(x, y);
     //ctx.ellipse(x*ySize + ySize/2, y*xSize + xSize/2, sleng, swidt, 0, 0, 2 * Math.PI);
     //ctx.fill();
   };
