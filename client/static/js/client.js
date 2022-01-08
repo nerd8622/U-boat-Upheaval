@@ -168,9 +168,9 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.fillStyle = '#5EFFEF60';
     ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2*(gameState.stats.oxygen/5), canvas.height*0.05);
     }
-    if (subSelected){
+    if (false){
       ctx.fillStyle = '#3B3A38';
-      ctx.fillRect(x, y, x+80, y+120);
+      ctx.fillRect(x*xSize, y*ySize, x*xSize+80, y*ySize+120);
     }
   };
 
