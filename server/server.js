@@ -96,7 +96,7 @@ app.get('/', (req, res) => {
 
 io.on('connection', (sock) => {
   const username = sock.request.session.username;
-  if (!username) {break;}
+  if (!username) {return;}
   let savedPlr = players.get(username);
   let color;
   if (savedPlr){
