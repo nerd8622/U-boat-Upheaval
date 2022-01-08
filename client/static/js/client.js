@@ -144,12 +144,12 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.lineWidth = 1;
     ctx.beginPath();
     for (let i = 0; i < xCells + 1; i++) {
-      ctx.fillText((i+1).toString(), xSize*(i), ySize*0.85);
+      ctx.fillText((i+1).toString(), xSize*(i), ySize);
       ctx.moveTo(i*xSize, 0);
       ctx.lineTo(i*xSize, yCells*ySize);
     }
     for (let i = 0; i < yCells + 1; i++) {
-      ctx.fillText(String.fromCharCode(65+i), xSize*0.85, ySize*(i));
+      ctx.fillText(String.fromCharCode(65+i), xSize, ySize*(i));
       ctx.moveTo(0, i*ySize);
       ctx.lineTo(xCells*xSize, i*ySize);
     }
