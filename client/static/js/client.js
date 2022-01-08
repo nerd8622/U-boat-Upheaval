@@ -62,9 +62,9 @@ const makeGame = (canvas, xCells, yCells) => {
         ctx.drawImage(this, pos_x, pos_y, this.width, this.height);
       }
       else {
-        this.onload = () => {
+        this.addEventListener("load", (event) => {
           ctx.drawImage(this, pos_x, pos_y, this.width, this.height);
-        };
+        });
       }
     }
   }
