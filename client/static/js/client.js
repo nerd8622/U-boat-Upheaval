@@ -148,7 +148,7 @@ const makeGame = (canvas, xCells, yCells) => {
     //ctx.fillStyle = '#232323';
     //if (isMe) {ctx.fillStyle = '#5c5c5c'};
     //ctx.beginPath();
-    submarine_img.draw();
+    submarine_img.draw(y, x);
     //ctx.ellipse(x*ySize + ySize/2, y*xSize + xSize/2, sleng, swidt, 0, 0, 2 * Math.PI);
     //ctx.fill();
   };
