@@ -139,7 +139,8 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const createGrid = () => {
-    ctx.strokeStyle = ctx.fillStyle = '#1F1F1F99';
+    ctx.strokeStyle = '#1F1F1F99';
+    ctx.fillStyle = '#1F1F1F99';
     ctx.font = '20px serif';
     ctx.lineWidth = 1;
     ctx.beginPath();
