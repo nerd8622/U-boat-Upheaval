@@ -134,9 +134,9 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.fillStyle = '#1F1F1F';
     ctx.font = '20px serif';
     for (let i = 0; i < yCells; i++){
-      ctx.fillText(boardmarkings[i], xSize*0.7, ySize*(i-0.7));
+      ctx.fillText(boardmarkings[i], xSize*0.85, ySize*(i+0.85));
       for (let j = 0; j < xCells; j++){
-        if (i == 0) {ctx.fillText(boardmarkings[yCells+j], xSize*(j-0.7), ySize*0.7);}
+        if (i == 0) {ctx.fillText(boardmarkings[yCells+j], xSize*(j-0.85), ySize*0.85);}
         if (board[i][j] == 1){island_1.draw(j*xSize, i*ySize);}
         else {water.draw(j*xSize, i*ySize);}
 
