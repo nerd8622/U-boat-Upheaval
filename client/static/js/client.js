@@ -73,8 +73,7 @@ const makeGame = (canvas, xCells, yCells) => {
   const ySize = Math.floor(canvas.height/yCells);
 
   let boardmarkings = [];
-  for (let i=0; i<yCells; i++){boardmarkings.push(String.fromCharCode(65+i));}
-  for (let i=0; i<xCells; i++){boardmarkings.push(i.toString());}
+
 
   const submarine_img = new Sprite(50, 50, '/img/submarine.png');
   const submerged_img = new Sprite(50, 50, '/img/submarine_submerged.png');
@@ -131,28 +130,26 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const createTiles = () => {
-    ctx.fillStyle = '#1F1F1F';
-    ctx.font = '20px serif';
     for (let i = 0; i < yCells; i++){
-      ctx.fillText(boardmarkings[i], xSize*0.85, ySize*(i+0.85));
       for (let j = 0; j < xCells; j++){
-        if (i == 0) {ctx.fillText(boardmarkings[yCells+j], xSize*(j-0.85), ySize*0.85);}
         if (board[i][j] == 1){island_1.draw(j*xSize, i*ySize);}
         else {water.draw(j*xSize, i*ySize);}
-
       }
     }
   };
 
   const createGrid = () => {
     ctx.strokeStyle = '#1F1F1F';
+    ctx.font = '20px serif';
     ctx.lineWidth = 1;
     ctx.beginPath();
     for (let i = 0; i < xCells + 1; i++) {
+      ctx.fillText(i.toString(), xSize*(j+0.85), ySize*0.85);
       ctx.moveTo(i*xSize, 0);
       ctx.lineTo(i*xSize, yCells*ySize);
     }
     for (let i = 0; i < yCells + 1; i++) {
+      ctx.fillText(String.fromCharCode(65+i), xSize*0.85, ySize*(i-0.85));
       ctx.moveTo(0, i*ySize);
       ctx.lineTo(xCells*xSize, i*ySize);
     }
