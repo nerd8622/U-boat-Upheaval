@@ -79,7 +79,7 @@ const game = (xNum, yNum) => {
       nlist = [...new Set(nlist.concat(data.neighbors))];
       for (n of nlist) {
         let nx = n[0][0], ny = n[0][1];
-        playerPos[nx][ny].neighbors = scan(nx, ny, 1);
+        playersPos[nx][ny].neighbors = scan(nx, ny, 1);
       }
       data.stats.energy -= 1;
       return nlist.concat([[pos, data.id]]);
