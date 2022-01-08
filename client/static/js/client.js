@@ -151,7 +151,6 @@ const makeGame = (canvas, xCells, yCells) => {
       ctx.lineTo(i*xSize, yCells*ySize);
     }
     for (let i = 0; i < yCells + 1; i++) {
-      console.log('test: ' + i);
       ctx.fillText(String.fromCharCode(65+i), xSize*0.6, ySize*(i+0.8));
       ctx.moveTo(0, i*ySize);
       ctx.lineTo(xCells*xSize, i*ySize);
@@ -159,7 +158,8 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.stroke();
   };
 
-  const createUI = () => {
+  const createUI = ([x,y]]) => {
+    if (true){
     ctx.fillStyle = '#EBEBEB60';
     ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2, canvas.height*0.05);
     ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2, canvas.height*0.05);
@@ -167,6 +167,11 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2*(gameState.stats.energy/5), canvas.height*0.05);
     ctx.fillStyle = '#5EFFEF60';
     ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2*(gameState.stats.oxygen/5), canvas.height*0.05);
+    }
+    if (subSelected){
+      ctx.fillStyle = '#3B3A38';
+      ctx.fillRect(x, y, x+80, y+120);
+    }
   };
 
   const createSub = ([x, y], isMe=false) => {
@@ -188,7 +193,7 @@ const makeGame = (canvas, xCells, yCells) => {
     clear();
     createTiles();
     createGrid();
-    createUI();
+    createUI(gameState.pos);
     genSubs();
   };
 

@@ -35,7 +35,7 @@ io.use((socket, next) => {sessionMiddleware(socket.request, {}, next);});
 const gameMgr = game(22, 12);
 let players = new Map();
 const doUpdate = (id) => {
-  console.log(`updating: ${id}`, gameMgr.getUpdate(id));
+  //console.log(`updating: ${id}`, gameMgr.getUpdate(id));
   players.get(id).sock.emit('game-update', gameMgr.getUpdate(id));
 };
 const updateAll = () => {
