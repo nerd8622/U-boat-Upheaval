@@ -107,14 +107,20 @@ const makeGame = (canvas, xCells, yCells) => {
       if (mode == 'attack'){attk_out_img.draw(x, y);}
       else {move_out_img.draw(x, y);}
       if (true){
-        ctx.fillStyle = '#3B3A38CC';
         const xst = (x+0.8*xSize)|0;
         const yst = (y+0.4*ySize)|0;
+        ctx.fillStyle = '#3B3A38CC';
         ctx.fillRect(xst, yst, 80, 130);
-        ctx.fillStyle = '#FA3A38CC';
+        ctx.fillStyle = '#D3F731C0';
         ctx.fillRect(xst+5, yst+5, 70, 40);
-        ctx.fillRect(xst+5, yst+45, 70, 30);
-        ctx.fillRect(xst+5, yst+85, 70, 30);
+        ctx.fillStyle = '#32BDD9C0';
+        ctx.fillRect(xst+5, yst+50, 70, 30);
+        ctx.fillStyle = '#FA3A38C0';
+        ctx.fillRect(xst+5, yst+90, 70, 30);
+        ctx.fillStyle = '#BEC3C4CC';
+        ctx.fillText("Move", xst+5, yst+5);
+        ctx.fillText("Submerge", xst+5, yst+50);
+        ctx.fillText("Attack", xst+5, yst+90);
       }
     }
 
