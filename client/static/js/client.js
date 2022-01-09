@@ -125,10 +125,10 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const subMenuButton = (xst, yst, ax, ay) => {
-    if (ax>=xst+5 && ax<=xst+155) {
-      if (ay>=yst+5 && ay<=yst+40){return 1;}
-      else if (ay>=yst+45 && ay<=yst+80){return 2;}
-      else if (ay>=yst+85 && ay<=yst+120){return 3;}
+    if (ax >= xst+5 && ax <= xst+155) {
+      if (ay >= yst+5 && ay <= yst+40){return 1;}
+      if (ay >= yst+45 && ay <= yst+80){return 2;}
+      if (ay >= yst+85 && ay <= yst+120){return 3;}
     }
     return 0;
   };
@@ -146,19 +146,20 @@ const makeGame = (canvas, xCells, yCells) => {
       let button = subMenuButton(xst, yst, ax, ay);
       switch (button){
         case 1:
-          subSelected = 2; break;
-        case 2:
+          subSelected = 2;
+          highlightCell(xh, yh, 'ship');
           break;
+//        case 2:
+//          break;
         case 3:
-          subSelected = 3; break;
+          subSelected = 3;
+          highlightCell(xh, yh, 'ship', 'attack');
+          break;
       }
     }
     else if (subSelected == 2){
       subSelected = false;
       if (posAvailable(x, y, 1)){return [[x, y], 'move'];}
-      if (gameState.pos[0] == x && gameState.pos[1] == y) {
-        highlightCell(xh, yh, 'ship', 'attack');
-        subSelected = 2;
       }
     } else if (subSelected == 3){
       subSelected = false;
