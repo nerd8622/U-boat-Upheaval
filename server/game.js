@@ -39,7 +39,7 @@ const game = (xNum, yNum) => {
         pos = [Math.round(Math.random() * xNum), Math.round(Math.random() * yNum)];
         if (board[pos[1]][pos[0]] == 0 && !playersPos[pos[0]][pos[1]]) {
           valid = 1;
-          data = {id: id, pos: pos, stats:{health: 3, energy: 5, oxygen: 5}, neighbors: [], visible: [], hit: false};
+          data = {id: id, pos: pos, stats:{health: 3, energy: 5, oxygen: 5}, neighbors: [], scans: [], visible: [], submerged=false, hit: false};
           playersPos[pos[0]][pos[1]] = data;
           players.set(id, pos);
         }
@@ -81,6 +81,12 @@ const game = (xNum, yNum) => {
         let nx = n[0][0], ny = n[0][1];
         playersPos[nx][ny].neighbors = scan(nx, ny, 1);
       }
+      let slist = data.scans;
+      data.scans = [];
+      for (s of slist) {
+        let sx = s[0][0], sy = s[0][1];
+        if (Math.abs(sx - x) > 1 && Math.abs(sy - y) > 1){data.scans.push(s);}
+      }
       data.stats.energy -= 1;
       return nlist.concat([[pos, data.id]]);
     };
@@ -100,7 +106,13 @@ const game = (xNum, yNum) => {
     const makeScan = () => {
       if (data.stats.energy < 4) {return false;}
       data.stats.energy -= 4;
-      data.neighbors = scan(pos[0], pos[1], 3);
+      data.scans = scan(pos[0], pos[1], 3);
+      return data;
+    };
+
+    const makeSubmerge = (unsubmerge=false) => {
+      if (!unsubmerge && data.stats.oxygen < 1) {return false;}
+      data.submerged = !unsubmerge;
       return data;
     };
 

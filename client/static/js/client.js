@@ -78,6 +78,7 @@ const makeGame = (canvas, xCells, yCells) => {
   const submerged_img = new Sprite(50, 50, '/img/submarine_submerged.png');
   const move_out_img = new Sprite(50, 50, '/img/move_outline.png');
   const attk_out_img = new Sprite(50, 50, '/img/attack_outline.png');
+  const scan_img = new Sprite(50, 50, '/img/scan_mask.png');
 
   const water = new Sprite(50,50, '/img/water.png');
   //const water = new Sprite(50, 50, '/img/anbot.png');
@@ -172,7 +173,7 @@ const makeGame = (canvas, xCells, yCells) => {
     else if (subSelected == 2){
       if (hover) {
         if(Math.abs(gameState.pos[0] - x) <= 1 && Math.abs(gameState.pos[1] - y) <= 1){
-          highlightCell(xh, yh, 'ship', 'attack');} return false;
+          highlightCell(xh, yh, 'ship');} return false;
       }
       subSelected = false;
       if (posAvailable(x, y, 1)){return [[x, y], 'move'];}
@@ -221,12 +222,15 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.stroke();
   };
 
-  const createSub = ([x, y], isMe=false) => {
-    submarine_img.draw((x*ySize)|0, (y*xSize)|0);
-    if (!isMe) {/* Draw Mask */};
+  const createSub = ([x, y], isMe=false, scan=false) => {
+    x = (x*ySize)|0; y = (y*xSize)|0;
+    submarine_img.draw(x, y);
+    if (!isMe) {/* Draw Mask */}
+    if (scan) {scan_img.draw(x, y);}
   };
 
   const genSubs = () => {
+    for (sub of gameState.scans){createSub(sub[0], scan=true);}
     for (sub of gameState.neighbors){createSub(sub[0]);}
     createSub(gameState.pos, true);
   };
