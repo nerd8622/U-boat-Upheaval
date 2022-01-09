@@ -134,7 +134,7 @@ const makeGame = (canvas, xCells, yCells) => {
       }
       return 0;
     };
-    return subMenuButton
+    return subMenuButton;
   };
 
   const selectCell = (ax, ay) => {
@@ -142,17 +142,19 @@ const makeGame = (canvas, xCells, yCells) => {
     const y = Math.floor(ay/xSize);
     const xh = x * ySize;
     const yh = y * xSize;
+    const xm = (gameState.pos[0]*ySize)|0;
+    const ym = (gameState.pos[1]*xSize)|0;
 
     if (subSelected == 1){
       subSelected = false;
       let button = subB(ax, ay);
       if (button == 1){
         subSelected = 2;
-        highlightCell(xh, yh, 'ship');
+        highlightCell(xm, ym, 'ship');
       }
       else if (button == 3){
         subSelected = 3;
-        highlightCell(xh, yh, 'ship', 'attack');
+        highlightCell(xm, ym, 'ship', 'attack');
       }
     }
     else if (subSelected == 2){
@@ -163,7 +165,7 @@ const makeGame = (canvas, xCells, yCells) => {
       if (posAvailable(x, y, 2)){return [[x, y], 'attack'];}
     } else {
       if (gameState.pos[0] == x && gameState.pos[1] == y) {
-        highlightCell(xh, yh, 'ship');
+        highlightCell(xm, ym, 'ship');
         subB = subMenu(xh, yh);
         subSelected = 1;
       } else {highlightCell(xh, yh);}
