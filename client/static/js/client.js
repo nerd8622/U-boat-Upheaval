@@ -171,14 +171,14 @@ const makeGame = (canvas, xCells, yCells) => {
     }
     else if (subSelected == 2){
       if (hover) {
-        if(Math.abs(gameState.pos[0] - xh) <= 1 && Math.abs(gameState.pos[1] - yh) <= 1){
+        if(Math.abs(gameState.pos[0] - x) <= 1 && Math.abs(gameState.pos[1] - y) <= 1){
           highlightCell(xh, yh, 'ship', 'attack');} return false;
       }
       subSelected = false;
       if (posAvailable(x, y, 1)){return [[x, y], 'move'];}
     } else if (subSelected == 3){
       if (hover) {
-        if(Math.abs(gameState.pos[0] - xh) <= 2 && Math.abs(gameState.pos[1] - yh) <= 2){
+        if(Math.abs(gameState.pos[0] - x) <= 2 && Math.abs(gameState.pos[1] - y) <= 2){
           highlightCell(xh, yh, 'ship', 'attack');} return false;
       }
       subSelected = false;
