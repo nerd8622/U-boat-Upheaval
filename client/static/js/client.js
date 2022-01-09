@@ -222,15 +222,15 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.stroke();
   };
 
-  const createSub = ([x, y], isMe=false, scan=false) => {
+  const createSub = ([x, y], isMe=false, holog=false) => {
     x = (x*ySize)|0; y = (y*xSize)|0;
     submarine_img.draw(x, y);
     if (!isMe) {/* Draw Mask */}
-    if (scan) {scan_img.draw(x, y);}
+    if (holog) {scan_img.draw(x, y);}
   };
 
   const genSubs = () => {
-    for (sub of gameState.scans){createSub(sub[0], scan=true);}
+    for (sub of gameState.scans){createSub(sub[0], true, true);}
     for (sub of gameState.neighbors){createSub(sub[0]);}
     createSub(gameState.pos, true);
   };

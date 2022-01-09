@@ -145,7 +145,10 @@ io.on('connection', (sock) => {
   });
   sock.on('player-scan', (message) => {
     let scan = makeScan();
-    sock.emit('game-update', scan);
+    if (scan){
+      sock.emit('game-update', scan);
+    }
+
   });
 });
 
