@@ -85,7 +85,7 @@ const game = (xNum, yNum) => {
       data.scans = [];
       for (s of slist) {
         let sx = s[0][0], sy = s[0][1];
-        if (Math.abs(sx - x) > 1 && Math.abs(sy - y) > 1){data.scans.push(s);}
+        if (Math.abs(sx - x) > 1 || Math.abs(sy - y) > 1){data.scans.push(s);}
       }
       data.stats.energy -= 1;
       return nlist.concat([[pos, data.id]]);
