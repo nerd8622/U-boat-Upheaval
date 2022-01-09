@@ -160,7 +160,6 @@ const makeGame = (canvas, xCells, yCells) => {
     else if (subSelected == 2){
       subSelected = false;
       if (posAvailable(x, y, 1)){return [[x, y], 'move'];}
-      }
     } else if (subSelected == 3){
       subSelected = false;
       if (posAvailable(x, y, 2)){return [[x, y], 'attack'];}
