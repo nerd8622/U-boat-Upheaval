@@ -49,7 +49,7 @@ const game = (xNum, yNum) => {
     }
 
     const validateMove = (x, y, range) => {
-      return  board[y][x] == 0 && Math.abs(pos[0] - x) <= range && Math.abs(pos[1] - y) <= range;
+      return board[y][x] == 0 && Math.abs(pos[0] - x) <= range && Math.abs(pos[1] - y) <= range;
     };
 
     const scan = (x, y, range) => {

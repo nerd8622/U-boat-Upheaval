@@ -167,11 +167,13 @@ const makeGame = (canvas, xCells, yCells) => {
       }
     }
     else if (subSelected == 2){
-      if (hover){highlightCell(xh, yh, 'ship'); return false;}
+      if (hover && Math.abs(gameState.pos[0] - xh) <= 1 && Math.abs(gameState.pos[1] - yh) <= 1){
+        highlightCell(xh, yh, 'ship'); return false;}
       subSelected = false;
       if (posAvailable(x, y, 1)){return [[x, y], 'move'];}
     } else if (subSelected == 3){
-      if (hover){highlightCell(xh, yh, 'ship', 'attack'); return false;}
+      if (hover && Math.abs(gameState.pos[0] - xh) <= 2 && Math.abs(gameState.pos[1] - yh) <= 2){
+        highlightCell(xh, yh, 'ship', 'attack'); return false;}
       subSelected = false;
       if (posAvailable(x, y, 2)){return [[x, y], 'attack'];}
     } else {
