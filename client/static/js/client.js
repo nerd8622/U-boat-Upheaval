@@ -108,7 +108,7 @@ const makeGame = (canvas, xCells, yCells) => {
       else {move_out_img.draw(x, y);}
       if (true){
         ctx.fillStyle = '#3B3A38';
-        ctx.fillRect(x*xSize+10, y*ySize, x*xSize+80, y*ySize+130);
+        ctx.fillRect(x*xSize+10, y*ySize, 80, 130);
       }
     }
 
