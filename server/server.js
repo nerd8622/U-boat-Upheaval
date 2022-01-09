@@ -117,7 +117,7 @@ io.on('connection', (sock) => {
   sock.broadcast.emit('player-join', [username, color]);
   for (plr of players.keys()){
     if (plr != username){
-      sock.emit('player-join', [plr, players[plr].color]);
+      sock.emit('player-join', [plr, players.get(plr).color]);
     }
   }
   sock.on('chat-message', (message) => {
