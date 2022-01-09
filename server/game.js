@@ -96,7 +96,15 @@ const game = (xNum, yNum) => {
         return hitData;
       }
     };
-    return { makeMove, makeAttack };
+
+    const makeScan = () => {
+      if (data.stats.energy < 4) {return false;}
+      data.stats.energy -= 4;
+      data.neighbors = scan(pos[0], pos[1], 3);
+      return data;
+    };
+
+    return { makeMove, makeAttack, makeScan };
   }
 
   const getBoard = () => board;

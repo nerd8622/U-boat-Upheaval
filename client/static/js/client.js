@@ -161,19 +161,26 @@ const makeGame = (canvas, xCells, yCells) => {
         subSelected = 2;
         highlightCell(xm, ym, 'ship');
       }
+      else if (button == 2){
+        return [[], 'scan'];
+      }
       else if (button == 3){
         subSelected = 3;
         highlightCell(xm, ym, 'ship', 'attack');
       }
     }
     else if (subSelected == 2){
-      if (hover && Math.abs(gameState.pos[0] - xh) <= 1 && Math.abs(gameState.pos[1] - yh) <= 1){
-        highlightCell(xh, yh, 'ship'); return false;}
+      if (hover) {
+        if(Math.abs(gameState.pos[0] - xh) <= 1 && Math.abs(gameState.pos[1] - yh) <= 1){
+          highlightCell(xh, yh, 'ship', 'attack');} return false;
+      }
       subSelected = false;
       if (posAvailable(x, y, 1)){return [[x, y], 'move'];}
     } else if (subSelected == 3){
-      if (hover && Math.abs(gameState.pos[0] - xh) <= 2 && Math.abs(gameState.pos[1] - yh) <= 2){
-        highlightCell(xh, yh, 'ship', 'attack'); return false;}
+      if (hover) {
+        if(Math.abs(gameState.pos[0] - xh) <= 2 && Math.abs(gameState.pos[1] - yh) <= 2){
+          highlightCell(xh, yh, 'ship', 'attack');} return false;
+      }
       subSelected = false;
       if (posAvailable(x, y, 2)){return [[x, y], 'attack'];}
     } else {
@@ -267,6 +274,8 @@ const makeGame = (canvas, xCells, yCells) => {
         sock.emit('player-move', pos);
       } else if (mode == 'attack'){
         sock.emit('player-attack', pos);
+      } else if (mode == 'scan'){
+        sock.emit('player-scan', pos);
       }
     }
   };
