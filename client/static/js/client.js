@@ -137,7 +137,7 @@ const makeGame = (canvas, xCells, yCells) => {
     return subMenuButton;
   };
 
-  const selectCell = (ax, ay) => {
+  const selectCell = (ax, ay, hover) => {
     const x = Math.floor(ax/ySize);
     const y = Math.floor(ay/xSize);
     const xh = x * ySize;
@@ -164,7 +164,7 @@ const makeGame = (canvas, xCells, yCells) => {
       subSelected = false;
       if (posAvailable(x, y, 2)){return [[x, y], 'attack'];}
     } else {
-      if (gameState.pos[0] == x && gameState.pos[1] == y) {
+      if (gameState.pos[0] == x && gameState.pos[1] == y && !hover) {
         highlightCell(xm, ym, 'ship');
         subB = subMenu(xh, yh);
         subSelected = 1;
@@ -243,9 +243,9 @@ const makeGame = (canvas, xCells, yCells) => {
     reset();
   };
 
-  const getCell = (x, y) => {
+  const getCell = (x, y, h=false) => {
     reset();
-    return selectCell(x, y);
+    return selectCell(x, y, h);
   };
 
   return { getCell, setBoard, gameUpdate, zoom };
@@ -269,6 +269,11 @@ const makeGame = (canvas, xCells, yCells) => {
     }
   };
 
+  const onMouseMove = (e) => {
+    const { x, y } = getClickCoordinates(canvas, e);
+    getCell(x, y, true);
+  };
+
   sock.on('player-join', addPlayer);
   sock.on('chat-message', displayChat);
   sock.on('chat-message-private', (message) => {displayChat(message, true)});
@@ -276,6 +281,7 @@ const makeGame = (canvas, xCells, yCells) => {
   sock.on('game-update', gameUpdate);
 
   document.querySelector('#chat-form').addEventListener('submit', sendChat(sock));
+  canvas.addEventListener('mousemove', onMouseMove);
   canvas.addEventListener('click', onClick);
   //canvas.addEventListener('wheel', zoom);
 })();
