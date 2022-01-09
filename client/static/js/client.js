@@ -107,8 +107,13 @@ const makeGame = (canvas, xCells, yCells) => {
       if (mode == 'attack'){attk_out_img.draw(x, y);}
       else {move_out_img.draw(x, y);}
       if (true){
-        ctx.fillStyle = '#3B3A38';
-        ctx.fillRect(x+0.8*xSize, y+0.4*ySize, 80, 130);
+        ctx.fillStyle = '#3B3A38CC';
+        let xst, yst = (x+0.8*xSize)|0, (y+0.4*ySize)|0
+        ctx.fillRect(xst, yst, 80, 130);
+        ctx.fillStyle = '#FA3A38CC';
+        ctx.fillRect(xst+5, yst+5, 70, 40);
+        ctx.fillRect(xst+5, yst+45, 70, 30);
+        ctx.fillRect(xst+5, yst+85, 70, 30);
       }
     }
 
@@ -206,7 +211,7 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const getCell = (x, y) => {
     let ax = Math.floor(x/ySize);
-    let ay = Math.floor(y/xSize)
+    let ay = Math.floor(y/xSize);
     reset();
     return selectCell(ax, ay);
   };
