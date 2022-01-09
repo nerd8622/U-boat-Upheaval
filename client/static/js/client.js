@@ -49,7 +49,7 @@ const getClickCoordinates = (element, event) => {
 const makeGame = (canvas, xCells, yCells) => {
   let ctx = canvas.getContext('2d');
   let scale = 1;
-  let board, gameState;
+  let board, gameState, subB;
   let subSelected = false;
 
   class Sprite extends Image{
@@ -109,7 +109,10 @@ const makeGame = (canvas, xCells, yCells) => {
     }
   };
 
-  const subMenu = (xst, yst) => {
+  const subMenu = (xh, yh) => {
+    const xst = (xh + (xh>=880 ? -160 : 0.8*xSize))|0;
+    const yst = (yh + (yh>=430 ? -130 : 0.4*ySize))|0;
+
     ctx.fillStyle = '#3B3A38CC';
     ctx.fillRect(xst, yst, 160, 130);
     ctx.fillStyle = '#D3F731C0';
@@ -122,15 +125,16 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.fillText("Move", xst+8, yst+21);
     ctx.fillText("Submerge", xst+8, yst+61);
     ctx.fillText("Attack", xst+8, yst+101);
-  };
 
-  const subMenuButton = (xst, yst, ax, ay) => {
-    if (ax >= xst+5 && ax <= xst+155) {
-      if (ay >= yst+5 && ay <= yst+40){return 1;}
-      if (ay >= yst+45 && ay <= yst+80){return 2;}
-      if (ay >= yst+85 && ay <= yst+120){return 3;}
-    }
-    return 0;
+    const subMenuButton = (ax, ay) => {
+      if (ax >= xst+5 && ax <= xst+155) {
+        if (ay >= yst+5 && ay <= yst+40){return 1;}
+        if (ay >= yst+45 && ay <= yst+80){return 2;}
+        if (ay >= yst+85 && ay <= yst+120){return 3;}
+      }
+      return 0;
+    };
+    return subMenuButton
   };
 
   const selectCell = (ax, ay) => {
@@ -138,23 +142,17 @@ const makeGame = (canvas, xCells, yCells) => {
     const y = Math.floor(ay/xSize);
     const xh = x * ySize;
     const yh = y * xSize;
-    const xst = (xh + (xh>=880 ? -160 : 0.8*xSize))|0;
-    const yst = (yh + (yh>=430 ? -130 : 0.4*ySize))|0;
 
     if (subSelected == 1){
       subSelected = false;
-      let button = subMenuButton(xst, yst, ax, ay);
-      switch (button){
-        case 1:
-          subSelected = 2;
-          highlightCell(xh, yh, 'ship');
-          break;
-//        case 2:
-//          break;
-        case 3:
-          subSelected = 3;
-          highlightCell(xh, yh, 'ship', 'attack');
-          break;
+      let button = subB(ax, ay);
+      if (button == 1){
+        subSelected = 2;
+        highlightCell(xh, yh, 'ship');
+      }
+      else if (button == 3){
+        subSelected = 3;
+        highlightCell(xh, yh, 'ship', 'attack');
       }
     }
     else if (subSelected == 2){
@@ -166,7 +164,7 @@ const makeGame = (canvas, xCells, yCells) => {
     } else {
       if (gameState.pos[0] == x && gameState.pos[1] == y) {
         highlightCell(xh, yh, 'ship');
-        subMenu(xst, yst);
+        subB = subMenu(xh, yh);
         subSelected = 1;
       } else {highlightCell(xh, yh);}
     }
