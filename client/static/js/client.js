@@ -244,8 +244,10 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const getCell = (x, y, h=false) => {
-    reset();
-    return selectCell(x, y, h);
+    if(!h || !subSelected){
+      reset();
+      return selectCell(x, y, h);
+    }
   };
 
   return { getCell, setBoard, gameUpdate, zoom };
