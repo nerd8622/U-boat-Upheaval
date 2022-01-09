@@ -110,17 +110,17 @@ const makeGame = (canvas, xCells, yCells) => {
         const xst = (x+0.8*xSize)|0;
         const yst = (y+0.4*ySize)|0;
         ctx.fillStyle = '#3B3A38CC';
-        ctx.fillRect(xst, yst, 80, 130);
+        ctx.fillRect(xst, yst, 160, 130);
         ctx.fillStyle = '#D3F731C0';
-        ctx.fillRect(xst+5, yst+5, 70, 40);
+        ctx.fillRect(xst+5, yst+5, 150, 35);
         ctx.fillStyle = '#32BDD9C0';
-        ctx.fillRect(xst+5, yst+50, 70, 30);
+        ctx.fillRect(xst+5, yst+45, 150, 35);
         ctx.fillStyle = '#FA3A38C0';
-        ctx.fillRect(xst+5, yst+90, 70, 30);
+        ctx.fillRect(xst+5, yst+85, 150, 35);
         ctx.fillStyle = '#BEC3C4CC';
-        ctx.fillText("Move", xst+5, yst+5);
-        ctx.fillText("Submerge", xst+5, yst+50);
-        ctx.fillText("Attack", xst+5, yst+90);
+        ctx.fillText("Move", xst+8, yst+21);
+        ctx.fillText("Submerge", xst+8, yst+61);
+        ctx.fillText("Attack", xst+8, yst+101);
       }
     }
 
