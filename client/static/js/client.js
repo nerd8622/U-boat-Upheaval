@@ -109,6 +109,16 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const subMenu = (xh, yh) => {
+    if (true){
+      ctx.fillStyle = '#EBEBEB60';
+      ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2, canvas.height*0.05);
+      ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2, canvas.height*0.05);
+      ctx.fillStyle = '#F3FF4D60';
+      ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2*(gameState.stats.energy/5), canvas.height*0.05);
+      ctx.fillStyle = '#5EFFEF60';
+      ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2*(gameState.stats.oxygen/5), canvas.height*0.05);
+    }
+    
     const xst = (xh + (xh>=880 ? -160 : 0.8*xSize))|0;
     const yst = (yh + (yh>=430 ? -130 : 0.4*ySize))|0;
 
@@ -200,18 +210,6 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.stroke();
   };
 
-  const createUI = () => {
-    if (subSelected){
-      ctx.fillStyle = '#EBEBEB60';
-      ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2, canvas.height*0.05);
-      ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2, canvas.height*0.05);
-      ctx.fillStyle = '#F3FF4D60';
-      ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2*(gameState.stats.energy/5), canvas.height*0.05);
-      ctx.fillStyle = '#5EFFEF60';
-      ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2*(gameState.stats.oxygen/5), canvas.height*0.05);
-    }
-  };
-
   const createSub = ([x, y], isMe=false) => {
     submarine_img.draw((x*ySize)|0, (y*xSize)|0);
     if (!isMe) {/* Draw Mask */};
@@ -231,7 +229,6 @@ const makeGame = (canvas, xCells, yCells) => {
     clear();
     createTiles();
     createGrid();
-    createUI();
     genSubs();
   };
 
