@@ -115,6 +115,9 @@ io.on('connection', (sock) => {
   const { makeMove, makeAttack } = gameMgr.addPlayer(username);
   doUpdate(username);
   sock.broadcast.emit('player-join', [username, color]);
+  for (plr of players.keys()){
+    sock.emit('player-join', [plr, players[plr].color]);
+  }
   sock.on('chat-message', (message) => {
     sock.broadcast.emit('chat-message', addName(message));
   });

@@ -74,7 +74,6 @@ const makeGame = (canvas, xCells, yCells) => {
 
   let boardmarkings = [];
 
-
   const submarine_img = new Sprite(50, 50, '/img/submarine.png');
   const submerged_img = new Sprite(50, 50, '/img/submarine_submerged.png');
   const move_out_img = new Sprite(50, 50, '/img/move_outline.png');
@@ -94,7 +93,7 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const highlightCell = (x, y, type='full', mode='move') => {
     if (type == 'full'){
-      ctx.strokeStyle = '#FACE3E';
+      ctx.strokeStyle = '#FACE3EA5';
       ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.moveTo(x, y);
@@ -202,14 +201,14 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const createUI = () => {
-    if (true){
-    ctx.fillStyle = '#EBEBEB60';
-    ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2, canvas.height*0.05);
-    ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2, canvas.height*0.05);
-    ctx.fillStyle = '#F3FF4D60';
-    ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2*(gameState.stats.energy/5), canvas.height*0.05);
-    ctx.fillStyle = '#5EFFEF60';
-    ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2*(gameState.stats.oxygen/5), canvas.height*0.05);
+    if (subSelected){
+      ctx.fillStyle = '#EBEBEB60';
+      ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2, canvas.height*0.05);
+      ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2, canvas.height*0.05);
+      ctx.fillStyle = '#F3FF4D60';
+      ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2*(gameState.stats.energy/5), canvas.height*0.05);
+      ctx.fillStyle = '#5EFFEF60';
+      ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2*(gameState.stats.oxygen/5), canvas.height*0.05);
     }
   };
 
