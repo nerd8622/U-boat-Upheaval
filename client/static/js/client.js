@@ -92,7 +92,7 @@ const makeGame = (canvas, xCells, yCells) => {
     return board[y][x] == 0 && !(gameState.pos[0] == x && gameState.pos[1] == y) && Math.abs(gameState.pos[0] - x) <= range && Math.abs(gameState.pos[1] - y) <= range;
   };
 
-  const highlightCell = (ax, ay, type='full', mode='move') => {
+  const highlightCell = (x, y, type='full', mode='move') => {
     if (type == 'full'){
       ctx.strokeStyle = '#FACE3E';
       ctx.lineWidth = 3;
