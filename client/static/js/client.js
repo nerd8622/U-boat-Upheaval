@@ -118,7 +118,7 @@ const makeGame = (canvas, xCells, yCells) => {
       ctx.fillStyle = '#5EFFEF60';
       ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2*(gameState.stats.oxygen/5), canvas.height*0.05);
     }
-    
+
     const xst = (xh + (xh>=880 ? -160 : 0.8*xSize))|0;
     const yst = (yh + (yh>=430 ? -130 : 0.4*ySize))|0;
 
@@ -167,9 +167,11 @@ const makeGame = (canvas, xCells, yCells) => {
       }
     }
     else if (subSelected == 2){
+      if (hover){highlightCell(xh, yh, 'ship'); return false;}
       subSelected = false;
       if (posAvailable(x, y, 1)){return [[x, y], 'move'];}
     } else if (subSelected == 3){
+      if (hover){highlightCell(xh, yh, 'ship', 'attack'); return false;}
       subSelected = false;
       if (posAvailable(x, y, 2)){return [[x, y], 'attack'];}
     } else {
@@ -240,7 +242,7 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const getCell = (x, y, h=false) => {
-    if(!h || !subSelected){
+    if(!h || !(subSelected==1)){
       reset();
       return selectCell(x, y, h);
     }
