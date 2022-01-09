@@ -138,8 +138,8 @@ const makeGame = (canvas, xCells, yCells) => {
     const y = Math.floor(ay/xSize);
     const xh = x * ySize;
     const yh = y * xSize;
-    const xst = (xh + xh>=880 ? -160 : 0.8*xSize)|0;
-    const yst = (yh + yh>=430 ? -130 : 0.4*ySize)|0;
+    const xst = (xh + (xh>=880 ? -160 : 0.8*xSize))|0;
+    const yst = (yh + (yh>=430 ? -130 : 0.4*ySize))|0;
 
     if (subSelected == 1){
       subSelected = false;
