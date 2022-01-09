@@ -107,8 +107,10 @@ const makeGame = (canvas, xCells, yCells) => {
       if (mode == 'attack'){attk_out_img.draw(x, y);}
       else {move_out_img.draw(x, y);}
       if (true){
-        const xst = (x+0.8*xSize)|0;
-        const yst = (y+0.4*ySize)|0;
+        const xad = x>=880 ? -160-0.8*xSize : 0.8*xSize;
+        const yad = y>=430 ? -130-0.4*ySize : 0.4*ySize;
+        const xst = (x+xad)|0;
+        const yst = (y+yad)|0;
         ctx.fillStyle = '#3B3A38CC';
         ctx.fillRect(xst, yst, 160, 130);
         ctx.fillStyle = '#D3F731C0';
