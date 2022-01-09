@@ -115,16 +115,16 @@ const makeGame = (canvas, xCells, yCells) => {
 
     ctx.fillStyle = '#3B3A38CC';
     ctx.fillRect(xst, yst, 160, 130);
-    ctx.fillStyle = '#D3F731C0';
+    ctx.fillStyle = '7A6017C0';
     ctx.fillRect(xst+5, yst+5, 150, 35);
     ctx.fillStyle = '#32BDD9C0';
     ctx.fillRect(xst+5, yst+45, 150, 35);
     ctx.fillStyle = '#FA3A38C0';
     ctx.fillRect(xst+5, yst+85, 150, 35);
     ctx.fillStyle = '#BEC3C4CC';
-    ctx.fillText("Move", xst+8, yst+21);
-    ctx.fillText("Submerge", xst+8, yst+61);
-    ctx.fillText("Attack", xst+8, yst+101);
+    ctx.fillText("Move", xst+8, yst+23);
+    ctx.fillText("Submerge", xst+8, yst+63);
+    ctx.fillText("Attack", xst+8, yst+103);
 
     const subMenuButton = (ax, ay) => {
       if (ax >= xst+5 && ax <= xst+155) {
