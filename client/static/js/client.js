@@ -109,7 +109,7 @@ const makeGame = (canvas, xCells, yCells) => {
     }
   };
 
-  const subMenu = (xh, yh) => {
+  const subMenu = (xh, yh, h=false) => {
     if (true){
       ctx.fillStyle = '#EBEBEB60';
       ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2, canvas.height*0.05);
@@ -125,24 +125,26 @@ const makeGame = (canvas, xCells, yCells) => {
 
     ctx.fillStyle = '#3B3A38CC';
     ctx.fillRect(xst, yst, 160, 130);
-    ctx.fillStyle = '#997B28C0';
+    ctx.fillStyle = (h == 1) ? '#997B28C0':'#826B2CC0';
     ctx.fillRect(xst+5, yst+5, 150, 35);
-    ctx.fillStyle = '#32BDD9C0';
+    ctx.fillStyle = (h == 2) ? '#32BDD9C0':'#37A6BDC0';
     ctx.fillRect(xst+5, yst+45, 150, 35);
-    ctx.fillStyle = '#FA3A38C0';
+    ctx.fillStyle = (h == 3) ? '#FA3A38C0':'#D93C3BC0';
     ctx.fillRect(xst+5, yst+85, 150, 35);
     ctx.fillStyle = '#BEC3C4';
     ctx.fillText("Move", xst+8, yst+25);
     ctx.fillText("Submerge", xst+8, yst+65);
     ctx.fillText("Attack", xst+8, yst+105);
 
-    const subMenuButton = (ax, ay) => {
+    const subMenuButton = (ax, ay, h) => {
+      let out = 0;
       if (ax >= xst+5 && ax <= xst+155) {
-        if (ay >= yst+5 && ay <= yst+40){return 1;}
-        if (ay >= yst+45 && ay <= yst+80){return 2;}
-        if (ay >= yst+85 && ay <= yst+120){return 3;}
+        if (ay >= yst+5 && ay <= yst+40){out = 1;}
+        if (ay >= yst+45 && ay <= yst+80){out = 2;}
+        if (ay >= yst+85 && ay <= yst+120){out = 3;}
       }
-      return 0;
+      if (h) {subMenu(xh, yh, out);}
+      return out;
     };
     return subMenuButton;
   };
@@ -156,6 +158,7 @@ const makeGame = (canvas, xCells, yCells) => {
     const ym = (gameState.pos[1]*xSize)|0;
 
     if (subSelected == 1){
+      if (hover) {subB(ax, ay, true); return false;}
       subSelected = false;
       let button = subB(ax, ay);
       if (button == 1){
@@ -255,10 +258,8 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const getCell = (x, y, h=false) => {
-    if(!h || !(subSelected==1)){
       reset();
       return selectCell(x, y, h);
-    }
   };
 
   return { getCell, setBoard, gameUpdate, zoom };
