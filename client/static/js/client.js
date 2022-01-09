@@ -106,6 +106,10 @@ const makeGame = (canvas, xCells, yCells) => {
     } else if (type == 'ship'){
       if (mode == 'attack'){attk_out_img.draw(x, y);}
       else {move_out_img.draw(x, y);}
+      if (true){
+        ctx.fillStyle = '#3B3A38';
+        ctx.fillRect(x*xSize+10, y*ySize, x*xSize+80, y*ySize+130);
+      }
     }
 
   };
@@ -158,7 +162,7 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.stroke();
   };
 
-  const createUI = ([x,y]) => {
+  const createUI = () => {
     if (true){
     ctx.fillStyle = '#EBEBEB60';
     ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2, canvas.height*0.05);
@@ -167,10 +171,6 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.fillRect(canvas.width*0.04, canvas.height*0.01, canvas.width/2*(gameState.stats.energy/5), canvas.height*0.05);
     ctx.fillStyle = '#5EFFEF60';
     ctx.fillRect(canvas.width*0.04, canvas.height*0.07, canvas.width/2*(gameState.stats.oxygen/5), canvas.height*0.05);
-    }
-    if (false){
-      ctx.fillStyle = '#3B3A38';
-      ctx.fillRect(x*xSize, y*ySize, x*xSize+80, y*ySize+120);
     }
   };
 
@@ -193,7 +193,7 @@ const makeGame = (canvas, xCells, yCells) => {
     clear();
     createTiles();
     createGrid();
-    createUI(gameState.pos);
+    createUI();
     genSubs();
   };
 
