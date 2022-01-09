@@ -92,7 +92,7 @@ const makeGame = (canvas, xCells, yCells) => {
     return board[y][x] == 0 && !(gameState.pos[0] == x && gameState.pos[1] == y) && Math.abs(gameState.pos[0] - x) <= range && Math.abs(gameState.pos[1] - y) <= range;
   };
 
-  const highlightCell = (x, y, type='full', mode='move') => {
+  const highlightCell = (ax, ay, type='full', mode='move') => {
     if (type == 'full'){
       ctx.strokeStyle = '#FACE3E';
       ctx.lineWidth = 3;
@@ -106,44 +106,69 @@ const makeGame = (canvas, xCells, yCells) => {
     } else if (type == 'ship'){
       if (mode == 'attack'){attk_out_img.draw(x, y);}
       else {move_out_img.draw(x, y);}
-      if (true){
-        const xad = x>=880 ? -160-0.8*xSize : 0.8*xSize;
-        const yad = y>=430 ? -130-0.4*ySize : 0.4*ySize;
-        const xst = (x+xad)|0;
-        const yst = (y+yad)|0;
-        ctx.fillStyle = '#3B3A38CC';
-        ctx.fillRect(xst, yst, 160, 130);
-        ctx.fillStyle = '#D3F731C0';
-        ctx.fillRect(xst+5, yst+5, 150, 35);
-        ctx.fillStyle = '#32BDD9C0';
-        ctx.fillRect(xst+5, yst+45, 150, 35);
-        ctx.fillStyle = '#FA3A38C0';
-        ctx.fillRect(xst+5, yst+85, 150, 35);
-        ctx.fillStyle = '#BEC3C4CC';
-        ctx.fillText("Move", xst+8, yst+21);
-        ctx.fillText("Submerge", xst+8, yst+61);
-        ctx.fillText("Attack", xst+8, yst+101);
-      }
     }
-
   };
 
-  const selectCell = (x, y) => {
+  const subMenu = (xst, yst) => {
+    ctx.fillStyle = '#3B3A38CC';
+    ctx.fillRect(xst, yst, 160, 130);
+    ctx.fillStyle = '#D3F731C0';
+    ctx.fillRect(xst+5, yst+5, 150, 35);
+    ctx.fillStyle = '#32BDD9C0';
+    ctx.fillRect(xst+5, yst+45, 150, 35);
+    ctx.fillStyle = '#FA3A38C0';
+    ctx.fillRect(xst+5, yst+85, 150, 35);
+    ctx.fillStyle = '#BEC3C4CC';
+    ctx.fillText("Move", xst+8, yst+21);
+    ctx.fillText("Submerge", xst+8, yst+61);
+    ctx.fillText("Attack", xst+8, yst+101);
+  };
+
+  const subMenuButton = (xst, yst, ax, ay) => {
+    if (ax>=xst+5 && ax<=xst+155) {
+      if (ay>=yst+5 && ay<=yst+40){return 1;}
+      else if (ay>=yst+45 && ay<=yst+80){return 2;}
+      else if (ay>=yst+85 && ay<=yst+120){return 3;}
+    }
+    return 0;
+  };
+
+  const selectCell = (ax, ay) => {
+    const x = Math.floor(ax/ySize);
+    const y = Math.floor(ay/xSize);
+    const xh = x * ySize;
+    const yh = y * xSize;
+    const xst = (xh + xh>=880 ? -160 : 0.8*xSize)|0;
+    const yst = (yh + yh>=430 ? -130 : 0.4*ySize)|0;
+
     if (subSelected == 1){
+      subSelected = false;
+      let button = subMenuButton(xst, yst, ax, ay);
+      switch (button){
+        case 1:
+          subSelected = 2; break;
+        case 2:
+          break;
+        case 3:
+          subSelected = 3; break;
+      }
+    }
+    else if (subSelected == 2){
       subSelected = false;
       if (posAvailable(x, y, 1)){return [[x, y], 'move'];}
       if (gameState.pos[0] == x && gameState.pos[1] == y) {
-        highlightCell(x * ySize, y * xSize, 'ship', 'attack');
+        highlightCell(xh, yh, 'ship', 'attack');
         subSelected = 2;
       }
-    } else if (subSelected == 2){
+    } else if (subSelected == 3){
       subSelected = false;
       if (posAvailable(x, y, 2)){return [[x, y], 'attack'];}
     } else {
       if (gameState.pos[0] == x && gameState.pos[1] == y) {
-        highlightCell(x * ySize, y * xSize, 'ship');
+        highlightCell(xh, yh, 'ship');
+        subMenu(xst, yst);
         subSelected = 1;
-      } else {highlightCell(x * ySize, y * xSize);}
+      } else {highlightCell(xh, yh);}
     }
     return false;
   };
@@ -219,10 +244,8 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const getCell = (x, y) => {
-    let ax = Math.floor(x/ySize);
-    let ay = Math.floor(y/xSize);
     reset();
-    return selectCell(ax, ay);
+    return selectCell(x, y);
   };
 
   return { getCell, setBoard, gameUpdate, zoom };
