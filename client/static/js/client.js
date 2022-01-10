@@ -195,7 +195,7 @@ const makeGame = (canvas, xCells, yCells) => {
         if(Math.abs(gameState.pos[0] - x) <= 2 && Math.abs(gameState.pos[1] - y) <= 2){
           highlightCell(xh, yh, 'ship', 'attack', true);} return false;
       }
-      highlightCell(xh, yh, 'ship', 'attack');
+      highlightCell(xm, ym, 'ship', 'attack');
       subSelected = false;
       if (posAvailable(x, y, 2)){return [[x, y], 'attack'];}
     } else {
