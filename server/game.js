@@ -52,14 +52,14 @@ const game = (xNum, yNum) => {
       return board[y][x] == 0 && Math.abs(pos[0] - x) <= range && Math.abs(pos[1] - y) <= range;
     };
 
-    const scan = (x, y, range) => {
+    const scan = (x, y, range, radar=false) => {
       let found = [];
       for (let i = -range; i <= range; i++){
         for (let j = -range; j <= range; j++){
           let ax = x+i, ay = y+j;
           if (ax < xNum && ay < yNum && ax >= 0 && ay >= 0){
             let plr = playersPos[ax][ay];
-            if ((i || j) && plr){
+            if ((i || j) && plr && (!plr.submerged || radar)){
               found.push([[ax, ay], plr.id]);
             }
           }
@@ -106,7 +106,7 @@ const game = (xNum, yNum) => {
     const makeScan = () => {
       if (data.stats.energy < 4) {return false;}
       data.stats.energy -= 4;
-      data.scans = scan(pos[0], pos[1], 3);
+      data.scans = scan(pos[0], pos[1], 3, true);
       return data;
     };
 
