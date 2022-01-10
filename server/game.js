@@ -116,7 +116,7 @@ const game = (xNum, yNum) => {
       return data;
     };
 
-    return { makeMove, makeAttack, makeScan };
+    return { makeMove, makeAttack, makeScan, makeSubmerge };
   }
 
   const getBoard = () => board;

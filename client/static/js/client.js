@@ -75,13 +75,12 @@ const makeGame = (canvas, xCells, yCells) => {
   let boardmarkings = [];
 
   const submarine_img = new Sprite(50, 50, '/img/submarine.png');
-  const submerged_img = new Sprite(50, 50, '/img/submarine_submerged.png');
   const move_out_img = new Sprite(50, 50, '/img/move_outline.png');
   const attk_out_img = new Sprite(50, 50, '/img/attack_outline.png');
+  const submerged_img = new Sprite(50, 50, '/img/submerged_mask.png');
   const scan_img = new Sprite(50, 50, '/img/scan_mask.png');
 
   const water = new Sprite(50,50, '/img/water.png');
-  //const water = new Sprite(50, 50, '/img/anbot.png');
   const island_1 = new Sprite(50, 50, '/img/island_1.png');
 
   const clear = () => {
@@ -172,6 +171,9 @@ const makeGame = (canvas, xCells, yCells) => {
       else if (button == 2){
         return [[], 'scan'];
       }
+      else if (button == 3){
+        return [false, 'submerge'];
+      }
       else if (button == 4){
         subSelected = 3;
         highlightCell(xm, ym, 'ship', 'attack');
@@ -229,17 +231,18 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.stroke();
   };
 
-  const createSub = ([x, y], isMe=false, holog=false) => {
+  const createSub = ([x, y], isMe=false, mask=0) => {
     x = (x*ySize)|0; y = (y*xSize)|0;
     submarine_img.draw(x, y);
     if (!isMe) {/* Draw Mask */}
-    if (holog) {scan_img.draw(x, y);}
+    if (mask == 1){scan_img.draw(x, y);}
+    else if (mask == 2) {submerged_img.draw(x, y);}
   };
 
   const genSubs = () => {
-    for (sub of gameState.scans){createSub(sub[0], true, true);}
+    for (sub of gameState.scans){createSub(sub[0], true, 1);}
     for (sub of gameState.neighbors){createSub(sub[0]);}
-    createSub(gameState.pos, true);
+    createSub(gameState.pos, true, gameState.submerged ? 2 : 0);
   };
 
   const setBoard = (bd) => {board = bd;};
@@ -285,6 +288,8 @@ const makeGame = (canvas, xCells, yCells) => {
         sock.emit('player-attack', pos);
       } else if (mode == 'scan'){
         sock.emit('player-scan', pos);
+      } else if (mode == 'submerge'){
+        sock.emit('player-submerge', pos);
       }
     }
   };

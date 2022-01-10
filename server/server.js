@@ -112,7 +112,7 @@ io.on('connection', (sock) => {
   const serverMsg = (msg) => {return ['Server', '#111111', msg]};
   sock.emit('chat-message', serverMsg('Hello '+ username + '! Welcome to U-boat Upheaval!'));
   sock.emit('board', gameMgr.getBoard());
-  const { makeMove, makeAttack, makeScan } = gameMgr.addPlayer(username);
+  const { makeMove, makeAttack, makeScan, makeSubmerge } = gameMgr.addPlayer(username);
   doUpdate(username);
   sock.broadcast.emit('player-join', [username, color]);
   for (plr of players.keys()){
@@ -145,10 +145,11 @@ io.on('connection', (sock) => {
   });
   sock.on('player-scan', (message) => {
     let scan = makeScan();
-    if (scan){
-      sock.emit('game-update', scan);
-    }
-
+    if (scan){sock.emit('game-update', scan);}
+  });
+  sock.on('player-submerge', (message) => {
+    let submerge = makeSubmerge(message);
+    if (submerge){sock.emit('game-update', submerge);}
   });
 });
 
