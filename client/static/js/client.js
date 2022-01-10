@@ -158,7 +158,7 @@ const makeGame = (canvas, xCells, yCells) => {
     const ym = (gameState.pos[1]*xSize)|0;
 
     if (subSelected == 1){
-      if (hover) {subB(ax, ay, true); return false;}
+      if (hover) {highlightCell(xm, ym, 'ship'); subB(ax, ay, true); return false;}
       subSelected = false;
       let button = subB(ax, ay);
       if (button == 1){
