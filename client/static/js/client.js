@@ -82,6 +82,8 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const water = new Sprite(50,50, '/img/water.png');
   const island_1 = new Sprite(50, 50, '/img/island_1.png');
+  
+  const attk_cur_img = new Sprite(50, 50, '/img/attack_cursor.png');
 
   const clear = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -91,7 +93,7 @@ const makeGame = (canvas, xCells, yCells) => {
     return board[y][x] == 0 && !(gameState.pos[0] == x && gameState.pos[1] == y) && Math.abs(gameState.pos[0] - x) <= range && Math.abs(gameState.pos[1] - y) <= range;
   };
 
-  const highlightCell = (x, y, type='full', mode='move') => {
+  const highlightCell = (x, y, type='full', mode='move', cursor=false) => {
     if (type == 'full'){
       ctx.strokeStyle = '#FACE3EA5';
       ctx.lineWidth = 3;
@@ -103,7 +105,9 @@ const makeGame = (canvas, xCells, yCells) => {
       ctx.lineTo(x, y);
       ctx.stroke();
     } else if (type == 'ship'){
-      if (mode == 'attack'){attk_out_img.draw(x, y);}
+      if (mode == 'attack'){
+        (cursor ? attk_cur_img : attk_out_img).draw(x, y);
+      }
       else {move_out_img.draw(x, y);}
     }
   };
@@ -189,7 +193,7 @@ const makeGame = (canvas, xCells, yCells) => {
     } else if (subSelected == 3){
       if (hover) {
         if(Math.abs(gameState.pos[0] - x) <= 2 && Math.abs(gameState.pos[1] - y) <= 2){
-          highlightCell(xh, yh, 'ship', 'attack');} return false;
+          highlightCell(xh, yh, 'ship', 'attack', true);} return false;
       }
       subSelected = false;
       if (posAvailable(x, y, 2)){return [[x, y], 'attack'];}
