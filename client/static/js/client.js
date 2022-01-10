@@ -82,7 +82,7 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const water = new Sprite(50,50, '/img/water.png');
   const island_1 = new Sprite(50, 50, '/img/island_1.png');
-  
+
   const attk_cur_img = new Sprite(50, 50, '/img/attack_cursor.png');
 
   const clear = () => {
@@ -193,9 +193,9 @@ const makeGame = (canvas, xCells, yCells) => {
     } else if (subSelected == 3){
       if (hover) {
         if(Math.abs(gameState.pos[0] - x) <= 2 && Math.abs(gameState.pos[1] - y) <= 2){
-          highlightCell(xh, yh, 'ship', 'attack', true);} return false;
+          highlightCell(xh, yh, 'ship', 'attack', true);
+          highlightCell(xm, ym, 'ship', 'attack');} return false;
       }
-      highlightCell(xm, ym, 'ship', 'attack');
       subSelected = false;
       if (posAvailable(x, y, 2)){return [[x, y], 'attack'];}
     } else {
