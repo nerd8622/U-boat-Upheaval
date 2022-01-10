@@ -121,20 +121,23 @@ const makeGame = (canvas, xCells, yCells) => {
     }
 
     const xst = (xh + (xh>=880 ? -160 : 0.8*xSize))|0;
-    const yst = (yh + (yh>=430 ? -130 : 0.4*ySize))|0;
+    const yst = (yh + (yh>=430 ? -165 : 0.4*ySize))|0;
 
     ctx.fillStyle = '#3B3A38CC';
-    ctx.fillRect(xst, yst, 160, 130);
+    ctx.fillRect(xst, yst, 160, 165);
     ctx.fillStyle = (h == 1) ? '#997B28C0':'#826B2CC0';
     ctx.fillRect(xst+5, yst+5, 150, 35);
-    ctx.fillStyle = (h == 2) ? '#32BDD9C0':'#37A6BDC0';
+    ctx.fillStyle = (h == 2) ? '#32DB14C0':'#38C41FC0';
     ctx.fillRect(xst+5, yst+45, 150, 35);
-    ctx.fillStyle = (h == 3) ? '#FA3A38C0':'#D93C3BC0';
+    ctx.fillStyle = (h == 3) ? '#32BDD9C0':'#37A6BDC0';
     ctx.fillRect(xst+5, yst+85, 150, 35);
+    ctx.fillStyle = (h == 4) ? '#FA3A38C0':'#D93C3BC0';
+    ctx.fillRect(xst+5, yst+125, 150, 35);
     ctx.fillStyle = '#BEC3C4';
     ctx.fillText("Move", xst+8, yst+25);
-    ctx.fillText("Submerge", xst+8, yst+65);
-    ctx.fillText("Attack", xst+8, yst+105);
+    ctx.fillText("Scan", xst+8, yst+65);
+    ctx.fillText("Submerge", xst+8, yst+105);
+    ctx.fillText("Attack", xst+8, yst+145);
 
     const subMenuButton = (ax, ay, h) => {
       let out = 0;
@@ -142,6 +145,7 @@ const makeGame = (canvas, xCells, yCells) => {
         if (ay >= yst+5 && ay <= yst+40){out = 1;}
         if (ay >= yst+45 && ay <= yst+80){out = 2;}
         if (ay >= yst+85 && ay <= yst+120){out = 3;}
+        if (ay >= yst+125 && ay <= yst+160){out = 4;}
       }
       if (h) {subMenu(xh, yh, out);}
       return out;
@@ -168,7 +172,7 @@ const makeGame = (canvas, xCells, yCells) => {
       else if (button == 2){
         return [[], 'scan'];
       }
-      else if (button == 3){
+      else if (button == 4){
         subSelected = 3;
         highlightCell(xm, ym, 'ship', 'attack');
       }
