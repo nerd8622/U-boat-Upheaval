@@ -135,7 +135,7 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.fillStyle = '#BEC3C4';
     ctx.fillText("Move", xst+8, yst+25);
     ctx.fillText("Scan", xst+8, yst+65);
-    ctx.fillText("Submerge", xst+8, yst+105);
+    ctx.fillText(gameState.submerged ? "Surface" : "Submerge", xst+8, yst+105);
     ctx.fillText("Attack", xst+8, yst+145);
 
     const subMenuButton = (ax, ay, h) => {
@@ -172,7 +172,7 @@ const makeGame = (canvas, xCells, yCells) => {
         return [[], 'scan'];
       }
       else if (button == 3){
-        return [false, 'submerge'];
+        return [gameState.submerged, 'submerge'];
       }
       else if (button == 4){
         subSelected = 3;
