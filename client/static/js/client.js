@@ -247,7 +247,7 @@ const makeGame = (canvas, xCells, yCells) => {
   const genSubs = (anim=false) => {
     for (sub of gameState.scans){createSub(sub[0], true, 1);}
     for (sub of gameState.neighbors){createSub(sub[0]);}
-    if (anim){ctx.translate(anim);}
+    if (anim){ctx.translate(...anim);}
     createSub(gameState.pos, true, gameState.submerged ? 2 : 0);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
   };
