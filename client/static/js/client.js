@@ -275,7 +275,7 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const animScan = () => {
-    const [x,y] = gameState.pos;
+    const [x,y] = [gameState.pos[0]*ySize, gameState.pos[1]*xSize];
     let radius = 0;
     anim_lock = true;
     ctx.strokeStyle = '#32DB14C0';
@@ -284,7 +284,7 @@ const makeGame = (canvas, xCells, yCells) => {
     function frame(){
       if (radius >= (4*xSize)){
         anim_lock = false;
-        reset();
+        reset([3]);
         clearInterval(anm);
       }
       reset();
