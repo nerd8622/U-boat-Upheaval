@@ -287,10 +287,10 @@ const makeGame = (canvas, xCells, yCells) => {
         reset();
         clearInterval(anm);
       }
-      reset();
+      reset([3]);
       ctx.beginPath();
       ctx.arc(x, y, radius, 0, 2 * Math.PI);
-      ctx.stroke([3]);
+      ctx.stroke();
       radius += 2;
     }
   };
