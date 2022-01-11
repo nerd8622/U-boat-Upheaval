@@ -253,7 +253,7 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const animMove = (g) => {
-    const [x,y] = g;
+    const [x,y] = g.pos;
     const dx = ((x-gameState.pos[0]) * ySize)|0, dy = ((y-gameState.pos[1]) * xSize)|0;
     const stpx = dx ? dx/Math.abs(dx) : 0, stpy = dy ? dy/Math.abs(dy) : 0;
     let old = [0, 0];
