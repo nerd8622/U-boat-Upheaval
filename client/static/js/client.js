@@ -265,6 +265,7 @@ const makeGame = (canvas, xCells, yCells) => {
       }
       old = [old[0] + stpx, old[1] + stpy];
       reset([1, old]);
+      console.log(old);
     };
   };
 
