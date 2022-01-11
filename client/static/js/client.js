@@ -247,35 +247,34 @@ const makeGame = (canvas, xCells, yCells) => {
   const genSubs = (anim=false) => {
     for (sub of gameState.scans){createSub(sub[0], true, 1);}
     for (sub of gameState.neighbors){createSub(sub[0]);}
-    if (anim){ctx.translate(...anim);}
-    createSub(gameState.pos, true, gameState.submerged ? 2 : 0);
-    console.log(gameState.pos);
+    if (anim){ctx.translate(...anim[0]);}
+    createSub(anim[1], true, gameState.submerged ? 2 : 0);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
   };
 
-  const animMove = (g) => {
-    const [x,y] = g.pos;
-    const dx = ((x-gameState.pos[0]) * ySize)|0, dy = ((y-gameState.pos[1]) * xSize)|0;
+  const animMove = ([x, y]) => {
+    const old = gameState.pos;
+    const dx = ((x-old[0]) * ySize)|0, dy = ((y-old[1]) * xSize)|0;
     const stpx = dx ? dx/Math.abs(dx) : 0, stpy = dy ? dy/Math.abs(dy) : 0;
-    let old = [0, 0];
-    anim_lock = true;
+    let trans = [0, 0];
     anm = setInterval(frame, 10);
+    anim_lock = true;
     function frame(){
-      if (Math.abs(old[0]) >= Math.abs(dx) && Math.abs(old[1]) >= Math.abs(dy)){
+      if (Math.abs(trans[0]) >= Math.abs(dx) && Math.abs(trans[1]) >= Math.abs(dy)){
         anim_lock = false;
-        gameState = g; reset();
+        reset();
         clearInterval(anm);
       }
-      reset([1, old]);
-      old = [old[0] + stpx, old[1] + stpy];
+      trans = [trans[0] + stpx, trans[1] + stpy];
+      reset([1, [trans, old]]);
     };
   };
 
-  const animAttk = (g, me=false) => {
-    const [x,y] = g.hit[1];
+  const animAttk = ([x, y], me=false) => {
+
   };
 
-  const animScan = (g) => {
+  const animScan = () => {
     const [x,y] = gameState.pos;
     let radius = 0;
     anim_lock = true;
@@ -285,7 +284,7 @@ const makeGame = (canvas, xCells, yCells) => {
     function frame(){
       if (radius >= (4*xSize)){
         anim_lock = false;
-        gameState = g; reset();
+        reset();
         clearInterval(anm);
       }
       reset();
@@ -298,10 +297,11 @@ const makeGame = (canvas, xCells, yCells) => {
   const setBoard = (bd) => {board = bd;};
 
   const gameUpdate = ([type, g]) => {
-    if (type == 1){animMove(g);}
-    else if (type == 2){animAttk(g);}
-    else if (type == 3){animScan(g);}
-    else{gameState = g; reset();}
+    if (type == 1){animMove(g.pos);}
+    else if (type == 2){animAttk(g.hit[1]);}
+    else if (type == 3){animScan();}
+    gameState = g;
+    reset();
   };
 
   const reset = (atype=false) => {
@@ -322,10 +322,8 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const getCell = (x, y, h=false) => {
-      if (!anim_lock){
-        reset();
-        return selectCell(x, y, h);
-      }
+      reset();
+      return selectCell(x, y, h);
   };
 
   return { getCell, setBoard, gameUpdate, zoom };
