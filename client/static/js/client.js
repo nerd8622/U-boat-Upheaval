@@ -253,11 +253,9 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const animMove = ([x, y]) => {
-    let old = gameState.pos;
-    const dx = (old[0]-x) * ySize, dy = (old[1]-y) * xSize;
-    const dist = Math.sqrt(Math.pow(dx) + Math.pow(dy));
-    const stpx = (dx)/dist, stpy = (dy)/dist;
-    old = [0, 0];
+    const dx = (gameState.pos[0]-x) * ySize, dy = (gameState.pos[1]-y) * xSize;
+    const stpx = dx ? 1 : 0, stpy = dy ? 1 : 0;
+    let old = [0, 0];
     anm = setInterval(frame, 50);
     anim_lock = true;
     function frame(){
