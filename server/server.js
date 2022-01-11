@@ -34,9 +34,9 @@ const io = socketio(server);
 io.use((socket, next) => {sessionMiddleware(socket.request, {}, next);});
 const gameMgr = game(22, 12);
 let players = new Map();
-const doUpdate = (id) => {
+const doUpdate = (id, type=false) => {
   //console.log(`updating: ${id}`, gameMgr.getUpdate(id));
-  players.get(id).sock.emit('game-update', gameMgr.getUpdate(id));
+  players.get(id).sock.emit('game-update', [type, gameMgr.getUpdate(id)]);
 };
 const updateAll = () => {
   for (player of players.keys()){
@@ -130,7 +130,7 @@ io.on('connection', (sock) => {
     let move = makeMove(message);
     if (move){
       for (foundSub of move){
-        doUpdate(foundSub[1]);
+        doUpdate(foundSub[1], (foundSub[1] == username ? 1 : false));
       }
     }
     gameMgr.giveEnergy();
@@ -139,17 +139,17 @@ io.on('connection', (sock) => {
   sock.on('player-attack', (message) => {
     let attack = makeAttack(message);
     if (attack){
-      sock.emit('game-update', attack);
-      doUpdate(attack.hit);
+      sock.emit('game-update', [1, attack]);
+      doUpdate(attack.hit[0]);
     }
   });
   sock.on('player-scan', (message) => {
     let scan = makeScan();
-    if (scan){sock.emit('game-update', scan);}
+    if (scan){sock.emit('game-update', [3, scan]);}
   });
   sock.on('player-submerge', (message) => {
     let submerge = makeSubmerge(message);
-    if (submerge){sock.emit('game-update', submerge);}
+    if (submerge){sock.emit('game-update', [false, submerge]);}
   });
 });
 

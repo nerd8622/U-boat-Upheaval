@@ -98,7 +98,7 @@ const game = (xNum, yNum) => {
         target.stats.health -= 1;
         data.stats.energy -= 2;
         let hitData = data;
-        hitData.hit = target.id;
+        hitData.hit = [target.id, target.pos];
         return hitData;
       }
     };

@@ -244,22 +244,48 @@ const makeGame = (canvas, xCells, yCells) => {
     else if (mask == 2) {submerged_img.draw(x, y);}
   };
 
-  const genSubs = () => {
+  const genSubs = (anim=false) => {
     for (sub of gameState.scans){createSub(sub[0], true, 1);}
     for (sub of gameState.neighbors){createSub(sub[0]);}
+    if (anim){ctx.translate(anim);}
     createSub(gameState.pos, true, gameState.submerged ? 2 : 0);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+  };
+
+  const animMove = ([x, y]) => {
+    let old = gameState.pos;
+    const dist = Math.sqrt(Math.pow(old[0]-x) + Math.pow(old[1]-y));
+    const dx = (old[0]-x)/dist, dy = (old[1]-y)/dist;
+    while (old[0] < x || old[1] < y){
+      old = [old[0] + dx, old[1] + dy];
+      reset([1, old]);
+    }
+  };
+
+  const animAttk = ([x, y], me=false) => {
+
+  };
+
+  const animScan = () => {
+
   };
 
   const setBoard = (bd) => {board = bd;};
 
-  const gameUpdate = (g) => {gameState = g; reset();};
+  const gameUpdate = ([type, g]) => {
+    if (type == 1){animMove(g.pos);}
+    else if (type == 2){animAttk(g.hit[1]);}
+    else if (type == 3){animScan();}
+    gameState = g;
+    reset();
+  };
 
-  const reset = () => {
+  const reset = (atype=false) => {
     ctx.scale(scale, scale);
     clear();
     createTiles();
     createGrid();
-    genSubs();
+    genSubs(atype[0] == 1 ? atype[1]: false);
   };
 
   const zoom = (e) => {
