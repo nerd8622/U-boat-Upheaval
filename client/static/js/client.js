@@ -257,8 +257,8 @@ const makeGame = (canvas, xCells, yCells) => {
     const dx = ((x-gameState.pos[0]) * ySize)|0, dy = ((y-gameState.pos[1]) * xSize)|0;
     const stpx = dx ? dx/Math.abs(dx) : 0, stpy = dy ? dy/Math.abs(dy) : 0;
     let old = [0, 0];
-    anm = setInterval(frame, 10);
     anim_lock = true;
+    anm = setInterval(frame, 10);
     function frame(){
       if (Math.abs(old[0]) >= Math.abs(dx) && Math.abs(old[1]) >= Math.abs(dy)){
         anim_lock = false;
@@ -275,7 +275,20 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const animScan = (g) => {
-
+    const [x,y] = gameState.pos;
+    let radius = 0;
+    anim_lock = true;
+    anm = setInterval(frame, 10);
+    function frame(){
+      if (radius >= (4*xSize)){
+        anim_lock = false;
+        gameState = g; reset();
+        clearInterval(anm);
+      }
+      reset();
+      ctx.arc(x, y, radius, 0, 2 * Math.PI);
+      radius += 2;
+    }
   };
 
   const setBoard = (bd) => {board = bd;};
