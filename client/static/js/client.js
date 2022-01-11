@@ -252,9 +252,8 @@ const makeGame = (canvas, xCells, yCells) => {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
   };
 
-  const animMove = ([x, y]) => {
-    console.log(gameState.pos);
-    console.log([x,y]);
+  const animMove = (g) => {
+    const [x,y] = g;
     const dx = ((x-gameState.pos[0]) * ySize)|0, dy = ((y-gameState.pos[1]) * xSize)|0;
     const stpx = dx ? dx/Math.abs(dx) : 0, stpy = dy ? dy/Math.abs(dy) : 0;
     let old = [0, 0];
@@ -263,6 +262,7 @@ const makeGame = (canvas, xCells, yCells) => {
     function frame(){
       if (Math.abs(old[0]) >= Math.abs(dx) && Math.abs(old[1]) >= Math.abs(dy)){
         anim_lock = false;
+        gameState = g; reset();
         clearInterval(anm);
       }
       old = [old[0] + stpx, old[1] + stpy];
@@ -270,22 +270,21 @@ const makeGame = (canvas, xCells, yCells) => {
     };
   };
 
-  const animAttk = ([x, y], me=false) => {
-
+  const animAttk = (g, me=false) => {
+    const [x,y] = g.hit[1];
   };
 
-  const animScan = () => {
+  const animScan = (g) => {
 
   };
 
   const setBoard = (bd) => {board = bd;};
 
   const gameUpdate = ([type, g]) => {
-    if (type == 1){animMove(g.pos);}
-    else if (type == 2){animAttk(g.hit[1]);}
-    else if (type == 3){animScan();}
-    gameState = g;
-    reset();
+    if (type == 1){animMove(g);}
+    else if (type == 2){animAttk(g);}
+    else if (type == 3){animScan(g);}
+    else{gameState = g; reset();}
   };
 
   const reset = (atype=false) => {
