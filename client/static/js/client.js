@@ -256,10 +256,14 @@ const makeGame = (canvas, xCells, yCells) => {
     let old = gameState.pos;
     const dist = Math.sqrt(Math.pow(old[0]-x) + Math.pow(old[1]-y));
     const dx = (old[0]-x)/dist, dy = (old[1]-y)/dist;
-    while (old[0] < x || old[1] < y){
-      old = [old[0] + dx, old[1] + dy];
-      reset([1, old]);
-    }
+    anm = setInterval(frame, 50);
+    const frame = () => {
+      while (old[0] < x || old[1] < y){
+        old = [old[0] + dx, old[1] + dy];
+        reset([1, old]);
+      }
+      clearInterval(anm);
+    };
   };
 
   const animAttk = ([x, y], me=false) => {
