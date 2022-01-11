@@ -50,7 +50,7 @@ const makeGame = (canvas, xCells, yCells) => {
   let ctx = canvas.getContext('2d');
   let scale = 1;
   let board, gameState, subB;
-  let subSelected = false;
+  let subSelected = false, anim_lock = false;
 
   class Sprite extends Image{
     constructor(xSize, ySize, src) {
@@ -257,11 +257,13 @@ const makeGame = (canvas, xCells, yCells) => {
     const dist = Math.sqrt(Math.pow(old[0]-x) + Math.pow(old[1]-y));
     const dx = (old[0]-x)/dist, dy = (old[1]-y)/dist;
     anm = setInterval(frame, 50);
-    const frame = () => {
+    anim_lock = true;
+    function frame(){
       while (old[0] < x || old[1] < y){
         old = [old[0] + dx, old[1] + dy];
         reset([1, old]);
       }
+      anim_lock = false;
       clearInterval(anm);
     };
   };
@@ -285,11 +287,13 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const reset = (atype=false) => {
-    ctx.scale(scale, scale);
-    clear();
-    createTiles();
-    createGrid();
-    genSubs(atype[0] == 1 ? atype[1]: false);
+    if (!anim_lock || atype){
+      ctx.scale(scale, scale);
+      clear();
+      createTiles();
+      createGrid();
+      genSubs(atype[0] == 1 ? atype[1]: false);
+    }
   };
 
   const zoom = (e) => {
