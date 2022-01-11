@@ -284,12 +284,13 @@ const makeGame = (canvas, xCells, yCells) => {
     function frame(){
       if (radius >= (4*xSize)){
         anim_lock = false;
-        reset([3]);
+        reset();
         clearInterval(anm);
       }
       reset();
+      ctx.beginPath();
       ctx.arc(x, y, radius, 0, 2 * Math.PI);
-      ctx.stroke();
+      ctx.stroke([3]);
       radius += 2;
     }
   };
