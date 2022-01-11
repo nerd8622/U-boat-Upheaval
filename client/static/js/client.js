@@ -249,6 +249,7 @@ const makeGame = (canvas, xCells, yCells) => {
     for (sub of gameState.neighbors){createSub(sub[0]);}
     if (anim){ctx.translate(...anim);}
     createSub(gameState.pos, true, gameState.submerged ? 2 : 0);
+    console.log(gameState.pos);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
   };
 
@@ -265,8 +266,8 @@ const makeGame = (canvas, xCells, yCells) => {
         gameState = g; reset();
         clearInterval(anm);
       }
-      old = [old[0] + stpx, old[1] + stpy];
       reset([1, old]);
+      old = [old[0] + stpx, old[1] + stpy];
     };
   };
 
@@ -279,6 +280,8 @@ const makeGame = (canvas, xCells, yCells) => {
     let radius = 0;
     anim_lock = true;
     anm = setInterval(frame, 10);
+    ctx.strokeStyle = '#32DB14C0';
+    stx.lineWidth = 4;
     function frame(){
       if (radius >= (4*xSize)){
         anim_lock = false;
@@ -287,6 +290,7 @@ const makeGame = (canvas, xCells, yCells) => {
       }
       reset();
       ctx.arc(x, y, radius, 0, 2 * Math.PI);
+      ctx.stroke();
       radius += 2;
     }
   };
@@ -318,8 +322,10 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const getCell = (x, y, h=false) => {
-      reset();
-      return selectCell(x, y, h);
+      if (!anim_lock){
+        reset();
+        return selectCell(x, y, h);
+      }
   };
 
   return { getCell, setBoard, gameUpdate, zoom };
