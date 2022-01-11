@@ -278,9 +278,9 @@ const makeGame = (canvas, xCells, yCells) => {
     const [x,y] = gameState.pos;
     let radius = 0;
     anim_lock = true;
-    anm = setInterval(frame, 10);
     ctx.strokeStyle = '#32DB14C0';
-    stx.lineWidth = 4;
+    ctx.lineWidth = 4;
+    anm = setInterval(frame, 10);
     function frame(){
       if (radius >= (4*xSize)){
         anim_lock = false;
@@ -322,8 +322,10 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const getCell = (x, y, h=false) => {
+    if (!anim_lock){
       reset();
       return selectCell(x, y, h);
+    }
   };
 
   return { getCell, setBoard, gameUpdate, zoom };
