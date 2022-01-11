@@ -259,7 +259,7 @@ const makeGame = (canvas, xCells, yCells) => {
     anm = setInterval(frame, 10);
     anim_lock = true;
     function frame(){
-      if ((Math.abs(old[0]) >= dx && Math.abs(old[1]) >= dy)){
+      if (Math.abs(old[0]) >= Math.abs(dx) && Math.abs(old[1]) >= Math.abs(dy)){
         anim_lock = false;
         clearInterval(anm);
       }
