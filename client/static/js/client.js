@@ -157,12 +157,12 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const selectCell = (ax, ay, hover) => {
-    const x = Math.floor(ax/ySize);
-    const y = Math.floor(ay/xSize);
-    const xh = x * ySize;
-    const yh = y * xSize;
-    const xm = (gameState.pos[0]*ySize)|0;
-    const ym = (gameState.pos[1]*xSize)|0;
+    const x = Math.floor(ax/xSize);
+    const y = Math.floor(ay/ySize);
+    const xh = x * xSize;
+    const yh = y * ySize;
+    const xm = (gameState.pos[0]*xSize)|0;
+    const ym = (gameState.pos[1]*ySize)|0;
 
     if (subSelected == 1){
       if (hover) {highlightCell(xm, ym, 'ship'); subB(ax, ay, true); return false;}
@@ -237,7 +237,7 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const createSub = ([x, y], isMe=false, mask=0) => {
-    x = (x*ySize)|0; y = (y*xSize)|0;
+    x = (x*xSize)|0; y = (y*ySize)|0;
     submarine_img.draw(x, y);
     if (!isMe) {/* Draw Mask */}
     if (mask == 1){scan_img.draw(x, y);}
@@ -255,7 +255,7 @@ const makeGame = (canvas, xCells, yCells) => {
 
   const animMove = ([x, y]) => {
     const old = gameState.pos;
-    const dx = ((x-old[0]) * ySize)|0, dy = ((y-old[1]) * xSize)|0;
+    const dx = ((x-old[0]) * xSize)|0, dy = ((y-old[1]) * ySize)|0;
     const stpx = dx ? dx/Math.abs(dx) : 0, stpy = dy ? dy/Math.abs(dy) : 0;
     const theta = Math.atan(stpy/stpx);
     let trans = [0, 0], tz = 0;
@@ -263,8 +263,8 @@ const makeGame = (canvas, xCells, yCells) => {
     anim_lock = true;
     function frame(){
       if (tz < theta){
-        reset([1, [1, [x, y], tz]]);
-        tz += 1;
+        reset([1, [1, [old[0], old[1]], tz]]);
+        tz += Math.pi/180;
       }
       else if (Math.abs(trans[0]) >= Math.abs(dx) && Math.abs(trans[1]) >= Math.abs(dy)){
         anim_lock = false;
@@ -283,7 +283,7 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const animScan = () => {
-    const [x,y] = [gameState.pos[0]*ySize + ySize/2, gameState.pos[1]*xSize + xSize/2];
+    const [x,y] = [gameState.pos[0]*xSize + xSize/2, gameState.pos[1]*xSize + xSize/2];
     let radius = 0;
     anim_lock = true;
     ctx.strokeStyle = '#32DB14C0';
