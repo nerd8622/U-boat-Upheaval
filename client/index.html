@@ -14,8 +14,9 @@
   </form>
   <script>
   document.querySelector('form').addEventListener('submit', (e) => {
+    e.preventDefault();
     const formData = new FormData(e.target);
-    e.target.action = `/game/${formData.get("code")}`;
+    window.location.href = `/game/${formData.get("code")}`;
   });
   </script>
 </body>
