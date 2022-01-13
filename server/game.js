@@ -36,7 +36,7 @@ const game = (xNum, yNum) => {
     if (!pos) {
       let valid = 0;
       while (!valid){
-        pos = [Math.round(Math.random() * xNum), Math.round(Math.random() * yNum)];
+        pos = [(Math.random() * xNum)|0, (Math.random() * yNum)|0];
         if (board[pos[1]][pos[0]] == 0 && !playersPos[pos[0]][pos[1]]) {
           valid = 1;
           data = {id: id, pos: pos, stats:{health: 3, energy: 5, oxygen: 5}, neighbors: [], scans: [], visible: [], submerged: false, hit: false};
