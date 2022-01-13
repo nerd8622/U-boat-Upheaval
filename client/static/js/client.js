@@ -247,7 +247,8 @@ const makeGame = (canvas, xCells, yCells) => {
   const genSubs = (anim=false) => {
     for (sub of gameState.scans){createSub(sub[0], true, 1);}
     for (sub of gameState.neighbors){createSub(sub[0]);}
-    if (anim){ctx.translate(...anim[0]);}
+    if (anim[0] == 0){ctx.translate(...anim[1]);}
+    if (anim[0] == 1){ctx.translate(xSize/2, ySize/2); ctx.rotate(anim[1]);}
     createSub(anim ? anim[1] : gameState.pos, true, gameState.submerged ? 2 : 0);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
   };
@@ -256,17 +257,24 @@ const makeGame = (canvas, xCells, yCells) => {
     const old = gameState.pos;
     const dx = ((x-old[0]) * ySize)|0, dy = ((y-old[1]) * xSize)|0;
     const stpx = dx ? dx/Math.abs(dx) : 0, stpy = dy ? dy/Math.abs(dy) : 0;
-    let trans = [0, 0];
+    const theta = Math.atan(stpy/stpx);
+    let trans = [0, 0], tz = 0;
     anm = setInterval(frame, 10);
     anim_lock = true;
     function frame(){
-      if (Math.abs(trans[0]) >= Math.abs(dx) && Math.abs(trans[1]) >= Math.abs(dy)){
+      if (tz < theta){
+        reset([1, [1, tz]);
+        tz += 1;
+      }
+      else if (Math.abs(trans[0]) >= Math.abs(dx) && Math.abs(trans[1]) >= Math.abs(dy)){
         anim_lock = false;
         reset();
         clearInterval(anm);
       }
-      trans = [trans[0] + stpx, trans[1] + stpy];
-      reset([1, [trans, old]]);
+      else {
+        reset([1, [0, [trans, old]]]);
+        trans = [trans[0] + stpx, trans[1] + stpy];
+      }
     };
   };
 
@@ -275,7 +283,7 @@ const makeGame = (canvas, xCells, yCells) => {
   };
 
   const animScan = () => {
-    const [x,y] = [gameState.pos[0]*ySize, gameState.pos[1]*xSize];
+    const [x,y] = [gameState.pos[0]*ySize + ySize/2, gameState.pos[1]*xSize + xSize/2];
     let radius = 0;
     anim_lock = true;
     ctx.strokeStyle = '#32DB14C0';

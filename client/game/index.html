@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<head>
+  <title>Submarine Upheaval</title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="container">
+    <div class="game">
+      <canvas id="canvas" width="1100" height="600"></canvas>
+    </div>
+    <div class="chat">
+      <ul id="messages"></ul>
+      <div class="chat-control">
+        <form id="chat-form">
+          <select id="recipient">
+            <option value="">Everyone</option>
+          </select>
+          <input id="message-box" autocomplete="off" title="chat"/>
+          <button id="send">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/client.js"></script>
+</body>
+</html>

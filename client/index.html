@@ -1,27 +1,22 @@
 <!DOCTYPE html>
 <head>
-  <title>Submarine Upheaval</title>
-  <link rel="stylesheet" href="/css/main.css">
+  <title>Submarine Upheaval Lobby</title>
+  <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-  <div class="container">
-    <div class="game">
-      <canvas id="canvas" width="1100" height="600"></canvas>
+  <form class="signin">
+    <div class="userinfo">
+      <h1>Join Game</h1>
+      <label for="code">Join Code</label>
+      <input type="text" placeholder="123456" name="code" id="code" required>
+      <button type="submit" class="loginbtn">Join Game</button>
     </div>
-    <div class="chat">
-      <ul id="messages"></ul>
-      <div class="chat-control">
-        <form id="chat-form">
-          <select id="recipient">
-            <option value="">Everyone</option>
-          </select>
-          <input id="message-box" autocomplete="off" title="chat"/>
-          <button id="send">Send</button>
-        </form>
-      </div>
-    </div>
-  </div>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="/js/client.js"></script>
+  </form>
+  <script>
+  document.querySelector('form').addEventListener('submit', (e) => {
+    const formData = new FormData(e.target);
+    e.action = `/game/${e.formData.get("code")}`;
+  });
+  </script>
 </body>
 </html>

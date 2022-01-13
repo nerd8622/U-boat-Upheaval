@@ -32,21 +32,23 @@ const port = 8123;
 const server = http.createServer(app);
 const io = socketio(server);
 io.use((socket, next) => {sessionMiddleware(socket.request, {}, next);});
-const gameMgr = game(22, 12);
+let games = new Map();
 let players = new Map();
-const doUpdate = (id, type=false) => {
-  //console.log(`updating: ${id}`, gameMgr.getUpdate(id));
-  players.get(id).sock.emit('game-update', [type, gameMgr.getUpdate(id)]);
+
+games.set("123456", game(22, 12));
+
+const doUpdate = (game, id, type=false) => {
+  players.get(id).sock.emit('game-update', [type, game.getUpdate(id)]);
 };
 const updateAll = () => {
   for (player of players.keys()){
     doUpdate(player);
   }
 };
-setInterval(() => {
+/*setInterval(() => {
   gameMgr.giveEnergy();
   updateAll();
-}, 1000*60*5);
+}, 1000*60*5);*/
 
 app.post('/auth', (req, res) => {
   let username = req.body.usr;
@@ -94,7 +96,14 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/index.html'));
 });
 
+app.get('/game/*', (req, res) => {
+  if (!req.session.loggedin){res.redirect('/login');}
+  res.sendFile(path.join(__dirname, '/../client/game/index.html'));
+});
+
 io.on('connection', (sock) => {
+  const gameCode = sock.request.url.split("/")[-1];
+  const gameInst = games.get(gameCode);
   const username = sock.request.session.username;
   if (!username) {return;}
   let savedPlr = players.get(username);
@@ -111,9 +120,9 @@ io.on('connection', (sock) => {
   };
   const serverMsg = (msg) => {return ['Server', '#111111', msg]};
   sock.emit('chat-message', serverMsg('Hello '+ username + '! Welcome to U-boat Upheaval!'));
-  sock.emit('board', gameMgr.getBoard());
-  const { makeMove, makeAttack, makeScan, makeSubmerge } = gameMgr.addPlayer(username);
-  doUpdate(username);
+  sock.emit('board', gameInst.getBoard());
+  const { makeMove, makeAttack, makeScan, makeSubmerge } = gameInst.addPlayer(username);
+  doUpdate(gameInst, username);
   sock.broadcast.emit('player-join', [username, color]);
   for (plr of players.keys()){
     if (plr != username){
@@ -130,17 +139,17 @@ io.on('connection', (sock) => {
     let move = makeMove(message);
     if (move){
       for (foundSub of move){
-        doUpdate(foundSub[1], (foundSub[1] == username ? 1 : false));
+        doUpdate(gameInst, foundSub[1], (foundSub[1] == username ? 1 : false));
       }
     }
-    gameMgr.giveEnergy();
+    gameInst.giveEnergy();
     updateAll();
   });
   sock.on('player-attack', (message) => {
     let attack = makeAttack(message);
     if (attack){
       sock.emit('game-update', [1, attack]);
-      doUpdate(attack.hit[0]);
+      doUpdate(gameInst, attack.hit[0]);
     }
   });
   sock.on('player-scan', (message) => {

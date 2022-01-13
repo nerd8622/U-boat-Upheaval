@@ -76,10 +76,12 @@ const game = (xNum, yNum) => {
       pos = data.pos = [x, y];
       let nlist = data.neighbors;
       data.neighbors = scan(x, y, 1);
+      //data.visible = scan (x, y, 5);
       nlist = [...new Set(nlist.concat(data.neighbors))];
       for (n of nlist) {
         let nx = n[0][0], ny = n[0][1];
         playersPos[nx][ny].neighbors = scan(nx, ny, 1);
+        //playersPos[nx][ny].visible = scan (x, y, 5);
       }
       let slist = data.scans;
       data.scans = [];
