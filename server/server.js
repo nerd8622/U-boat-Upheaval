@@ -102,8 +102,9 @@ app.get('/game/*', (req, res) => {
 });
 
 io.on('connection', (sock) => {
-  const gameCode = sock.request.body.code;
-  const gameInst = games.get(gameCode);
+  const gameCode = const gameCode = sock.request.url.split("/")[-1];
+  console.log(gameCode);
+  const gameInst = games.get("123456");
   const username = sock.request.session.username;
   if (!username) {return;}
   let savedPlr = players.get(username);

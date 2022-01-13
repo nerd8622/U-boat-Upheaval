@@ -4,7 +4,7 @@
   <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-  <form class="signin" action="/game" method="get">
+  <form class="signin">
     <div class="userinfo">
       <h1>Join Game</h1>
       <label for="code">Join Code</label>
@@ -12,5 +12,12 @@
       <button type="submit" class="loginbtn">Join Game</button>
     </div>
   </form>
+  <script>
+  document.querySelector('form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    window.location.href = `/game/${formData.get("code")}`;
+  });
+  </script>
 </body>
 </html>
