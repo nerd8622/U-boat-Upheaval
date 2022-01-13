@@ -40,9 +40,9 @@ games.set("123456", game(22, 12));
 const doUpdate = (game, id, type=false) => {
   players.get(id).sock.emit('game-update', [type, game.getUpdate(id)]);
 };
-const updateAll = () => {
+const updateAll = (game) => {
   for (player of players.keys()){
-    doUpdate(player);
+    doUpdate(game, player);
   }
 };
 /*setInterval(() => {
@@ -144,7 +144,7 @@ io.on('connection', (sock) => {
       }
     }
     gameInst.giveEnergy();
-    updateAll();
+    updateAll(gameInst);
   });
   sock.on('player-attack', (message) => {
     let attack = makeAttack(message);
