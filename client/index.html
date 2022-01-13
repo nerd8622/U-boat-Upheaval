@@ -15,7 +15,7 @@
   <script>
   document.querySelector('form').addEventListener('submit', (e) => {
     const formData = new FormData(e.target);
-    e.action = `/game/${e.formData.get("code")}`;
+    e.target.action = `/game/${formData.get("code")}`;
   });
   </script>
 </body>
