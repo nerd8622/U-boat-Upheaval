@@ -102,7 +102,7 @@ app.get('/game/*', (req, res) => {
 });
 
 io.on('connection', (sock) => {
-  const gameCode = sock.request.url.split("/")[-1];
+  const gameCode = sock.request.body.code;
   const gameInst = games.get(gameCode);
   const username = sock.request.session.username;
   if (!username) {return;}
