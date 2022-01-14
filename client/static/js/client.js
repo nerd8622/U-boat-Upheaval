@@ -257,7 +257,7 @@ const makeGame = (canvas, xCells, yCells) => {
     const old = gameState.pos;
     const dx = ((x-old[0]) * xSize)|0, dy = ((y-old[1]) * ySize)|0;
     const stpx = dx ? dx/Math.abs(dx) : 0, stpy = dy ? dy/Math.abs(dy) : 0;
-    const theta = Math.atan(stpy/stpx);
+    const theta = Math.pi - Math.atan2(stpy, stpx);
     let trans = [0, 0], tz = 0;
     anm = setInterval(frame, 10);
     anim_lock = true;
