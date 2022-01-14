@@ -263,7 +263,7 @@ const makeGame = (canvas, xCells, yCells) => {
     anim_lock = true;
     function frame(){
       if (tz < theta){
-        reset([1, [1, old], tz]]);
+        reset([1, [1, old], tz]);
         tz += Math.pi/180;
       }
       else if (Math.abs(trans[0]) >= Math.abs(dx) && Math.abs(trans[1]) >= Math.abs(dy)){
