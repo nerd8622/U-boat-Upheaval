@@ -248,7 +248,7 @@ const makeGame = (canvas, xCells, yCells) => {
     for (sub of gameState.scans){createSub(sub[0], true, 1);}
     for (sub of gameState.neighbors){createSub(sub[0]);}
     if (anim[0] == 0){ctx.translate(...anim[1]);}
-    if (anim[0] == 1){ctx.translate(xSize*(anim[1][0]+0.5), ySize*(anim[1][1]+0.5)); ctx.rotate(anim[2]);}
+    if (anim[0] == 1){ctx.translate(xSize*(anim[1]+0.5), ySize*(anim[1]+0.5)); ctx.rotate(anim[2]);}
     createSub(anim ? anim[1] : gameState.pos, true, gameState.submerged ? 2 : 0);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
   };
@@ -257,13 +257,13 @@ const makeGame = (canvas, xCells, yCells) => {
     const old = gameState.pos;
     const dx = ((x-old[0]) * xSize)|0, dy = ((y-old[1]) * ySize)|0;
     const stpx = dx ? dx/Math.abs(dx) : 0, stpy = dy ? dy/Math.abs(dy) : 0;
-    const theta = Math.pi - Math.atan2(stpy, stpx);
+    const theta = Math.atan2(stpy, stpx);
     let trans = [0, 0], tz = 0;
     anm = setInterval(frame, 10);
     anim_lock = true;
     function frame(){
       if (tz < theta){
-        reset([1, [1, [old[0], old[1]], tz]]);
+        reset([1, [1, old], tz]]);
         tz += Math.pi/180;
       }
       else if (Math.abs(trans[0]) >= Math.abs(dx) && Math.abs(trans[1]) >= Math.abs(dy)){
