@@ -92,18 +92,19 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  if (!req.session.loggedin){res.redirect('/login');}
+  if (!req.session.loggedin){res.redirect('/login'); return;}
   res.sendFile(path.join(__dirname, '/../client/index.html'));
 });
 
 app.get('/game/:code', (req, res) => {
-  if (!req.session.loggedin){res.redirect('/login');}
+  if (!req.session.loggedin){res.redirect('/login'); return;}
   session.game = req.params.code;
   res.sendFile(path.join(__dirname, '/../client/game/index.html'));
 });
 
 io.on('connection', (sock) => {
   const gameCode = sock.request.session.game;
+  console.log(gameCode);
   const gameInst = games.get(gameCode);
   const username = sock.request.session.username;
   if (!username) {return;}
