@@ -98,16 +98,15 @@ app.get('/', (req, res) => {
 
 app.get('/game/:code', (req, res) => {
   if (!req.session.loggedin){res.redirect('/login'); return;}
-  session.game = req.params.code;
-  console.log(req.params);
+  req.session.game = req.params.code;
   res.sendFile(path.join(__dirname, '/../client/game/index.html'));
 });
 
 io.on('connection', (sock) => {
-  const gameCode = sock.request.session.game;
-  const gameInst = games.get(gameCode);
   const username = sock.request.session.username;
   if (!username) {return;}
+  const gameCode = sock.request.session.game;
+  const gameInst = games.get(gameCode);
   let savedPlr = players.get(username);
   let color;
   if (savedPlr){
