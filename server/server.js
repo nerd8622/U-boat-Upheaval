@@ -99,7 +99,7 @@ app.get('/', (req, res) => {
 app.get('/game/:code', (req, res) => {
   if (!req.session.loggedin){res.redirect('/login'); return;}
   session.game = req.params.code;
-  console.log(session.game);
+  console.log(req.params);
   res.sendFile(path.join(__dirname, '/../client/game/index.html'));
 });
 
